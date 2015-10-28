@@ -1,5 +1,4 @@
 from BaseCloud.BaseVolumes.BaseSnapshot import BaseSnapshotcls
-from boto import ec2
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackSnapshotcls(OpenStackBaseCloudcls, BaseSnapshotcls):

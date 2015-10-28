@@ -1,5 +1,4 @@
 from BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
-from boto import ec2
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackInstanceTypecls(OpenStackBaseCloudcls, BaseInstanceTypecls):

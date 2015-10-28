@@ -1,5 +1,4 @@
 from BaseCloud.BaseNetworks.BaseNetwork import BaseNetworkcls
-from boto import ec2
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 from OpenStack.OpenStackNetworks.OpenStackSubnet import OpenStackSubnetcls
 from neutronclient.v2_0 import client as NeutronClient

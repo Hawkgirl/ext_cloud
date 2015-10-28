@@ -1,7 +1,5 @@
-import os
-from utilities import ConfigUtilities
 
-SUPPORTED_CLOUD_TYPES = ["amazon", "openstack", "azure"]
+SUPPORTED_CLOUD_TYPES = {"amazon", "openstack", "azure"}
 
 def get_ext_cloud(cloud_type, *args, **kwargs):
 

@@ -1,5 +1,4 @@
 from BaseCloud.BaseImages.BaseImage import BaseImagecls
-from boto import ec2
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackImagecls(OpenStackBaseCloudcls, BaseImagecls):

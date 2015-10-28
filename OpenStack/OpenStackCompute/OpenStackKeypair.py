@@ -1,5 +1,4 @@
 from BaseCloud.BaseCompute.BaseKeypair import BaseKeypaircls
-from boto import ec2
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackKeypaircls(OpenStackBaseCloudcls, BaseKeypaircls):

@@ -1,5 +1,4 @@
 from BaseCloud.BaseNetworks.BaseNIC import BaseNICcls
-from boto import ec2
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
