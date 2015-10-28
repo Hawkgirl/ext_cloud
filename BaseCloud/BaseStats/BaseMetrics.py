@@ -1,6 +1,6 @@
 class BaseMetricscls:
 
-        def get_metrics(self): pass
+        def list_metrics(self): pass
 
 	def __init__(self, name,value):
 		self.__name = name

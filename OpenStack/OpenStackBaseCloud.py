@@ -31,9 +31,9 @@ class OpenStackBaseCloudcls:
                                 ret = ret + varible +":" +  value + "  "
                 return ret
 
-	def get_metrics(self):
+	def list_metrics(self):
                 metrics = []
                 for child in self.Childrens:
-                        metrics += child.get_metrics()
+                        metrics += child.list_metrics()
                 return metrics
 

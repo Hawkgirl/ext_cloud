@@ -27,6 +27,6 @@ class Cloudcls:
 	@abstractmethod
         def validate_credentials(self): pass
 
-	def get_metrics(self): pass
+	def list_metrics(self): pass
 
 

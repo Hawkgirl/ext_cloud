@@ -18,12 +18,6 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 		hypervisors = self.list_hypervisors()
 		return hypervisors
 
-	def get_metrics(self):
-		metrics = []
-		for child in self.Childrens:
-			metrics += child.get_metrics()
-		return metrics
-
  	@property
         def __NovaClient(self):
                 return self.__novaclient

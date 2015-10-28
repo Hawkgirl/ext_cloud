@@ -7,12 +7,12 @@ class OpenStackStatscls(BaseStatscls):
 		self.__kwargs = kwargs
                 super(OpenStackStatscls, self).__init__()
 
-	def get_metrics(self):
+	def list_metrics(self):
 		metrics = []
 		from OpenStack.OpenStack import OpenStackcls
 		openstack_obj = OpenStackcls(*self.__args,**self.__kwargs)
 		for child in openstack_obj.Childrens:
-			child_metrics = child.get_metrics()
+			child_metrics = child.list_metrics()
 			metrics += child_metrics
 		return metrics
 

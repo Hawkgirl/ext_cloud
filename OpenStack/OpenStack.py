@@ -11,6 +11,7 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 	__templates = None
 	__stats = None
 	__childrens = None
+	__services = None
 
 	def __init__(self,*args,**kwargs): 
 		self._credentials = kwargs
@@ -74,7 +75,13 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 			self.__stats = OpenStackStatscls(**self._credentials)
 		
 		return self.__stats
+	@property
+	def services(self):
+		if self.__services is None:
+			from OpenStackServices.OpenStackServices import OpenStackServicescls
+			self.__services = OpenStackServicescls(**self._credentials)
 
+		return self.__services
 	@property
 	def Childrens(self):
 		if self.__childrens is None:
