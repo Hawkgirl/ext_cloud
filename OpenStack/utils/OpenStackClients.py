@@ -22,6 +22,8 @@ class OpenStackClientsCls:
 
 				return novaclient
 
+		if not credentials.has_key('region_name'):
+				credentials['region_name'] = None
 		novaclient = NovaClient('2', credentials['username'], credentials['password'], credentials['tenant_name'], credentials['auth_url'], 'compute', region_name=credentials['region_name'])
 
 

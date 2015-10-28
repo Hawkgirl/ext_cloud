@@ -13,6 +13,10 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 	def __init__(self, *args, **kwargs):
 		self._credentials = kwargs
 
+	@property
+        def Childrens(self):
+                return [] 
+
  	@property
         def __NeutronClient(self):
                 return self.__neutronclient

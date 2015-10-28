@@ -9,6 +9,8 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 	__volumes = None
 	__objectstore = None
 	__templates = None
+	__stats = None
+	__childrens = None
 
 	def __init__(self,*args,**kwargs): 
 		self._credentials = kwargs
@@ -65,6 +67,21 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 
                 return self.__objectstore
 
+	@property
+	def stats(self):
+		if self.__stats is None:
+			from OpenStackStats.OpenStackStats import OpenStackStatscls
+			self.__stats = OpenStackStatscls(**self._credentials)
+		
+		return self.__stats
+
+	@property
+	def Childrens(self):
+		if self.__childrens is None:
+			self.__childrens = [self.compute, self.networks]
+
+		return self.__childrens
+			
         def validate_credentials(self): 
 		self.networks.list_networks()
 		return True

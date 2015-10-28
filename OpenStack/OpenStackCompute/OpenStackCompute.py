@@ -1,5 +1,6 @@
 from BaseCloud.BaseCompute.BaseCompute import BaseComputecls 
 from OpenStack.OpenStackCompute.OpenStackInstance import OpenStackInstancecls
+from OpenStack.OpenStackCompute.OpenStackHypervisor import OpenStackHypervisorcls
 from OpenStack.OpenStackCompute.OpenStackInstanceType import OpenStackInstanceTypecls
 from OpenStack.OpenStackCompute.OpenStackSecurityGroup import OpenStackSecurityGroupcls
 from OpenStack.OpenStackCompute.OpenStackKeypair import OpenStackKeypaircls
@@ -11,6 +12,17 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
 	def __init__(self, *args, **kwargs):
 		self._credentials = kwargs
+
+	@property
+	def Childrens(self):
+		hypervisors = self.list_hypervisors()
+		return hypervisors
+
+	def get_metrics(self):
+		metrics = []
+		for child in self.Childrens:
+			metrics += child.get_metrics()
+		return metrics
 
  	@property
         def __NovaClient(self):
@@ -56,6 +68,16 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
                	instance = OpenStackInstancecls(openstack_instance, credentials=self._credentials)
                 return instance
 	def create_instances(self, count=1,image_id=None, key_name=None, security_groups=None, instancetype_id = None, names = None): pass
+
+	# ---------- Hypervisor operations -----------------
+	def list_hypervisors(self):
+		openstack_hypervisors = self.__NovaClient.hypervisors.list()
+		hypervisors = []
+		for openstack_hypervisor in openstack_hypervisors:
+			hypervisor = OpenStackHypervisorcls(openstack_hypervisor, credentials = self._credentials)
+			hypervisors.append(hypervisor)
+
+		return hypervisors
 
 	# ------ Key pair opertations ----------------------------------------
         def list_keypairs(self): 

@@ -1,4 +1,5 @@
 
+#TODO derive it from BaseCloud
 class OpenStackBaseCloudcls:
 	_credentials = { }
 	
@@ -29,4 +30,10 @@ class OpenStackBaseCloudcls:
                                 if not isinstance(value, str): value = str(value)
                                 ret = ret + varible +":" +  value + "  "
                 return ret
+
+	def get_metrics(self):
+                metrics = []
+                for child in self.Childrens:
+                        metrics += child.get_metrics()
+                return metrics
 
