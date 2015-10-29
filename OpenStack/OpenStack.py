@@ -12,6 +12,7 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 	__stats = None
 	__childrens = None
 	__services = None
+	__regions = None
 
 	def __init__(self,*args,**kwargs): 
 		self._credentials = kwargs
@@ -75,6 +76,16 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 			self.__stats = OpenStackStatscls(**self._credentials)
 		
 		return self.__stats
+
+	
+        @property
+        def regions(self):
+                if self.__regions is None:
+                        from OpenStackRegions.OpenStackRegions import OpenStackRegionscls
+                        self.__regions = OpenStackRegionscls(credentials=self._credentials)
+
+                return self.__regions
+
 	@property
 	def services(self):
 		if self.__services is None:
@@ -85,7 +96,7 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 	@property
 	def Childrens(self):
 		if self.__childrens is None:
-			self.__childrens = [self.compute, self.networks]
+			self.__childrens = [self.compute, self.networks, self.services, self.regions]
 
 		return self.__childrens
 			

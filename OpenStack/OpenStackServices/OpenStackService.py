@@ -10,7 +10,7 @@ class OpenStackServicecls(OpenStackBaseCloudcls, BaseServicecls):
                 super(OpenStackServicecls, self).__init__(id=kwargs['id'], name=kwargs['name'])
 
         @property
-        def state(self): return self.__openstack_service['status']
+        def state(self): return self.__openstack_service['state']
 
 	@property
         def status(self): return self.__openstack_service['status']

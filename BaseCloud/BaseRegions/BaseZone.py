@@ -8,3 +8,9 @@ class BaseZonecls:
 
 	@abstractproperty
 	def name(self): pass
+
+	@abstractproperty
+	def state(self): pass
+
+	@abstractproperty
+	def hosts_count(self): pass
