@@ -1,7 +1,7 @@
-from BaseCloud.BaseCloud import Cloudcls
+from BaseCloud.BaseCloud import BaseCloudcls
 from OpenStackBaseCloud import OpenStackBaseCloudcls
 
-class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
+class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 	__identity = None
 	__compute = None
 	__networks = None
@@ -18,7 +18,12 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 		self._credentials = kwargs
 	
 	@property
-	def identity(self): pass
+	def identity(self): 
+		if self.__identity is None:
+			from OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+			self.__identity = OpenStackIdentitycls(**self._credentials)
+
+		return self.__identity
 
 	@property
 	def compute(self):
@@ -96,7 +101,7 @@ class OpenStackcls(OpenStackBaseCloudcls, Cloudcls):
 	@property
 	def Childrens(self):
 		if self.__childrens is None:
-			self.__childrens = [self.compute, self.networks, self.services, self.regions]
+			self.__childrens = [self.identity, self.compute, self.networks, self.services, self.regions]
 
 		return self.__childrens
 			

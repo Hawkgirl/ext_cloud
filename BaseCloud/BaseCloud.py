@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-class Cloudcls:
+class BaseCloudcls:
 	__metaclass__ = ABCMeta
 
 	@abstractproperty
@@ -27,6 +27,4 @@ class Cloudcls:
 	@abstractmethod
         def validate_credentials(self): pass
 
-	def list_metrics(self): pass
-
-
+	def list_metrics(self): return []

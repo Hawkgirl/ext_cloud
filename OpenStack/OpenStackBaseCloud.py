@@ -1,6 +1,4 @@
-
-#TODO derive it from BaseCloud
-class OpenStackBaseCloudcls:
+class OpenStackBaseCloudcls():
 	_credentials = { }
 	
 	_name = None
@@ -31,9 +29,4 @@ class OpenStackBaseCloudcls:
                                 ret = ret + varible +":" +  value + "  "
                 return ret
 
-	def list_metrics(self):
-                metrics = []
-                for child in self.Childrens:
-                        metrics += child.list_metrics()
-                return metrics
-
+	def list_metrics(self): return []

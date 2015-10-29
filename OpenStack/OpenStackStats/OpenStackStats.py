@@ -11,8 +11,11 @@ class OpenStackStatscls(BaseStatscls):
 		metrics = []
 		from OpenStack.OpenStack import OpenStackcls
 		openstack_obj = OpenStackcls(*self.__args,**self.__kwargs)
-		for child in openstack_obj.Childrens:
+		lst_childrens = openstack_obj.Childrens
+		for child in lst_childrens:
 			child_metrics = child.list_metrics()
 			metrics += child_metrics
+			if hasattr(child, 'Childrens'):
+				lst_childrens += child.Childrens
 		return metrics
 

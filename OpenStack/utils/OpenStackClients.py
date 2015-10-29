@@ -29,3 +29,6 @@ class OpenStackClientsCls:
 
                 return novaclient
 
+	def get_keystone_client(self, credentails):
+		from keystoneclient.v2_0 import client as KeystoneClient
+		return KeystoneClient.Client(**credentials)

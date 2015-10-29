@@ -1,7 +1,5 @@
 class BaseMetricscls:
 
-        def list_metrics(self): pass
-
 	def __init__(self, name,value):
 		self.__name = name
 		self.__value = value
