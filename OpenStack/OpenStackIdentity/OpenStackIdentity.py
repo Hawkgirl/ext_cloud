@@ -29,7 +29,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
 		#alltenants metrics
                 import datetime
-                now = datetime.datetime.now()
+                now = datetime.datetime.utcnow()
 		usages = self.__NovaClient.usage.list(now-datetime.timedelta(days=1), now, detailed=True)
 		vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
 
