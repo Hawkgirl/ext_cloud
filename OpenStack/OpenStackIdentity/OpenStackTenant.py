@@ -22,6 +22,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
                 if self.__novaclient is None:
                         self.__novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
                 return self.__novaclient
+
 	@property
         def __KeystoneClient(self):
                 return self.__keystoneclient
