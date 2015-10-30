@@ -23,7 +23,7 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
                         self.__vpc = boto.vpc.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials['username'], aws_secret_access_key=self._credentials['password'])
                 return self.__vpc
 
-	def get_all_networks(self):
+	def list_networks(self):
 		aws_vpcs = self.__Vpc.get_all_vpcs()
 		vpcs = []
 		for aws_vpc in aws_vpcs:
@@ -69,7 +69,7 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
 		return gateway 
 
 	
-        def get_all_subnets(self):
+        def list_subnets(self):
                 aws_subnets = self.__Vpc.get_all_subnets()
                 subnets = []
                 for aws_subnet in aws_subnets:

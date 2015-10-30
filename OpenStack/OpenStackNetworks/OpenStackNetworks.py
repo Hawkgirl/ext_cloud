@@ -15,7 +15,14 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
 	@property
         def Childrens(self):
-                return [] 
+		return self.list_networks()
+
+	def list_metrics(self):
+		metrics = []
+		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		metrics.append(BaseMetricscls('openstack.networks.count', len(self.list_networks())))
+		metrics.append(BaseMetricscls('openstack.networks.subnets.count', len(self.list_subnets())))
+		return metrics
 
  	@property
         def __NeutronClient(self):
@@ -24,16 +31,12 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         @__NeutronClient.getter
         def __NeutronClient(self):
                 if self.__neutronclient is None:
-			if self._credentials.has_key('token'):
-				keystone = KeystoneClient.Client(auth_url=self._credentials['auth_url'],token=self._credentials['token'], tenant_name=self._credentials['tenant_name'], region_name=self._credentials['region_name'])
-				endpoint = keystone.service_catalog.url_for(service_type='network', endpoint_type='publicURL')
-			 	self.__neutronclient = NeutronClient.Client(token=self._credentials['token'], endpoint_url = endpoint)
-			else:
-			 self.__neutronclient = NeutronClient.Client(username=self._credentials['username'], password=self._credentials['password'], tenant_name=self._credentials['tenant_name'], auth_url=self._credentials['auth_url'], region_name=self._credentials['region_name'])
+			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+			self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
                 return self.__neutronclient
 
         def get_network_by_id(self, network_id): 
-		openstack_networks = self.get_all_networks()
+		openstack_networks = self.list_networks()
 		for openstack_network in openstack_networks:
 			if openstack_network.id == network_id:
 				return openstack_network
@@ -41,7 +44,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 		return None
 		
         def get_networks_by_name(self, network_name):
-		networks = self.get_all_networks()
+		networks = self.list_networks()
 		nets = []
 		for network in networks:
 			if network.name == network_name:
@@ -50,7 +53,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
         def get_networks_by_tag(self, tag_name, tag_value): pass
 
-	def get_all_networks(self):
+	def list_networks(self):
 		openstack_networks_dic = self.__NeutronClient.list_networks()
 		openstack_networks = openstack_networks_dic['networks']
 		networks = []
@@ -60,6 +63,9 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
 		return networks
 
+	def list_external_networks(self):
+		return [network for network in self.list_networks if network.is_external_network]
+
         def create_network(self, name=None,cidr_block=None):
 		params= { 'network': { 'name': name} }
 		openstack_network_dic = self.__NeutronClient.create_network(params)
@@ -67,7 +73,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 		network = OpenStackNetworkcls(openstack_network, credentials=self._credentials)
 		return network
 
-	def get_all_subnets(self):
+	def list_subnets(self):
 		subnet_dict = self.__NeutronClient.list_subnets()
 		openstack_subnets = subnet_dict['subnets']
 		subnets = []
@@ -76,9 +82,11 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 			subnets.append(subnet)
 		return subnets
 		
+	def list_external_subnets(self):
+		return [subnet for network  in self.list_external_networks() for subnet in network]
 
         def get_subnet_by_id(self, subnet_id):
-		subnets = self.get_all_subnets()
+		subnets = self.list_subnets()
 		for subnet in subnets:
 			if subnet.id == subnet_id:
 				return subnet
@@ -87,7 +95,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
         def get_subnets_by_tag(self, tag_name, tag_value):pass
 
-	def get_all_nics(self):
+	def list_nics(self):
 		nic_dict = self.__NeutronClient.list_ports()
 		openstack_nics = nic_dict['ports']
 		nics = []
@@ -97,7 +105,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
 		return nics
 
-	def get_all_routers(self):
+	def list_routers(self):
 		router_dict  = self.__NeutronClient.list_routers()
 		openstack_routers = router_dict['routers']
 		routers = []

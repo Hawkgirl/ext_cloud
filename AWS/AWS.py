@@ -78,5 +78,5 @@ class AWScls(AWSBaseCloudcls, Cloudcls):
 		return self.__templates
 
 	def validate_credentials(self):
-		self.networks.get_all_networks()
+		self.networks.list_networks()
 		return True

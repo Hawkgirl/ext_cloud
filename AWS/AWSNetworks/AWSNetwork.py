@@ -42,7 +42,7 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
 	def delete(self):
 		self.__aws_network.delete()
 
-	def get_all_subnets(self):
+	def list_subnets(self):
 		filters = dict()
 		filters['vpc-id'] = self._id
 		aws_subnets = self.__Vpc.get_all_subnets(filters=filters)

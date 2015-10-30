@@ -4,7 +4,7 @@ class BaseNetworkscls:
         __metaclass__ = ABCMeta
 
         @abstractmethod
-        def get_all_networks(self): pass
+        def list_networks(self): pass
 
         @abstractmethod
 	def get_network_by_id(self, network_id): pass

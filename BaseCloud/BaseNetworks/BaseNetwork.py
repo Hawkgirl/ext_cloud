@@ -13,7 +13,7 @@ class BaseNetworkcls:
         def state(self): pass
 
 	@abstractmethod
-        def get_all_subnets(self): pass
+        def list_subnets(self): pass
 
         @abstractmethod
         def get_subnet_by_id(self, subnet_id):pass

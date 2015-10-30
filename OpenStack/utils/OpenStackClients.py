@@ -4,6 +4,9 @@ class OpenStackClientsCls:
 		from keystoneclient.v2_0 import client as KeystoneClient
 		from neutronclient.v2_0 import client as NeutronClient
 
+		if not credentials.has_key('region_name'):
+				credentials['region_name'] = None
+
                 if credentials.has_key('token'):
                                 keystone = KeystoneClient.Client(auth_url=credentials['auth_url'],token=credentials['token'], tenant_name=credentials['tenant_name'], region_name=credentials['region_name'])
                                 endpoint = keystone.service_catalog.url_for(service_type='network', endpoint_type='publicURL')

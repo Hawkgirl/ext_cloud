@@ -18,6 +18,9 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
         def state(self): return self.__openstack_network['status']
 
 	@property
+	def is_external_network(self): return self.__openstack_network['router:external']
+
+	@property
         def __NeutronClient(self):
                 return self.__neutronclient
 
@@ -32,7 +35,7 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
                         	self.__neutronclient = NeutronClient.Client(username=self._credentials['username'], password=self._credentials['password'], tenant_name=self._credentials['tenant_name'], auth_url=self._credentials['auth_url'], region_name=self._credentials['region_name'])
                 return self.__neutronclient
 
-	def get_all_subnets(self):
+	def list_subnets(self):
                 subnet_dict = self.__NeutronClient.list_subnets()
                 openstack_subnets = subnet_dict['subnets']
                 subnets = []
