@@ -2,6 +2,7 @@ from BaseCloud.BaseNetworks.BaseNetworks import BaseNetworkscls
 from OpenStack.OpenStackNetworks.OpenStackNetwork import OpenStackNetworkcls
 from OpenStack.OpenStackNetworks.OpenStackSubnet import OpenStackSubnetcls
 from OpenStack.OpenStackNetworks.OpenStackNIC import OpenStackNICcls
+from OpenStack.OpenStackNetworks.OpenStackFloatingIp import OpenStackFloatingIpcls
 from OpenStack.OpenStackNetworks.OpenStackRouter import OpenStackRoutercls
 from neutronclient.v2_0 import client as NeutronClient
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
@@ -54,17 +55,10 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         def get_networks_by_tag(self, tag_name, tag_value): pass
 
 	def list_networks(self):
-		openstack_networks_dic = self.__NeutronClient.list_networks()
-		openstack_networks = openstack_networks_dic['networks']
-		networks = []
-		for openstack_network in openstack_networks:
-			network = OpenStackNetworkcls(openstack_network, credentials=self._credentials)
-			networks.append(network)
-
-		return networks
+		return [  OpenStackNetworkcls(openstack_network, credentials=self._credentials) for openstack_network in self.__NeutronClient.list_networks()['networks'] ]
 
 	def list_external_networks(self):
-		return [network for network in self.list_networks if network.is_external_network]
+		return [network for network in self.list_networks() if network.is_external_network]
 
         def create_network(self, name=None,cidr_block=None):
 		params= { 'network': { 'name': name} }
@@ -74,16 +68,10 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 		return network
 
 	def list_subnets(self):
-		subnet_dict = self.__NeutronClient.list_subnets()
-		openstack_subnets = subnet_dict['subnets']
-		subnets = []
-		for openstack_subnet in openstack_subnets:
-			subnet = OpenStackSubnetcls(openstack_subnet, credentials=self._credentials)
-			subnets.append(subnet)
-		return subnets
+		return [ OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets()['subnets']]
 		
 	def list_external_subnets(self):
-		return [subnet for network  in self.list_external_networks() for subnet in network]
+		return [subnet for network  in self.list_external_networks() for subnet in network.list_subnets()]
 
         def get_subnet_by_id(self, subnet_id):
 		subnets = self.list_subnets()
@@ -96,21 +84,16 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         def get_subnets_by_tag(self, tag_name, tag_value):pass
 
 	def list_nics(self):
-		nic_dict = self.__NeutronClient.list_ports()
-		openstack_nics = nic_dict['ports']
-		nics = []
-		for openstack_nic in openstack_nics:
-			nic = OpenStackNICcls(openstack_nic, credentials=self._credentials)
-			nics.append(nic)
-
-		return nics
+		return [OpenStackNICcls(openstack_nic, credentials=self._credentials) for openstack_nic in self.__NeutronClient.list_ports()['ports']]
 
 	def list_routers(self):
-		router_dict  = self.__NeutronClient.list_routers()
-		openstack_routers = router_dict['routers']
-		routers = []
-		for router in openstack_routers:
-			router = OpenStackRoutercls(router, credentials=self._credentials)
-			routers.append(router)
-	
-		return routers
+		return [ OpenStackRoutercls(router, credentials=self._credentials) for router in  self.__NeutronClient.list_routers()['routers']]
+
+	def list_floating_ips(self):
+		return [ OpenStackFloatingIpcls(openstack_floating_ip, credentials=self._credentials) for openstack_floating_ip in self.__NeutronClient.list_floatingips()['floatingips']]
+
+	def count_total_floating_ips(self):
+		count = 0
+		for subnet in self.list_external_subnets():
+			count += subnet.count_total_ips
+		return count

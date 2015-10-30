@@ -21,14 +21,11 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
 
         @__NeutronClient.getter
         def __NeutronClient(self):
-                if self.__neutronclient is None:
-			if self._credentials.has_key('token'):
-				keystone = KeystoneClient.Client(auth_url=self._credentials['auth_url'],token=self._credentials['token'], tenant_name=self._credentials['tenant_name'], region_name=self._credentials['region_name'])
-                                endpoint = keystone.service_catalog.url_for(service_type='network', endpoint_type='publicURL')
-                        	self.__neutronclient = NeutronClient.Client(token=self._credentials['token'], endpoint_url = endpoint)
-                        else:	
-                        	self.__neutronclient = NeutronClient.Client(username=self._credentials['username'], password=self._credentials['password'], tenant_name=self._credentials['tenant_name'], auth_url=self._credentials['auth_url'], region_name = self._credentials['region_name'])
+		if self.__neutronclient is None:
+                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+                        self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
                 return self.__neutronclient
+
         @property
         def state(self): pass
 
@@ -59,3 +56,12 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
                 nic = OpenStackNICcls(openstack_nic, credentials=self._credentials)
                 return nic
 
+	@property
+	def count_total_ips(self):
+		import netaddr
+		count = 0	
+		for alloc_pool in self.__openstack_subnet['allocation_pools']:
+			net_range = netaddr.IPRange(alloc_pool['start'], alloc_pool['end'])
+			count +=  net_range.size
+
+		return count
