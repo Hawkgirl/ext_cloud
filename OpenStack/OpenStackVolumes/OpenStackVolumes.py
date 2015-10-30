@@ -1,7 +1,6 @@
 from BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
 from OpenStack.OpenStackVolumes.OpenStackVolume import OpenStackVolumecls
 from OpenStack.OpenStackVolumes.OpenStackSnapshot import OpenStackSnapshotcls
-from cinderclient import client as CinderClient
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
@@ -17,11 +16,13 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         @__CinderClient.getter
         def __CinderClient(self):
                 if self.__cinderclient is None:
-			self.__cinderclient = CinderClient.Client("1",self._credentials['username'], self._credentials['password'], self._credentials['tenant_name'], self._credentials['auth_url'])
+			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+                        self.__cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
                 return self.__cinderclient
 
 	def list_volumes(self):
-		openstack_volumes = self.__CinderClient.volumes.list()
+		search_opts = {'all_tenants': 1}
+		openstack_volumes = self.__CinderClient.volumes.list( search_opts = search_opts)
 		volumes = []
 		for openstack_volume in openstack_volumes:
 			volume = OpenStackVolumecls(openstack_volume, credentials=self._credentials)

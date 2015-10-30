@@ -4,9 +4,7 @@ from OpenStack.OpenStackNetworks.OpenStackSubnet import OpenStackSubnetcls
 from OpenStack.OpenStackNetworks.OpenStackNIC import OpenStackNICcls
 from OpenStack.OpenStackNetworks.OpenStackFloatingIp import OpenStackFloatingIpcls
 from OpenStack.OpenStackNetworks.OpenStackRouter import OpenStackRoutercls
-from neutronclient.v2_0 import client as NeutronClient
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from keystoneclient.v2_0 import client as KeystoneClient
 
 class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 	__neutronclient = None

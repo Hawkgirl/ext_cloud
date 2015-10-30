@@ -35,3 +35,7 @@ class OpenStackClientsCls:
 	def get_keystone_client(self, credentails):
 		from keystoneclient.v2_0 import client as KeystoneClient
 		return KeystoneClient.Client(**credentials)
+	def get_cinder_client(self, credentials):
+		from cinderclient import client as CinderClient
+		return CinderClient.Client("2",credentials['username'], credentials['password'], credentials['tenant_name'], credentials['auth_url'])
+

@@ -8,15 +8,21 @@ class OpenStackVolumecls(OpenStackBaseCloudcls, BaseVolumecls):
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_volume = arg[0]
 
-                super(OpenStackVolumecls, self).__init__(id=self.__openstack_volume.id, name=self.__openstack_volume.display_name, credentials=kwargs['credentials'])
+                super(OpenStackVolumecls, self).__init__(id=self.__openstack_volume.id, name=self.__openstack_volume.name, credentials=kwargs['credentials'])
 
         @property
         def status(self): return self.__openstack_volume.status
 
 	@property
-        def description(self): return self.__openstack_volume.display_description
+        def description(self): return self.__openstack_volume.description
 
 	@property
         def size(self): return self.__openstack_volume.size
+	
+	@property
+	def state(self): pass
+
+	@property
+	def user_id(self): return self.__openstack_volume.user_id
 	
 	
