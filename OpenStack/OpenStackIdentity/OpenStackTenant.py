@@ -63,16 +63,26 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 		return BaseResourceUsagecls(**usage_dict)
 
 	def list_metrics(self):
-		resource_usage = self.usage
-		if resource_usage is None: return []
-		
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
                 metrics = []
+
+		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
                 metric_str = 'openstack.tenant.' + self.name + '.' 
-		for varible in dir(resource_usage):
-                        if not varible.startswith("_") and isinstance(getattr(resource_usage.__class__, varible), property):
-                                value = getattr(resource_usage, varible)
-                                if value is None: continue
-				metrics.append(BaseMetricscls(metric_str + varible, value))
+		resource_usage = self.usage
+		if resource_usage is not None:
+			for varible in dir(resource_usage):
+				if not varible.startswith("_") and isinstance(getattr(resource_usage.__class__, varible), property):
+                               		value = getattr(resource_usage, varible)
+                                	if value is None: continue
+					metrics.append(BaseMetricscls(metric_str + varible, value))
+
+		# network metrics
+		from OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
+		network_obj = OpenStackNetworkscls(**self._credentials)
+		metrics.append(BaseMetricscls(metric_str + 'networks.count', len(network_obj.get_networks_by_tenant_id(self.id))))
+		metrics.append(BaseMetricscls(metric_str + 'subnets.count', len(network_obj.get_subnets_by_tenant_id(self.id))))
+		metrics.append(BaseMetricscls(metric_str + 'networks.used_floating_ips', len(network_obj.list_floating_ips_by_tenant_id(self.id))))
+		
                 return metrics
 
+
+		

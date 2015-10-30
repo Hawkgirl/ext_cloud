@@ -27,28 +27,18 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
         @__NeutronClient.getter
         def __NeutronClient(self):
                 if self.__neutronclient is None:
-			if self._credentials.has_key('token'):
-				keystone = KeystoneClient.Client(auth_url=self._credentials['auth_url'],token=self._credentials['token'], tenant_name=self._credentials['tenant_name'], region_name=self._credentials['region_name'])
-                                endpoint = keystone.service_catalog.url_for(service_type='network', endpoint_type='publicURL')
-                        	self.__neutronclient = NeutronClient.Client(token=self._credentials['token'], endpoint_url = endpoint)
-                        else:
-                        	self.__neutronclient = NeutronClient.Client(username=self._credentials['username'], password=self._credentials['password'], tenant_name=self._credentials['tenant_name'], auth_url=self._credentials['auth_url'], region_name=self._credentials['region_name'])
+                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+                        self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
                 return self.__neutronclient
 
 	def list_subnets(self):
-                subnet_dict = self.__NeutronClient.list_subnets()
-                openstack_subnets = subnet_dict['subnets']
-                subnets = []
-                for openstack_subnet in openstack_subnets:
-			if openstack_subnet['network_id'] == self.id:	
-				subnet = OpenStackSubnetcls(openstack_subnet, credentials=self._credentials)
-				subnets.append(subnet)
-                return subnets
+		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets(network_id=self.id)['subnets'] ]
 
+        def get_subnet_by_id(self, subnet_id):
+		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets(id=subnet_id)['subnets'] ]
 
-        def get_subnet_by_id(self, subnet_id):pass
-
-        def get_subnets_by_name(self, subnet_name):pass
+        def get_subnets_by_name(self, subnet_name):
+		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets(name=subnet_name)['subnets'] ]
 
         def get_subnets_by_tag(self, tag_name, tag_value):pass
 
