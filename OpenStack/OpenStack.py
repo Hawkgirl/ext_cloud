@@ -101,7 +101,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 	@property
 	def Childrens(self):
 		if self.__childrens is None:
-			self.__childrens = [self.identity, self.compute, self.networks, self.services, self.regions]
+			self.__childrens = [self.identity, self.compute, self.networks, self.services, self.regions, self.volumes, self.images]
 
 		return self.__childrens
 			

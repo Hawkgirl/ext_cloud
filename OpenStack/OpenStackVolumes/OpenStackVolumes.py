@@ -9,6 +9,16 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         def __init__(self, *args, **kwargs):
 		self._credentials = kwargs
 
+	def list_metrics(self):
+		metrics = []
+		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		metrics.append(BaseMetricscls('openstack.volumes.count', self.count_total_volumes))
+		metrics.append(BaseMetricscls('openstack.volumes.count_error_volumes', self.count_error_volumes))
+		metrics.append(BaseMetricscls('openstack.volumes.count_used_volumes', self.count_used_volumes))
+		metrics.append(BaseMetricscls('openstack.volumes.count_free_volumes', self.count_free_volumes))
+	
+		return metrics
+
         @property
         def __CinderClient(self):
                 return self._cinderclient
@@ -19,6 +29,19 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
                         self.__cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
                 return self.__cinderclient
+
+	@property
+	def count_total_volumes(self): return len(self.list_volumes())
+
+	@property
+	def count_used_volumes(self): return reduce(lambda x,y: x+1 if y.is_attached else x , self.list_volumes(),0)
+
+	@property
+	def count_free_volumes(self): 
+		return reduce(lambda x,y: x+1 if (not y.is_attached) and (y.status == 'available') else x , self.list_volumes(),0)
+
+	@property
+	def count_error_volumes(self): return reduce(lambda x,y: x+1 if y.status == 'error' else x , self.list_volumes(),0)
 
 	def list_volumes(self):
 		search_opts = {'all_tenants': 1}

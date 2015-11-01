@@ -39,3 +39,12 @@ class OpenStackClientsCls:
 		from cinderclient import client as CinderClient
 		return CinderClient.Client("2",credentials['username'], credentials['password'], credentials['tenant_name'], credentials['auth_url'])
 
+	def get_glance_client(self, credentials):
+		from glanceclient import client as GlanceClient
+		from keystoneclient.v2_0 import client as KeystoneClient
+		keystoneclient = KeystoneClient.Client(**credentials)
+                token = keystoneclient.auth_token
+                endpoint = keystoneclient.service_catalog.url_for(service_type='image',
+                                                        endpoint_type='publicURL')
+                return GlanceClient.Client('2', endpoint=endpoint, token=token)
+

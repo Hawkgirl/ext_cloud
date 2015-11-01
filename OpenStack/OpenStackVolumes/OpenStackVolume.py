@@ -25,4 +25,8 @@ class OpenStackVolumecls(OpenStackBaseCloudcls, BaseVolumecls):
 	@property
 	def user_id(self): return self.__openstack_volume.user_id
 	
-	
+	@property
+	def attached_to(self): return None if len(self.__openstack_volume.attachments) == 0 else self.__openstack_volume.attachments[0]['server_id']
+
+	@property
+	def is_attached(self): return False if self.attached_to is None else True

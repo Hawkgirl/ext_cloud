@@ -2,10 +2,12 @@ from BaseCloud.BaseServices.BaseServices import BaseServicescls
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
+	__novaclient = None
+	__neutronclient = None
+	__cinderclient = None
+
 	def __init__(self, *args, **kwargs):
 		self._credentials = kwargs
-		self.__novaclient = None
-		self.__neutronclient = None
 
 	@property
         def Childrens(self):
@@ -15,6 +17,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 		metrics = []
 		metrics += self.__list_metrics(self.list_compute_services())
 		metrics += self.__list_metrics(self.list_network_services())
+		metrics += self.__list_metrics(self.list_volume_services())
 		return metrics
 	def __list_metrics(self, services):
 		if len(services) is 0: return []
@@ -60,6 +63,18 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
                         self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
                 return self.__neutronclient
 
+	@property
+        def __CinderClient(self):
+                return self.__cinderclient
+
+        @__CinderClient.getter
+        def __CinderClient(self):
+                if self.__cinderclient is None:
+                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+                        self.__cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
+                return self.__cinderclient
+
+
 	def list_services(self):
 		services = []
 		services += self.list_compute_services()
@@ -90,7 +105,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 			kwargs = {}
                         kwargs['id']= service['id']
                         kwargs['name'] = service['binary']
-                        kwargs['group'] = 'neutron'
+                        kwargs['group'] = 'network'
                         kwargs['state'] = 'up' if service['alive'] is True else 'down'
                         kwargs['status'] = 'enabled' if service['admin_state_up'] is True else 'disabled'
                         kwargs['host'] = service['host']
@@ -100,4 +115,19 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
                 return services
 
-	
+	def list_volume_services(self):
+		services = []
+		volume_services = self.__CinderClient.services.list()
+		for service in volume_services:
+                        kwargs = {}
+                        kwargs['id']= service.binary
+                        kwargs['name'] = service.binary
+                        kwargs['group'] = 'volumes'
+                        kwargs['state'] = service.state
+                        kwargs['status'] = service.status
+                        kwargs['host'] = service.host
+                        from OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
+                        service = OpenStackServicecls(**kwargs)
+                        services.append(service)
+
+                return services
