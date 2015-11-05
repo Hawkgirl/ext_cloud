@@ -21,8 +21,8 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 		instances = self.list_instances()
 		group_by_state = countby(lambda x: x.state, instances)
 		metrics.append(BaseMetricscls('openstack.instances.total', len(instances)))
-		metrics.append(BaseMetricscls('openstack.instances.running', group_by_state['ACTIVE'] if 'ACTIVE' in group_by_state else 0))
-		metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['SHUTOFF'] if 'SHUTOFF' in group_by_state else 0))
+		metrics.append(BaseMetricscls('openstack.instances.running', group_by_state['RUNNING'] if 'RUNNING' in group_by_state else 0))
+		metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['STOPPED'] if 'STOPPED' in group_by_state else 0))
 		metrics.append(BaseMetricscls('openstack.instances.error', group_by_state['ERROR'] if 'ERROR' in group_by_state else 0))
 		return metrics
 

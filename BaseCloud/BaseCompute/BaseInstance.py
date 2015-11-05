@@ -1,5 +1,8 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
+from enum import Enum
+STATE = Enum('STARTING', 'RUNNING', 'STOPPED', 'STOPPING', 'REBOOTING', 'TERMINATED', 'ERROR')
+
 class BaseInstancecls:
 	__metaclass__ = ABCMeta
 

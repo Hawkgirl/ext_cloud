@@ -1,10 +1,16 @@
 from BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
+from BaseCloud.BaseCompute.BaseInstance import STATE
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 	
 	__openstack_instance = None
 	__neutronclient = None
+
+	__state_map = {}
+	__state_map['ACTIVE'] = STATE.RUNNING
+	__state_map['SHUTOFF'] = STATE.STOPPED
+	__state_map['ERROR'] = STATE.ERROR
 
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_instance = arg[0]
@@ -26,7 +32,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         def size(self): return self.__openstack_instance.flavor['id']
 
         @property
-        def state(self): return self.__openstack_instance.status
+        def state(self): return str(self.__state_map[self.__openstack_instance.status])
 
 	def start(self): 
 		return self.__openstack_instance.start_instance()
