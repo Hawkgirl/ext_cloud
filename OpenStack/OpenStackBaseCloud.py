@@ -1,9 +1,11 @@
+from utils.OpenStackClients import OpenStackClientsCls
 class OpenStackBaseCloudcls():
 	_credentials = { }
 	
 	_name = None
         _id = None
 
+	_novaclient = None
 
 	def __init__(self, *arg, **kwargs):
                 if kwargs.has_key('name'):
@@ -30,3 +32,14 @@ class OpenStackBaseCloudcls():
                 return ret
 
 	def list_metrics(self): return []
+
+	@property
+        def _NovaClient(self):
+                return self._novaclient
+
+        @_NovaClient.getter
+        def _NovaClient(self):
+                if self._novaclient is None:
+                        self._novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
+                return self._novaclient
+

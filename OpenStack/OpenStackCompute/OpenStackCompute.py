@@ -5,10 +5,8 @@ from OpenStack.OpenStackCompute.OpenStackInstanceType import OpenStackInstanceTy
 from OpenStack.OpenStackCompute.OpenStackSecurityGroup import OpenStackSecurityGroupcls
 from OpenStack.OpenStackCompute.OpenStackKeypair import OpenStackKeypaircls
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from OpenStack.utils.OpenStackClients import OpenStackClientsCls
 
 class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
-	__novaclient = None
 
 	def __init__(self, *args, **kwargs):
 		self._credentials = kwargs
@@ -31,18 +29,9 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 		hypervisors = self.list_hypervisors()
 		return hypervisors
 
- 	@property
-        def __NovaClient(self):
-                return self.__novaclient
-
-        @__NovaClient.getter
-        def __NovaClient(self):
-                if self.__novaclient is None:
-			self.__novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
-                return self.__novaclient
 
         def list_instances(self):
-                openstack_instances =  self.__NovaClient.servers.list(search_opts = {'all_tenants': 1})
+                openstack_instances =  self._NovaClient.servers.list(search_opts = {'all_tenants': 1})
                 instances = []
 	
                	for openstack_instance in openstack_instances:
