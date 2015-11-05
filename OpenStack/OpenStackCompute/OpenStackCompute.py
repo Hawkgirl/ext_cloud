@@ -13,6 +13,19 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 	def __init__(self, *args, **kwargs):
 		self._credentials = kwargs
 
+	def list_metrics(self):
+		metrics = []
+		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+
+		from toolz import countby
+		instances = self.list_instances()
+		group_by_state = countby(lambda x: x.state, instances)
+		metrics.append(BaseMetricscls('openstack.instances.total', len(instances)))
+		metrics.append(BaseMetricscls('openstack.instances.running', group_by_state['ACTIVE'] if 'ACTIVE' in group_by_state else 0))
+		metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['SHUTOFF'] if 'SHUTOFF' in group_by_state else 0))
+		metrics.append(BaseMetricscls('openstack.instances.error', group_by_state['ERROR'] if 'ERROR' in group_by_state else 0))
+		return metrics
+
 	@property
 	def Childrens(self):
 		hypervisors = self.list_hypervisors()
@@ -29,7 +42,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
                 return self.__novaclient
 
         def list_instances(self):
-                openstack_instances =  self.__NovaClient.servers.list()
+                openstack_instances =  self.__NovaClient.servers.list(search_opts = {'all_tenants': 1})
                 instances = []
 	
                	for openstack_instance in openstack_instances:
