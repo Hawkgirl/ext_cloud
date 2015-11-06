@@ -5,7 +5,6 @@ from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 	
 	__openstack_instance = None
-	__neutronclient = None
 
 	__state_map = {}
 	__state_map['ACTIVE'] = STATE.RUNNING
@@ -14,19 +13,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_instance = arg[0]
-                super(OpenStackInstancecls, self).__init__(id=self.__openstack_instance.id, name=self.__openstack_instance.name,credentials=kwargs['credentials'])
+                super(OpenStackInstancecls, self).__init__(id=self.__openstack_instance.id, name=self.__openstack_instance.name, credentials=kwargs['credentials'])
 
-
-        @property
-        def __NeutronClient(self):
-                return self.__neutronclient
-
-        @__NeutronClient.getter
-        def __NeutronClient(self):
-                if self.__neutronclient is None:
-                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
-                return self.__neutronclient
 
         @property
         def size(self): return self.__openstack_instance.flavor['id']
@@ -110,7 +98,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 			if nic.ip_address == self.private_ip:
 				nic_id = nic.id
 				break;
-		floatingips_dict = self.__NeutronClient.list_floatingips()
+		floatingips_dict = self._NeutronClient.list_floatingips()
 		floatingips_list = floatingips_dict['floatingips']
 		floatingip_id = None
 		for floatingip in floatingips_list:
@@ -121,7 +109,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 		#empty floating ip not found, create?
 		if floatingip_id is None:
 			return
-		self.__neutronclient.update_floatingip(floatingip_id, 
+		self._NeutronClient.update_floatingip(floatingip_id, 
 					{'floatingip': { 'port_id' : nic_id }})
 
         def addtag(self): pass

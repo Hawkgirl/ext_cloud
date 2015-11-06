@@ -6,6 +6,7 @@ class OpenStackBaseCloudcls():
         _id = None
 
 	_novaclient = None
+	_neutronclient = None
 
 	def __init__(self, *arg, **kwargs):
                 if kwargs.has_key('name'):
@@ -42,4 +43,14 @@ class OpenStackBaseCloudcls():
                 if self._novaclient is None:
                         self._novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
                 return self._novaclient
+
+	@property
+        def _NeutronClient(self):
+                return self._neutronclient
+
+        @_NeutronClient.getter
+        def _NeutronClient(self):
+                if self._neutronclient is None:
+                        self._neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
+                return self._neutronclient
 
