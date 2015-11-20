@@ -1,8 +1,9 @@
-
+import collections
 SUPPORTED_CLOUD_TYPES = {"amazon", "openstack", "azure"}
 
 def get_ext_cloud(cloud_type, *args, **kwargs):
 
+	kwargs = collections.defaultdict(lambda:None, kwargs)
 	if cloud_type.lower() not in SUPPORTED_CLOUD_TYPES:
 		msg = "cloud type:" + cloud_type + " not supported"
 		raise Exception(msg)	
@@ -15,19 +16,9 @@ def get_ext_cloud(cloud_type, *args, **kwargs):
 		return cloud_obj
 
 	if cloud_type.lower()  == "amazon":
-		if kwargs.has_key('username'):
-			username = kwargs['username']
-
-		if kwargs.has_key('password'):
-			password = kwargs['password']
-
-		if kwargs.has_key('region_name'):
-			region_name = kwargs['region_name']
-		else:
-			region_name = 'us-east-1'
 
 		from AWS.AWS import AWScls
-		cloud_obj =  AWScls(username=username, password=password, region_name=region_name)		 
+		cloud_obj =  AWScls( **kwargs)		 
 		return cloud_obj
 
 	if cloud_type.lower() == "azure":

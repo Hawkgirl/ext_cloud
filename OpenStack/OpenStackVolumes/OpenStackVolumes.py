@@ -4,10 +4,9 @@ from OpenStack.OpenStackVolumes.OpenStackSnapshot import OpenStackSnapshotcls
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
-        __cinderclient = None
 
         def __init__(self, *args, **kwargs):
-		self._credentials = kwargs
+		super(OpenStackVolumescls, self).__init__(credentials = kwargs)
 
 	def list_metrics(self):
 		metrics = []
@@ -18,17 +17,6 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 		metrics.append(BaseMetricscls('openstack.volumes.count_free_volumes', self.count_free_volumes))
 	
 		return metrics
-
-        @property
-        def __CinderClient(self):
-                return self._cinderclient
-
-        @__CinderClient.getter
-        def __CinderClient(self):
-                if self.__cinderclient is None:
-			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
-                return self.__cinderclient
 
 	@property
 	def count_total_volumes(self): return len(self.list_volumes())
@@ -45,7 +33,7 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
 	def list_volumes(self):
 		search_opts = {'all_tenants': 1}
-		openstack_volumes = self.__CinderClient.volumes.list( search_opts = search_opts)
+		openstack_volumes = self._CinderClient.volumes.list( search_opts = search_opts)
 		volumes = []
 		for openstack_volume in openstack_volumes:
 			volume = OpenStackVolumecls(openstack_volume, credentials=self._credentials)
@@ -60,7 +48,7 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 	def detach_volume(self, volume_id=None, instance_id=None): pass
 
 	def list_snapshots(self):
-		openstack_snapshots = self.__CinderClient.volume_snapshots.list()
+		openstack_snapshots = self._CinderClient.volume_snapshots.list()
 		snapshots = []
 		for openstack_snapshot in openstack_snapshots:
 			snapshot = OpenStackSnapshotcls(openstack_snapshot, credentials=self._credentials)

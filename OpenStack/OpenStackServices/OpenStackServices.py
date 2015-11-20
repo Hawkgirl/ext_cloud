@@ -2,12 +2,9 @@ from BaseCloud.BaseServices.BaseServices import BaseServicescls
 from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
-	__novaclient = None
-	__neutronclient = None
-	__cinderclient = None
 
 	def __init__(self, *args, **kwargs):
-		self._credentials = kwargs
+		super(OpenStackServicescls, self).__init__(credentials = kwargs)
 
 	@property
         def Childrens(self):
@@ -41,40 +38,6 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 			
 		return metrics
 
- 	@property
-        def __NovaClient(self):
-                return self.__novaclient
-
-        @__NovaClient.getter
-        def __NovaClient(self):
-                if self.__novaclient is None:
-			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
-                return self.__novaclient
-	
-	@property
-        def __NeutronClient(self):
-                return self.__neutronclient
-
-        @__NeutronClient.getter
-        def __NeutronClient(self):
-                if self.__neutronclient is None:
-                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
-                return self.__neutronclient
-
-	@property
-        def __CinderClient(self):
-                return self.__cinderclient
-
-        @__CinderClient.getter
-        def __CinderClient(self):
-                if self.__cinderclient is None:
-                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
-                return self.__cinderclient
-
-
 	def list_services(self):
 		services = []
 		services += self.list_compute_services()
@@ -83,7 +46,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
 	def list_compute_services(self):
 		services = []
-		nova_services = self.__NovaClient.services.list()
+		nova_services = self._NovaClient.services.list()
 		for nova_service in nova_services:
 			kwargs = {}
 			kwargs['id']= nova_service.id
@@ -100,7 +63,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
 	def list_network_services(self):
 		services = []
-		neutron_services = self.__NeutronClient.list_agents()['agents']
+		neutron_services = self._NeutronClient.list_agents()['agents']
 		for service in neutron_services:
 			kwargs = {}
                         kwargs['id']= service['id']
@@ -117,7 +80,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
 	def list_volume_services(self):
 		services = []
-		volume_services = self.__CinderClient.services.list()
+		volume_services = self._CinderClient.services.list()
 		for service in volume_services:
                         kwargs = {}
                         kwargs['id']= service.binary

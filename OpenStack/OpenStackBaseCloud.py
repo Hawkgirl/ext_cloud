@@ -1,12 +1,14 @@
 from utils.OpenStackClients import OpenStackClientsCls
 class OpenStackBaseCloudcls():
-	_credentials = { }
+	_credentials = None
 	
 	_name = None
         _id = None
 
+	_keystoneclient = None
 	_novaclient = None
 	_neutronclient = None
+	_cinderclient = None
 
 	def __init__(self, *arg, **kwargs):
                 if kwargs.has_key('name'):
@@ -14,7 +16,8 @@ class OpenStackBaseCloudcls():
                 if kwargs.has_key('id'):
                         self._id = kwargs['id']
                 if kwargs.has_key('credentials'):
-                        self._credentials = kwargs['credentials']
+			import collections
+                        self._credentials = collections.defaultdict(lambda:None, kwargs['credentials'])
 
 	@property
         def name(self): return self._name
@@ -33,6 +36,17 @@ class OpenStackBaseCloudcls():
                 return ret
 
 	def list_metrics(self): return []
+
+
+	@property
+        def _KeystoneClient(self):
+                return self._keystoneclient
+
+        @_KeystoneClient.getter
+        def _KeystoneClient(self):
+                if self._keystoneclient is None:
+                        self._keystoneclient = OpenStackClientsCls().get_keystone_client(self._credentials)
+                return self._keystoneclient
 
 	@property
         def _NovaClient(self):
@@ -54,3 +68,13 @@ class OpenStackBaseCloudcls():
                         self._neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
                 return self._neutronclient
 
+
+	@property
+        def _CinderClient(self):
+                return self._cinderclient
+
+        @_CinderClient.getter
+        def _CinderClient(self):
+                if self._cinderclient is None:
+                        self._cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
+                return self._cinderclient

@@ -5,33 +5,10 @@ from OpenStack.utils.OpenStackClients import OpenStackClientsCls
 class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 
         __openstack_tenant = None
-	__keystoneclient = None
-	__novaclient = None
 
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_tenant = arg[0]
                 super(OpenStackTenantcls, self).__init__(id=self.__openstack_tenant.id, name=self.__openstack_tenant.name, credentials=kwargs['credentials'])
-
-
-	@property
-        def __NovaClient(self):
-                return self.__novaclient
-
-        @__NovaClient.getter
-        def __NovaClient(self):
-                if self.__novaclient is None:
-                        self.__novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
-                return self.__novaclient
-
-	@property
-        def __KeystoneClient(self):
-                return self.__keystoneclient
-
-        @__KeystoneClient.getter
-        def __KeystoneClient(self):
-                if self.__keystoneclient is None:
-                        self.__keystoneclient = OpenStackClientsCls().get_keystone_client(self._credentials)
-                return self.__keystoneclient
 
 
         @property
@@ -44,7 +21,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 		import datetime
 	        now = datetime.datetime.now()
 		epoch = datetime.datetime(year=1970, month=1, day=1)
-        	tenant_usage = self.__NovaClient.usage.get(self.id, epoch, now)
+        	tenant_usage = self._NovaClient.usage.get(self.id, epoch, now)
 
 		if not hasattr(tenant_usage, 'total_vcpus_usage'):
 			return None

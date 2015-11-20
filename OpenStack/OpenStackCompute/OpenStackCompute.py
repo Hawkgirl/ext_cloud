@@ -9,7 +9,7 @@ from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
 	def __init__(self, *args, **kwargs):
-		self._credentials = kwargs
+		 super(OpenStackComputecls, self).__init__(credentials = kwargs)
 
 	def list_metrics(self):
 		metrics = []
