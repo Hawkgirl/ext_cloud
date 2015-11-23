@@ -1,5 +1,5 @@
-from BaseCloud.BaseServices.BaseService import BaseServicecls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseServices.BaseService import BaseServicecls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackServicecls(OpenStackBaseCloudcls, BaseServicecls):
 	

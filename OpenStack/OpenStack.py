@@ -1,4 +1,4 @@
-from BaseCloud.BaseCloud import BaseCloudcls
+from ext_cloud.BaseCloud.BaseCloud import BaseCloudcls
 from OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):

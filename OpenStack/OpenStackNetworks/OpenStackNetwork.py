@@ -1,14 +1,9 @@
-from BaseCloud.BaseNetworks.BaseNetwork import BaseNetworkcls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from OpenStack.OpenStackNetworks.OpenStackSubnet import OpenStackSubnetcls
-from neutronclient.v2_0 import client as NeutronClient
-from keystoneclient.v2_0 import client as KeystoneClient
+from ext_cloud.BaseCloud.BaseNetworks.BaseNetwork import BaseNetworkcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.OpenStack.OpenStackNetworks.OpenStackSubnet import OpenStackSubnetcls
 
 class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
 	
-	__openstack_network = None
-	__neutronclient = None
-
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_network = arg[0]
 		
@@ -20,25 +15,14 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
 	@property
 	def is_external_network(self): return self.__openstack_network['router:external']
 
-	@property
-        def __NeutronClient(self):
-                return self.__neutronclient
-
-        @__NeutronClient.getter
-        def __NeutronClient(self):
-                if self.__neutronclient is None:
-                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
-                return self.__neutronclient
-
 	def list_subnets(self):
-		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets(network_id=self.id)['subnets'] ]
+		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(network_id=self.id)['subnets'] ]
 
         def get_subnet_by_id(self, subnet_id):
-		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets(id=subnet_id)['subnets'] ]
+		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(id=subnet_id)['subnets'] ]
 
         def get_subnets_by_name(self, subnet_name):
-		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self.__NeutronClient.list_subnets(name=subnet_name)['subnets'] ]
+		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(name=subnet_name)['subnets'] ]
 
         def get_subnets_by_tag(self, tag_name, tag_value):pass
 
@@ -55,7 +39,7 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
 						'dns_nameservers' : dns_nameservers,
 						'name' : name, 
 						'cidr' : cidr_block } }
-		subnet_dict = self.__NeutronClient.create_subnet(params)
+		subnet_dict = self._NeutronClient.create_subnet(params)
 		openstack_subnet = subnet_dict['subnet']
 		subnet = OpenStackSubnetcls(openstack_subnet, credentials=self._credentials)
 		return subnet

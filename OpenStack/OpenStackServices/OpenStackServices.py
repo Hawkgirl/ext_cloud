@@ -1,5 +1,5 @@
-from BaseCloud.BaseServices.BaseServices import BaseServicescls 
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseServices.BaseServices import BaseServicescls 
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
@@ -18,7 +18,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 		return metrics
 	def __list_metrics(self, services):
 		if len(services) is 0: return []
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
                 metrics = []
 		metric_str = 'openstack.' + services[0].group + '.services.'
 		enabled = disabled = up = down = 0
@@ -55,7 +55,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 			kwargs['state'] = nova_service.state
 			kwargs['status'] = nova_service.status
 			kwargs['host'] = nova_service.host
-			from OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
+			from ext_cloud.OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
 			service = OpenStackServicecls(**kwargs)
 			services.append(service)
 			
@@ -72,7 +72,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
                         kwargs['state'] = 'up' if service['alive'] is True else 'down'
                         kwargs['status'] = 'enabled' if service['admin_state_up'] is True else 'disabled'
                         kwargs['host'] = service['host']
-                        from OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
+                        from ext_cloud.OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
                         service = OpenStackServicecls(**kwargs)
                         services.append(service)
 
@@ -89,7 +89,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
                         kwargs['state'] = service.state
                         kwargs['status'] = service.status
                         kwargs['host'] = service.host
-                        from OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
+                        from ext_cloud.OpenStack.OpenStackServices.OpenStackService import OpenStackServicecls
                         service = OpenStackServicecls(**kwargs)
                         services.append(service)
 

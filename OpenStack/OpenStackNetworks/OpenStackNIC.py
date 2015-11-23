@@ -1,5 +1,5 @@
-from BaseCloud.BaseNetworks.BaseNIC import BaseNICcls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseNetworks.BaseNIC import BaseNICcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
 	

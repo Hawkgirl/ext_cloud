@@ -1,5 +1,5 @@
-from BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackInstanceTypecls(OpenStackBaseCloudcls, BaseInstanceTypecls):
 	

@@ -1,30 +1,15 @@
-from BaseCloud.BaseNetworks.BaseSubnet import BaseSubnetcls
-from neutronclient.v2_0 import client as NeutronClient
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from OpenStack.OpenStackNetworks.OpenStackNIC import OpenStackNICcls
-from keystoneclient.v2_0 import client as KeystoneClient
+from ext_cloud.BaseCloud.BaseNetworks.BaseSubnet import BaseSubnetcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNIC import OpenStackNICcls
 
 class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
 	
-	__openstack_subnet = None
-	__neutronclient = None
 
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_subnet = arg[0]
 
                 super(OpenStackSubnetcls, self).__init__(id=self.__openstack_subnet['id'], name=self.__openstack_subnet['name'], credentials=kwargs['credentials'])
 
-
-	@property
-        def __NeutronClient(self):
-                return self.__neutronclient
-
-        @__NeutronClient.getter
-        def __NeutronClient(self):
-		if self.__neutronclient is None:
-                        from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
-                return self.__neutronclient
 
         @property
         def state(self): pass
@@ -51,7 +36,7 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
                                     }
                         }
 
-                nic_dict = self.__NeutronClient.create_port(params)
+                nic_dict = self._NeutronClient.create_port(params)
                 openstack_nic = nic_dict['port']
                 nic = OpenStackNICcls(openstack_nic, credentials=self._credentials)
                 return nic

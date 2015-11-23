@@ -1,5 +1,5 @@
-from BaseCloud.BaseCompute.BaseKeypair import BaseKeypaircls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseKeypair import BaseKeypaircls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackKeypaircls(OpenStackBaseCloudcls, BaseKeypaircls):
 	

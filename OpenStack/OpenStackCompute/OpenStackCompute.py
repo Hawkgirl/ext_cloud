@@ -1,10 +1,10 @@
-from BaseCloud.BaseCompute.BaseCompute import BaseComputecls 
-from OpenStack.OpenStackCompute.OpenStackInstance import OpenStackInstancecls
-from OpenStack.OpenStackCompute.OpenStackHypervisor import OpenStackHypervisorcls
-from OpenStack.OpenStackCompute.OpenStackInstanceType import OpenStackInstanceTypecls
-from OpenStack.OpenStackCompute.OpenStackSecurityGroup import OpenStackSecurityGroupcls
-from OpenStack.OpenStackCompute.OpenStackKeypair import OpenStackKeypaircls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseCompute import BaseComputecls 
+from ext_cloud.OpenStack.OpenStackCompute.OpenStackInstance import OpenStackInstancecls
+from ext_cloud.OpenStack.OpenStackCompute.OpenStackHypervisor import OpenStackHypervisorcls
+from ext_cloud.OpenStack.OpenStackCompute.OpenStackInstanceType import OpenStackInstanceTypecls
+from ext_cloud.OpenStack.OpenStackCompute.OpenStackSecurityGroup import OpenStackSecurityGroupcls
+from ext_cloud.OpenStack.OpenStackCompute.OpenStackKeypair import OpenStackKeypaircls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
@@ -13,7 +13,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
 	def list_metrics(self):
 		metrics = []
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
 
 		from toolz import countby
 		instances = self.list_instances()

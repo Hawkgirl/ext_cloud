@@ -1,5 +1,5 @@
-from BaseCloud.BaseNetworks.BaseRouter import BaseRoutercls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseNetworks.BaseRouter import BaseRoutercls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
 	

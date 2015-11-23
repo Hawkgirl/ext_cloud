@@ -1,7 +1,6 @@
-from BaseCloud.BaseIdentity.BaseIdentity import BaseIdentitycls
-from keystoneclient.v2_0 import client as KeystoneClient
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+from ext_cloud.BaseCloud.BaseIdentity.BaseIdentity import BaseIdentitycls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
 
 class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
@@ -9,7 +8,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 		super(OpenStackIdentitycls, self).__init__(credentials = kwargs)
 
 	def list_metrics(self):
-                from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+                from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
                 metrics = []
 		metrics.append(BaseMetricscls('openstack.tenants.count', len(self.list_tenants())))
 		metrics.append(BaseMetricscls('openstack.users.count', len(self.list_users())))
@@ -55,7 +54,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
 
 	def list_users(self):
-		from OpenStack.OpenStackIdentity.OpenStackUser import OpenStackUsercls
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackUser import OpenStackUsercls
 		openstack_users = self._KeystoneClient.users.list()
 		users = [ ]
 		for openstack_user in openstack_users:
@@ -64,7 +63,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 		return users
 
 	def list_tenants(self): 
-		from OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
 		openstack_tenants = self._KeystoneClient.tenants.list()
 		tenants = [ ]
 		for openstack_tenant in openstack_tenants:

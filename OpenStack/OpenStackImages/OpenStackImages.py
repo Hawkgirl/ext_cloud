@@ -1,16 +1,15 @@
-from BaseCloud.BaseImages.BaseImages import BaseImagescls
-from OpenStack.OpenStackImages.OpenStackImage import OpenStackImagecls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseImages.BaseImages import BaseImagescls
+from ext_cloud.OpenStack.OpenStackImages.OpenStackImage import OpenStackImagecls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
-        __glanceclient = None
 
         def __init__(self, *args, **kwargs):
-		self._credentials = kwargs
+		super(OpenStackImagescls, self).__init__(credentials = kwargs)
 
 	def list_metrics(self):
 		metrics = []
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
 		images = self.list_images()
 		arch_dict = {}
 		for image in images:
@@ -25,20 +24,8 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
 		
 		return metrics	
 		
-        @property
-        def __GlanceClient(self):
-                return self.__glanceclient
-
-        @__GlanceClient.getter
-        def __GlanceClient(self):
-                if self.__glanceclient is None:
-			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-                        self.__glanceclient = OpenStackClientsCls().get_glance_client(self._credentials)
-
-                return self.__glanceclient
-	
 	def list_images(self):
-		openstack_images = self.__GlanceClient.images.list()
+		openstack_images = self._GlanceClient.images.list()
 		images = [ ]
 		for openstack_image in openstack_images:
 			image = OpenStackImagecls(openstack_image, credentials=self._credentials)

@@ -1,6 +1,6 @@
-from BaseCloud.BaseRegions.BaseRegions import BaseRegionscls 
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from keystoneclient.v2_0 import client as KeystoneClient
+from ext_cloud.BaseCloud.BaseRegions.BaseRegions import BaseRegionscls 
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+
 
 class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
 
@@ -12,10 +12,9 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
         def Childrens(self): return []
 
         def list_regions(self): 
-			from OpenStack.OpenStackRegions.OpenStackRegion import OpenStackRegioncls
-			keystoneclient = KeystoneClient.Client(**self._credentials)
+			from ext_cloud.OpenStack.OpenStackRegions.OpenStackRegion import OpenStackRegioncls
 
-			endpoints = keystoneclient.endpoints.list()
+			endpoints = self._KeystoneClient.endpoints.list()
 			regions = set()
 			for endpoint in endpoints:
 				if not endpoint.region in regions:
@@ -33,7 +32,7 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
         def get_region_by_name(self, instance_name): pass
 
 	def list_metrics(self):
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
                 metrics = []
 		regions = self.list_regions()
 		metrics.append(BaseMetricscls('openstack.regions.count', len(regions)))

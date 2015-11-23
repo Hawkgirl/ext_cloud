@@ -1,6 +1,6 @@
-from BaseCloud.BaseIdentity.BaseTenant import BaseTenantcls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from OpenStack.utils.OpenStackClients import OpenStackClientsCls
+from ext_cloud.BaseCloud.BaseIdentity.BaseTenant import BaseTenantcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
 
 class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 
@@ -17,7 +17,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 
 	@property
 	def usage(self):
-		from BaseCloud.BaseStats.BaseResourceUsage import BaseResourceUsagecls
+		from ext_cloud.BaseCloud.BaseStats.BaseResourceUsage import BaseResourceUsagecls
 		import datetime
 	        now = datetime.datetime.now()
 		epoch = datetime.datetime(year=1970, month=1, day=1)
@@ -42,7 +42,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 	def list_metrics(self):
                 metrics = []
 
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
                 metric_str = 'openstack.tenant.' + self.name + '.' 
 		resource_usage = self.usage
 		if resource_usage is not None:
@@ -53,7 +53,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 					metrics.append(BaseMetricscls(metric_str + varible, value))
 
 		# network metrics
-		from OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
+		from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
 		network_obj = OpenStackNetworkscls(**self._credentials)
 		metrics.append(BaseMetricscls(metric_str + 'networks.count', len(network_obj.get_networks_by_tenant_id(self.id))))
 		metrics.append(BaseMetricscls(metric_str + 'subnets.count', len(network_obj.get_subnets_by_tenant_id(self.id))))

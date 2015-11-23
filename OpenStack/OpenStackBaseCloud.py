@@ -9,6 +9,7 @@ class OpenStackBaseCloudcls():
 	_novaclient = None
 	_neutronclient = None
 	_cinderclient = None
+	_glanceclient = None
 
 	def __init__(self, *arg, **kwargs):
                 if kwargs.has_key('name'):
@@ -78,3 +79,15 @@ class OpenStackBaseCloudcls():
                 if self._cinderclient is None:
                         self._cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
                 return self._cinderclient
+
+	@property
+        def _GlanceClient(self):
+                return self._glanceclient
+
+        @_GlanceClient.getter
+        def _GlanceClient(self):
+                if self._glanceclient is None:
+                       self._glanceclient = OpenStackClientsCls().get_glance_client(self._credentials)
+
+                return self._glanceclient
+

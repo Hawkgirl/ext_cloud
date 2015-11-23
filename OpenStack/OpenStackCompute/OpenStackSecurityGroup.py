@@ -1,6 +1,5 @@
-from BaseCloud.BaseCompute.BaseSecurityGroup import BaseSecurityGroupcls
-from novaclient.client import Client as NovaClient
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseSecurityGroup import BaseSecurityGroupcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 from OpenStackSecurityGroupRule import OpenStackSecurityGroupRulecls
 
 

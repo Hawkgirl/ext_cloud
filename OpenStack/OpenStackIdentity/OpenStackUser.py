@@ -1,5 +1,5 @@
-from BaseCloud.BaseIdentity.BaseUser import BaseUsercls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseIdentity.BaseUser import BaseUsercls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackUsercls(OpenStackBaseCloudcls, BaseUsercls):
 

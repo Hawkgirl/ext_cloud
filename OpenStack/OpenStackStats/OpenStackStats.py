@@ -1,4 +1,4 @@
-from BaseCloud.BaseStats.BaseStats import BaseStatscls
+from ext_cloud.BaseCloud.BaseStats.BaseStats import BaseStatscls
 
 class OpenStackStatscls(BaseStatscls):
 
@@ -9,7 +9,7 @@ class OpenStackStatscls(BaseStatscls):
 
 	def list_metrics(self):
 		metrics = []
-		from OpenStack.OpenStack import OpenStackcls
+		from ext_cloud.OpenStack.OpenStack import OpenStackcls
 		openstack_obj = OpenStackcls(*self.__args,**self.__kwargs)
 		lst_childrens = openstack_obj.Childrens
 		for child in lst_childrens:

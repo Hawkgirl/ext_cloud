@@ -1,7 +1,7 @@
-from BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
-from OpenStack.OpenStackVolumes.OpenStackVolume import OpenStackVolumecls
-from OpenStack.OpenStackVolumes.OpenStackSnapshot import OpenStackSnapshotcls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
+from ext_cloud.OpenStack.OpenStackVolumes.OpenStackVolume import OpenStackVolumecls
+from ext_cloud.OpenStack.OpenStackVolumes.OpenStackSnapshot import OpenStackSnapshotcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
@@ -10,7 +10,7 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
 	def list_metrics(self):
 		metrics = []
-		from BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
 		metrics.append(BaseMetricscls('openstack.volumes.count', self.count_total_volumes))
 		metrics.append(BaseMetricscls('openstack.volumes.count_error_volumes', self.count_error_volumes))
 		metrics.append(BaseMetricscls('openstack.volumes.count_used_volumes', self.count_used_volumes))

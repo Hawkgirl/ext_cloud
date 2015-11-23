@@ -1,5 +1,5 @@
-from BaseCloud.BaseVolumes.BaseSnapshot import BaseSnapshotcls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseSnapshot import BaseSnapshotcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackSnapshotcls(OpenStackBaseCloudcls, BaseSnapshotcls):
 

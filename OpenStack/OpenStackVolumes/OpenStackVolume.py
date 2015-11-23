@@ -1,5 +1,5 @@
-from BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackVolumecls(OpenStackBaseCloudcls, BaseVolumecls):
 

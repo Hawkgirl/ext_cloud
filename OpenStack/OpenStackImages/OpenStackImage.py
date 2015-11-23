@@ -1,5 +1,5 @@
-from BaseCloud.BaseImages.BaseImage import BaseImagecls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseImages.BaseImage import BaseImagecls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackImagecls(OpenStackBaseCloudcls, BaseImagecls):
 
