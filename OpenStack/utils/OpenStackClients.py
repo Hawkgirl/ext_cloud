@@ -13,7 +13,7 @@ class OpenStackClientsCls:
                                 neutronclient = NeutronClient.Client(token=credentials['token'], endpoint_url = endpoint)
 				return neutronclient
 
-		neutronclient = NeutronClient.Client(username=credentials['username'], password=credentials['password'], tenant_name=credentials['tenant_name'], auth_url=credentials['auth_url'], region_name = credentials['region_name'])
+		neutronclient = NeutronClient.Client(username=credentials['username'], password=credentials['password'], tenant_name=credentials['tenant_name'], auth_url=credentials['auth_url'], region_name = credentials['region_name'], ca_cert=credentials['cacert'])
 
                 return neutronclient
 
@@ -36,7 +36,7 @@ class OpenStackClientsCls:
 
 	def get_cinder_client(self, credentials):
 		from cinderclient import client as CinderClient
-		return CinderClient.Client("2",credentials['username'], credentials['password'], credentials['tenant_name'], credentials['auth_url'])
+		return CinderClient.Client("2",credentials['username'], credentials['password'], credentials['tenant_name'], credentials['auth_url'], cacert=credentials['cacert'])
 
 	def get_glance_client(self, credentials):
 		from glanceclient import client as GlanceClient
@@ -45,5 +45,5 @@ class OpenStackClientsCls:
                 token = keystoneclient.auth_token
                 endpoint = keystoneclient.service_catalog.url_for(service_type='image',
                                                         endpoint_type='publicURL')
-                return GlanceClient.Client('2', endpoint=endpoint, token=token)
+                return GlanceClient.Client('2', endpoint=endpoint, token=token, cacert=credentials['cacert'])
 

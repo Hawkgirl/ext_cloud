@@ -16,6 +16,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
 		#alltenants metrics
                 import datetime
+		
                 now = datetime.datetime.utcnow()
 		usages = self._NovaClient.usage.list(now-datetime.timedelta(days=1), now, detailed=True)
 		vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
@@ -30,6 +31,22 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 		metrics.append(BaseMetricscls('openstack.alltentant1day.hours_memory', total_memory_mb_usage))
 		metrics.append(BaseMetricscls('openstack.alltentant1day.hours_disk', total_local_gb_usage))
 		metrics.append(BaseMetricscls('openstack.alltentant1day.used_vm', vms))
+
+		from dateutil.relativedelta import relativedelta
+		one_month_back =  now - relativedelta(months=1)
+		usages = self._NovaClient.usage.list(one_month_back, now, detailed=True)
+		vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
+
+		for usage in usages:
+			total_vcpus_usage += usage.total_vcpus_usage
+			total_memory_mb_usage += usage.total_memory_mb_usage
+			total_local_gb_usage += usage.total_local_gb_usage
+			vms += len(usage.server_usages)
+
+		metrics.append(BaseMetricscls('openstack.alltentant1month.hours_cpu', total_vcpus_usage))
+		metrics.append(BaseMetricscls('openstack.alltentant1month.hours_memory', total_memory_mb_usage))
+		metrics.append(BaseMetricscls('openstack.alltentant1month.hours_disk', total_local_gb_usage))
+		metrics.append(BaseMetricscls('openstack.alltentant1month.used_vm', vms))
 		return metrics
 
 	@property
