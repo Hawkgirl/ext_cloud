@@ -74,13 +74,13 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 			new_metric = BaseMetricscls(full_metric_str, getattr(self, metric))
 			metrics.append(new_metric)
             	# state metric
-           	full_metric_str = metric_str + 'stateup'
-		value =  1 if self.state == 'up' else 0
+           	full_metric_str = metric_str + 'statedown'
+		value =  1 if self.state == 'down' else 0
 		new_metric = BaseMetricscls(full_metric_str, value)
 		metrics.append(new_metric)
 		# status
-           	full_metric_str = metric_str + 'statusenabled'
-		value =  1 if self.status == 'enabled' else 0
+           	full_metric_str = metric_str + 'statusdisabled'
+		value =  1 if self.status == 'disabled' else 0
 		new_metric = BaseMetricscls(full_metric_str, value)
 		metrics.append(new_metric)
 		# arch metric
