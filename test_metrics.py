@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from ext_cloud import get_ext_cloud
 
 import warnings
