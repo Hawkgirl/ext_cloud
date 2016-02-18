@@ -8,6 +8,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
 	__state_map = {}
 	__state_map['ACTIVE'] = STATE.RUNNING
+	__state_map['PAUSED'] = STATE.PAUSED
 	__state_map['SHUTOFF'] = STATE.STOPPED
 	__state_map['ERROR'] = STATE.ERROR
 	__state_map['BUILD'] = STATE.STARTING

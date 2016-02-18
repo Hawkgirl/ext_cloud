@@ -4,11 +4,12 @@ from enum import Enum
 class STATE(Enum):
 	STARTING = 1,
 	RUNNING = 2,
-	STOPPED = 3,
-	STOPPING = 4,
-	REBOOTING = 5,
-	TERMINATED = 6,
-	ERROR = 7
+	PAUSED =3,
+	STOPPED = 4,
+	STOPPING = 5,
+	REBOOTING = 6,
+	TERMINATED = 7,
+	ERROR = 8
 
 class BaseInstancecls:
 	__metaclass__ = ABCMeta
