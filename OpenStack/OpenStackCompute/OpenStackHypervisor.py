@@ -34,7 +34,15 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
                 return self.host_name.split('.', 1)[0]
 
         @property
-        def cpus(self): return self.__openstack_hypervisor.vcpus
+        def cpus(self): 
+		from ext_cloud.OpenStack.utils.ConfFileParser import config_file_dic
+		dic = config_file_dic()
+		#load cpu multiplication factor from ext_cloud.config file
+		# default is 16
+		if dic.has_key('cpu_allocation_ratio'):
+			return self.__openstack_hypervisor.vcpus * int(dic['cpu_allocation_ratio'])
+		else:
+			return self.__openstack_hypervisor.vcpus * 16
 
         @property
         def vcpus_used(self): return self.__openstack_hypervisor.vcpus_used
@@ -49,7 +57,15 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         def free_disk_gb(self): return self.__openstack_hypervisor.free_disk_gb
 
         @property
-        def memory_mb(self): return self.__openstack_hypervisor.memory_mb
+        def memory_mb(self): 
+		from ext_cloud.OpenStack.utils.ConfFileParser import config_file_dic
+		dic = config_file_dic()
+		#load memory multiplication factor from ext_cloud.config file
+		# default is 1.5
+		if dic.has_key('ram_allocation_ratio'):
+			return self.__openstack_hypervisor.memory_mb * int(dic['ram_allocation_ratio'])
+		else:
+        		return self.__openstack_hypervisor.memory_mb * 1.5
 
         @property
         def memory_used_mb(self): return self.__openstack_hypervisor.memory_mb_used

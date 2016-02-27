@@ -16,23 +16,14 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 
 	def __init__(self,*args,**kwargs): 
 		if not kwargs.has_key('username'):
-			self._credentials = self.__load_from_config_file()
+			from utils.ConfFileParser import config_file_dic
+			dic = config_file_dic()
+			if dic is None:
+				raise Exception('/etc/ext_cloud/ext_cloud.conf not configured properly')
+			self._credentials = dic
 		else:
 			self._credentials = kwargs
 
-	def __load_from_config_file(self):
-		import ConfigParser
-		parser = ConfigParser.ConfigParser()
-		parser.read("/etc/ext_cloud/ext_cloud.conf")
-		if not parser.has_section('openstack'):
-			raise Exception('/etc/ext_cloud/ext_cloud.conf not configured properly')
-
-		dic = {}
-		for arg in parser.options('openstack'):
-        		dic[arg] = parser.get('openstack', arg)
-
-		return dic
-	
 	@property
 	def identity(self): 
 		if self.__identity is None:
