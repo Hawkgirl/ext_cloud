@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 
 from enum import Enum
 class STATE(Enum):
+	UNKNOWN = 0,
 	STARTING = 1,
 	RUNNING = 2,
 	PAUSED =3,

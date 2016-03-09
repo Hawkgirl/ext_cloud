@@ -20,7 +20,8 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 		group_by_state = countby(lambda x: x.state, instances)
 		metrics.append(BaseMetricscls('openstack.instances.total', len(instances)))
 		metrics.append(BaseMetricscls('openstack.instances.running', group_by_state['STATE.RUNNING'] if 'STATE.RUNNING' in group_by_state else 0))
-		metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['STATE.PAUSED'] if 'STATE.PAUSED' in group_by_state else 0))
+		metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['STATE.STOPPED'] if 'STATE.STOPPED' in group_by_state else 0))
+		metrics.append(BaseMetricscls('openstack.instances.paused', group_by_state['STATE.PAUSED'] if 'STATE.PAUSED' in group_by_state else 0))
 		metrics.append(BaseMetricscls('openstack.instances.error', group_by_state['STATE.ERROR'] if 'STATE.ERROR' in group_by_state else 0))
 		return metrics
 
@@ -49,6 +50,29 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
         def get_instances_by_name(self, instance_name): pass
         def get_instances_by_tag(self, tag_name, tag_value): pass
+	def get_instances_by_error_state(self):
+		from ext_cloud.BaseCloud.BaseCompute.BaseInstance import STATE
+
+		return self.get_instances_by_state(STATE.ERROR)
+
+	def get_instances_by_state(self, state):
+		from ext_cloud.OpenStack.OpenStackCompute.OpenStackInstance import STATE_MAP
+	
+		state_str = 'ACTIVE'	
+		for key in STATE_MAP:
+			if state == STATE_MAP[key]:
+				state_str = key
+				break
+
+		openstack_instances =  self._NovaClient.servers.list(search_opts = {'all_tenants': 1, 'status':state_str})
+                instances = []
+
+                for openstack_instance in openstack_instances:
+                        instance = OpenStackInstancecls(openstack_instance, credentials=self._credentials)
+                        instances.append(instance)
+
+                return instances
+
 	def create_instance(self, image_id=None, key_name=None, security_groups=None, security_group_ids=None, instancetype_id = None, name = None, subnet_id=None): 
 
 		nics = []

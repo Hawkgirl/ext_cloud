@@ -1,5 +1,5 @@
 from ext_cloud.BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
-from ext_cloud.OpenStack.OpenStackVolumes.OpenStackVolume import OpenStackVolumecls
+from ext_cloud.OpenStack.OpenStackVolumes.OpenStackVolume import OpenStackVolumecls, STATE_MAP
 from ext_cloud.OpenStack.OpenStackVolumes.OpenStackSnapshot import OpenStackSnapshotcls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
@@ -29,7 +29,7 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 		return reduce(lambda x,y: x+1 if (not y.is_attached) and (y.status == 'available') else x , self.list_volumes(),0)
 
 	@property
-	def count_error_volumes(self): return reduce(lambda x,y: x+1 if y.status == 'error' else x , self.list_volumes(),0)
+	def count_error_volumes(self): return len(self.get_volumes_by_error_state())
 
 	def list_volumes(self):
 		search_opts = {'all_tenants': 1}
@@ -40,6 +40,28 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 			volumes.append(volume)
 
 		return volumes
+
+	def get_volumes_by_error_state(self):
+		from ext_cloud.BaseCloud.BaseVolumes.BaseVolume import STATE
+		return self.get_volumes_by_state(STATE.ERROR)
+
+	def get_volumes_by_state(self, state):
+		
+		state_str = 'READY'
+                for key in STATE_MAP:
+                        if state == STATE_MAP[key]:
+                                state_str = key
+                                break
+
+                search_opts = {'all_tenants': 1, 'status': state_str}
+                openstack_volumes = self._CinderClient.volumes.list( search_opts = search_opts)
+                volumes = []
+                for openstack_volume in openstack_volumes:
+                        volume = OpenStackVolumecls(openstack_volume, credentials=self._credentials)
+                        volumes.append(volume)
+
+                return volumes
+
 
         def create_volume(self, size=2, name = None): pass
 

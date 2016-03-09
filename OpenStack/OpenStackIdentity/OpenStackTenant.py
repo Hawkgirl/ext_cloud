@@ -43,7 +43,9 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
                 metrics = []
 
 		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
-                metric_str = 'openstack.tenant.' + self.name + '.' 
+		#replace . with - for tenant name
+		tenant_name = self.name.replace('.','_').replace('@','_')
+                metric_str = 'openstack.tenant.' + tenant_name + '.' 
 		resource_usage = self.usage
 		if resource_usage is not None:
 			for varible in dir(resource_usage):
