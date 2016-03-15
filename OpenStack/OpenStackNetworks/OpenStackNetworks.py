@@ -17,7 +17,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
 	def list_metrics(self):
 		metrics = []
-		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
 		metrics.append(BaseMetricscls('openstack.networks.count', len(self.list_networks())))
 		metrics.append(BaseMetricscls('openstack.networks.subnets.count', len(self.list_subnets())))
 		metrics.append(BaseMetricscls('openstack.networks.free_floating_ips', self.free_floating_ips))

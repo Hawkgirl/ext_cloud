@@ -8,7 +8,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 		super(OpenStackIdentitycls, self).__init__(credentials = kwargs)
 
 	def list_metrics(self):
-                from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+                from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
                 metrics = []
 		metrics.append(BaseMetricscls('openstack.tenants.count', len(self.list_tenants())))
 		metrics.append(BaseMetricscls('openstack.users.count', len(self.list_users())))
@@ -62,6 +62,18 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 			users.append(user)
 		return users
 
+	def get_user_by_id(self, user_id):
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackUser import OpenStackUsercls
+		from keystoneclient.openstack.common.apiclient.exceptions import NotFound
+		try:
+			openstack_user = self._KeystoneClient.users.get(user_id)
+		except NotFound as e:
+			# user got deleted
+			return None
+
+		user = OpenStackUsercls(openstack_user, credentials=self._credentials)
+		return user
+
 	def list_tenants(self): 
 		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
 		openstack_tenants = self._KeystoneClient.tenants.list()
@@ -70,3 +82,14 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 			tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
 			tenants.append(tenant)
 		return tenants
+
+	def get_tenant_by_id(self, tenant_id):
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
+		from keystoneclient.openstack.common.apiclient.exceptions import NotFound
+		try:
+			openstack_tenant = self._KeystoneClient.tenants.get(tenant_id)
+		except NotFound as e:
+			return None
+		tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
+		return tenant
+

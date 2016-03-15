@@ -17,7 +17,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 
 	@property
 	def usage(self):
-		from ext_cloud.BaseCloud.BaseStats.BaseResourceUsage import BaseResourceUsagecls
+		from ext_cloud.BaseCloud.BaseResources.BaseResourceUsage import BaseResourceUsagecls
 		import datetime
 	        now = datetime.datetime.now()
 		epoch = datetime.datetime(year=1970, month=1, day=1)
@@ -42,8 +42,10 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 	def list_metrics(self):
                 metrics = []
 
-		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
-                metric_str = 'openstack.tenant.' + self.name + '.' 
+		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
+		#replace . with - for tenant name
+		tenant_name = self.name.replace('.','_').replace('@','_')
+                metric_str = 'openstack.tenant.' + tenant_name + '.' 
 		resource_usage = self.usage
 		if resource_usage is not None:
 			for varible in dir(resource_usage):

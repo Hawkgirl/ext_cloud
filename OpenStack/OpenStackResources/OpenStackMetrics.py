@@ -1,6 +1,6 @@
-from BaseCloud.BaseStats.BaseStats import BaseStatscls
+from BaseCloud.BaseResources.BaseResources import BaseResourcescls
 
-class OpenStackMetricscls(BaseStatscls):
+class OpenStackMetricscls(BaseResourcescls):
 
 	def __init__(self, *arg, **kwargs):
                 super(OpenStackMetricscls, self).__init__(*args,**kwargs)

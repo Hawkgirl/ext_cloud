@@ -32,7 +32,7 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
         def get_region_by_name(self, instance_name): pass
 
 	def list_metrics(self):
-		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
                 metrics = []
 		regions = self.list_regions()
 		metrics.append(BaseMetricscls('openstack.regions.count', len(regions)))

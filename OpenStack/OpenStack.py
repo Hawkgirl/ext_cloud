@@ -9,7 +9,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 	__volumes = None
 	__objectstore = None
 	__templates = None
-	__stats = None
+	__resources = None
 	__childrens = None
 	__services = None
 	__regions = None
@@ -82,12 +82,12 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
                 return self.__objectstore
 
 	@property
-	def stats(self):
-		if self.__stats is None:
-			from OpenStackStats.OpenStackStats import OpenStackStatscls
-			self.__stats = OpenStackStatscls(**self._credentials)
+	def resources(self):
+		if self.__resources is None:
+			from OpenStackResources.OpenStackResources import OpenStackResourcescls
+			self.__resources = OpenStackResourcescls(**self._credentials)
 		
-		return self.__stats
+		return self.__resources
 
 	
         @property

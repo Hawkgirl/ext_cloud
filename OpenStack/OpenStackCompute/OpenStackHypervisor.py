@@ -80,7 +80,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 	def host_ip(self): return self.__openstack_hypervisor.host_ip
 
 	def list_metrics(self):
-		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
 		metrics = []
 		metric_property = ( 'cpus','vcpus_used','disk_gb', 'disk_used_gb', 'free_disk_gb', 'memory_mb', 'memory_used_mb', 'memory_free_mb', 'running_vms')
 

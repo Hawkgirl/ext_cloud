@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-class BaseStatscls:
+class BaseResourcescls:
 	__metaclass__ = ABCMeta
 

@@ -2,16 +2,18 @@ from ext_cloud.BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
 from ext_cloud.BaseCloud.BaseCompute.BaseInstance import STATE
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
+import collections
+STATE_MAP = collections.defaultdict(lambda: STATE.UNKNOWN)
+STATE_MAP['ACTIVE'] = STATE.RUNNING
+STATE_MAP['PAUSED'] = STATE.PAUSED
+STATE_MAP['SHUTOFF'] = STATE.STOPPED
+STATE_MAP['ERROR'] = STATE.ERROR
+STATE_MAP['BUILD'] = STATE.STARTING
+
 class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 	
 	__openstack_instance = None
 
-	__state_map = {}
-	__state_map['ACTIVE'] = STATE.RUNNING
-	__state_map['PAUSED'] = STATE.PAUSED
-	__state_map['SHUTOFF'] = STATE.STOPPED
-	__state_map['ERROR'] = STATE.ERROR
-	__state_map['BUILD'] = STATE.STARTING
 
 	def __init__(self, *arg, **kwargs):
                 self.__openstack_instance = arg[0]
@@ -22,7 +24,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         def size(self): return self.__openstack_instance.flavor['id']
 
         @property
-        def state(self): return str(self.__state_map[self.__openstack_instance.status])
+        def state(self): return str(STATE_MAP[self.__openstack_instance.status])
 
 	def start(self): 
 		return self.__openstack_instance.start_instance()
@@ -50,7 +52,17 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         def keypair_name(self): return self.__openstack_instance.key_name
 	
 	@property
-        def image_id(self): return self.__openstack_instance.image['id']
+        def image_id(self): 
+		if isinstance(self.__openstack_instance.image, dict):
+			return self.__openstack_instance.image['id']
+
+		return None
+	
+	@property
+	def tenant_id(self): return self.__openstack_instance.tenant_id
+
+	@property
+	def user_id(self): return self.__openstack_instance.user_id
 
 	@property
         def image_name(self): pass
@@ -118,3 +130,15 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
 	def gettags(self): pass
 
+	@property
+	def is_zombie(self):
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+		tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
+		if tenant is None:
+			return True
+	
+		user = OpenStackIdentitycls(**self._credentials).get_user_by_id(self.user_id)
+		if user is None:
+			return True
+
+		return False

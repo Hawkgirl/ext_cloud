@@ -1,5 +1,11 @@
-from ext_cloud.BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls
+from ext_cloud.BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls, STATE
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+
+import collections
+STATE_MAP = collections.defaultdict(lambda: STATE.UNKNOWN)
+STATE_MAP['in-use'] = STATE.ATTACHED
+STATE_MAP['available'] = STATE.READY
+STATE_MAP['error'] = STATE.ERROR
 
 class OpenStackVolumecls(OpenStackBaseCloudcls, BaseVolumecls):
 

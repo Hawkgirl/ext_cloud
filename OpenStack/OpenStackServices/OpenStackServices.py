@@ -18,7 +18,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 		return metrics
 	def __list_metrics(self, services):
 		if len(services) is 0: return []
-		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
                 metrics = []
 		metric_str = 'openstack.' + services[0].group + '.services.'
 		enabled = disabled = up = down = 0

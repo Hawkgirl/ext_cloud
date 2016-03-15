@@ -9,7 +9,7 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
 
 	def list_metrics(self):
 		metrics = []
-		from ext_cloud.BaseCloud.BaseStats.BaseMetrics import BaseMetricscls
+		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
 		images = self.list_images()
 		arch_dict = {}
 		for image in images:
