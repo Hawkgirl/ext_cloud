@@ -15,6 +15,9 @@ class STATE(Enum):
 class BaseInstancecls:
 	__metaclass__ = ABCMeta
 
+	@property
+	def resource_type(self): return 'instance'
+
 	@abstractproperty
 	def id(self): pass
 

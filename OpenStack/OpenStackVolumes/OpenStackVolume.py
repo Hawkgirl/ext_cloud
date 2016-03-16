@@ -30,7 +30,22 @@ class OpenStackVolumecls(OpenStackBaseCloudcls, BaseVolumecls):
 
 	@property
 	def user_id(self): return self.__openstack_volume.user_id
-	
+
+	@property
+	def tenant_id(self): 
+		return getattr(self.__openstack_volume,'os-vol-tenant-attr:tenant_id')
+
+	@property
+	def is_zombie(self):
+	 	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+                tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
+                if tenant is None:
+                        return True
+
+                user = OpenStackIdentitycls(**self._credentials).get_user_by_id(self.user_id)
+                if user is None:
+                        return True
+
 	@property
 	def attached_to(self): return None if len(self.__openstack_volume.attachments) == 0 else self.__openstack_volume.attachments[0]['server_id']
 

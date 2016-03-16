@@ -3,6 +3,9 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class BaseNetworkcls:
         __metaclass__ = ABCMeta
 
+	@property
+	def resource_type(self): return 'network'
+
         @abstractproperty
         def name(self): pass
 

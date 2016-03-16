@@ -15,6 +15,20 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
 	@property
 	def is_external_network(self): return self.__openstack_network['router:external']
 
+	@property
+	def tenant_id(self): return self.__openstack_network['tenant_id']
+
+	@property
+	def is_zombie(self):
+		if self.tenant_id is None or len(self.tenant_id) is 0: return True
+
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+                tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
+                if tenant is None:
+                        return True
+                return False
+
+		
 	def list_subnets(self):
 		return [  OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(network_id=self.id)['subnets'] ]
 

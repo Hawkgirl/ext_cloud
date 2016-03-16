@@ -10,6 +10,9 @@ class STATE(Enum):
 class BaseVolumecls:
         __metaclass__ = ABCMeta
 
+	@property
+	def resource_type(self): return 'volume'
+
         @abstractproperty
         def name(self): pass
 

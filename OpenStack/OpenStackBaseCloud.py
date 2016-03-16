@@ -39,9 +39,6 @@ class OpenStackBaseCloudcls():
 	def list_metrics(self): return []
 
 	@property
-	def is_zombie(self): return False
-
-	@property
         def _KeystoneClient(self):
                 return self._keystoneclient
 

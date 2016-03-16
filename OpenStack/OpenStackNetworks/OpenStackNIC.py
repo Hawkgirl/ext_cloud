@@ -21,6 +21,17 @@ class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
 	def network_id(self): return self.__openstack_nic['network_id']
 
 	@property
+	def tenant_id(self): return self.__openstack_nic['tenant_id']
+
+	@property
+	def is_zombie(self):
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+                tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
+                if tenant is None:
+                        return True
+                return False
+
+	@property
 	def subnet_id(self): 
 		if self.__openstack_nic.has_key('fixed_ips'):
 			return self.__openstack_nic['fixed_ips'][0]['subnet_id']

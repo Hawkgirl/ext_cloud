@@ -8,6 +8,10 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         def __init__(self, *args, **kwargs):
 		super(OpenStackVolumescls, self).__init__(credentials = kwargs)
 
+	@property
+	def Childrens(self):
+		return self.list_volumes() + self.list_snapshots()
+
 	def list_metrics(self):
 		metrics = []
 		from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
@@ -17,6 +21,15 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 		metrics.append(BaseMetricscls('openstack.volumes.count_free_volumes', self.count_free_volumes))
 	
 		return metrics
+
+	def list_zombie_resources(self):
+		zombies = []
+		for child in self.Childrens:
+			if child.is_zombie:
+				zombies.append(child)
+	
+		return zombies
+		
 
 	@property
 	def count_total_volumes(self): return len(self.list_volumes())
@@ -70,7 +83,8 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 	def detach_volume(self, volume_id=None, instance_id=None): pass
 
 	def list_snapshots(self):
-		openstack_snapshots = self._CinderClient.volume_snapshots.list()
+		search_opts = {'all_tenants': 1}
+		openstack_snapshots = self._CinderClient.volume_snapshots.list(search_opts = search_opts)
 		snapshots = []
 		for openstack_snapshot in openstack_snapshots:
 			snapshot = OpenStackSnapshotcls(openstack_snapshot, credentials=self._credentials)

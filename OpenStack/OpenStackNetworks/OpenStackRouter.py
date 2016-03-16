@@ -12,21 +12,19 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
                 super(OpenStackRoutercls, self).__init__(id=self.__openstack_router['id'], name=self.__openstack_router['name'], credentials=kwargs['credentials'])
 
 
-
-        @property
-        def __NeutronClient(self):
-                return self.__neutronclient
-
-        @__NeutronClient.getter
-        def __NeutronClient(self):
-                if self.__neutronclient is None:
-			from OpenStack.utils.OpenStackClients import OpenStackClientsCls
-			self.__neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
-                return self.__neutronclient
-
-
         @property
         def state(self): return self.__openstack_router['status']
+
+	@property
+	def tenant_id(self): return self.__openstack_router['tenant_id']
+
+	@property
+	def is_zombie(self): 
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+                tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
+                if tenant is None:
+                        return True
+                return False
 
 	def delete(self): pass
 

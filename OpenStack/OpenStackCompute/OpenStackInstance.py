@@ -19,7 +19,6 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
                 self.__openstack_instance = arg[0]
                 super(OpenStackInstancecls, self).__init__(id=self.__openstack_instance.id, name=self.__openstack_instance.name, credentials=kwargs['credentials'])
 
-
         @property
         def size(self): return self.__openstack_instance.flavor['id']
 

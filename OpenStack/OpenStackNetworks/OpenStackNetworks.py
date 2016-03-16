@@ -13,7 +13,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
 	@property
         def Childrens(self):
-		return self.list_networks()
+		return self.list_networks() + self.list_routers() + self.list_nics()
 
 	def list_metrics(self):
 		metrics = []
@@ -68,12 +68,15 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
         def get_subnets_by_tag(self, tag_name, tag_value):pass
 
+	# ----------------- Nic operations ------------------------- #
 	def list_nics(self):
 		return [OpenStackNICcls(openstack_nic, credentials=self._credentials) for openstack_nic in self._NeutronClient.list_ports()['ports']]
 
+	# ----------------- Router operations ------------------------- #
 	def list_routers(self):
 		return [ OpenStackRoutercls(router, credentials=self._credentials) for router in  self._NeutronClient.list_routers()['routers']]
 
+	# ----------------- Floating ip operations ------------------------- #
 	def list_floating_ips(self):
 		return [ OpenStackFloatingIpcls(openstack_floating_ip, credentials=self._credentials) for openstack_floating_ip in self._NeutronClient.list_floatingips()['floatingips']]
 

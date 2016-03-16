@@ -30,15 +30,6 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 		hypervisors = self.list_hypervisors()
 		instances = self.list_instances()
 		return hypervisors + instances
-		'''
-		ret =  []
-		for h in hypervisors:
-			ret += h
-		for i in instances:
-			ret += i
-		return ret
-		'''
-
 
         def list_instances(self):
                 openstack_instances =  self._NovaClient.servers.list(search_opts = {'all_tenants': 1})
