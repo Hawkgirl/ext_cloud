@@ -21,6 +21,10 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
 	def network_id(self): return self.__openstack_subnet['network_id']
 
 	@property
+	def tenant_id(self): return self.__openstack_subnet['tenant_id']
+	
+
+	@property
 	def zone(self): pass 
 
 	
