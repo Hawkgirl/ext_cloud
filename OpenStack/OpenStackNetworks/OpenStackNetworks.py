@@ -13,7 +13,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
 	@property
         def Childrens(self):
-		return self.list_networks() + self.list_routers() + self.list_nics()
+		return self.list_networks() + self.list_routers() + self.list_nics() + self.list_floating_ips()
 
 	def list_metrics(self):
 		metrics = []

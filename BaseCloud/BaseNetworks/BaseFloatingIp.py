@@ -3,6 +3,9 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class BaseFloatingIpcls:
         __metaclass__ = ABCMeta
 
+	@property
+	def resource_type(self): return "floatingip"
+
         @abstractproperty
         def name(self): pass
 

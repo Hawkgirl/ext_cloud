@@ -27,9 +27,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
 	@property
 	def Childrens(self):
-		hypervisors = self.list_hypervisors()
-		instances = self.list_instances()
-		return hypervisors + instances
+		return self.list_hypervisors() + self.list_instances() + self.list_security_groups()
 
         def list_instances(self):
                 openstack_instances =  self._NovaClient.servers.list(search_opts = {'all_tenants': 1})
@@ -101,7 +99,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
 	# ------ Key pair opertations ----------------------------------------
         def list_keypairs(self): 
-		openstack_keypairs = self._NovaClient.keypairs.list()
+		openstack_keypairs = self._NovaClient.keypairs.list(search_opts = {'all_tenants': 1})
                 keypairs = []
                 for openstack_keypair in openstack_keypairs:
                         keypair = OpenStackKeypaircls(openstack_keypair, credentials = self._credentials)
@@ -116,7 +114,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
 	#--------------  Security group operations ----------------------------------------
 	def list_security_groups(self):
-		openstack_security_groups = self._NovaClient.security_groups.list()
+		openstack_security_groups = self._NovaClient.security_groups.list(search_opts = {'all_tenants': 1})
 		security_groups = []
 		for openstack_security_group in openstack_security_groups:
 			security_group = OpenStackSecurityGroupcls(openstack_security_group, credentials=self._credentials)

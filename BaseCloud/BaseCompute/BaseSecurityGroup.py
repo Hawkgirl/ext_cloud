@@ -3,6 +3,9 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class BaseSecurityGroupcls:
 	__metaclass__ = ABCMeta
 
+	@property
+	def resource_type(self): return 'securitygroup'
+
 	@abstractproperty
 	def name(self): pass
 
