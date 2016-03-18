@@ -15,14 +15,30 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 	__regions = None
 
 	def __init__(self,*args,**kwargs): 
-		if not kwargs.has_key('username'):
+		if kwargs.has_key('username'):
+			self._credentials = kwargs
+			return None
+		import os
+		# load credentials from environment varible
+		if os.environ.get('OS_USERNAME') is not None:
+			dic  = {}
+			dic['username'] = os.environ.get('OS_USERNAME')
+			dic['password'] = os.environ.get('OS_PASSWORD')
+			dic['tenant_name'] = os.environ.get('OS_TENANT_NAME')
+			dic['auth_url'] = os.environ.get('OS_AUTH_URL')
+			dic['cacert'] = os.environ.get('OS_CACERT')
+			self._credentials = dic
+		
+			return None
+		# load credentials from config file
+		if os.path.exists('/etc/ext_cloud/ext_cloud.conf'):
 			from utils.ConfFileParser import config_file_dic
 			dic = config_file_dic()
-			if dic is None:
-				raise Exception('/etc/ext_cloud/ext_cloud.conf not configured properly')
 			self._credentials = dic
+			
+			return None
 		else:
-			self._credentials = kwargs
+			raise Exception("Credentails not exported in environment varibles and /etc/ext_cloud/ext_cloud.conf file")
 
 	@property
 	def identity(self): 
