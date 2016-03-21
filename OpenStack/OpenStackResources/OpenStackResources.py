@@ -48,3 +48,25 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
 				lst_childrens += child.Childrens
 		return resources
 
+	# do not include users 
+	def list_zombie_resources_by_tenants(self):
+		resources = []
+		tenants_set = set()
+		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+                tenants = OpenStackIdentitycls(**self._credentials).list_tenants()
+		for tenant in tenants:
+			tenants_set.add(tenant.id)	
+
+		from ext_cloud.OpenStack.OpenStack import OpenStackcls
+		openstack_obj = OpenStackcls(*self.__args,**self.__kwargs)
+		lst_childrens = openstack_obj.Childrens
+		for child in lst_childrens:
+			if hasattr(child, 'tenant_id'):
+				if not child.tenant_id in tenants_set:
+					resources.append(child)
+
+			if hasattr(child, 'Childrens'):
+				lst_childrens += child.Childrens
+		return resources
+
+
