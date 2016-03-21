@@ -1,12 +1,14 @@
 import unittest
 
+
 class BaseComputeTest(unittest.TestCase):
-	def setUp(self):
-		from TestCases.utils import get_cloud_obj
-		self.cloud_obj = get_cloud_obj()
-		
-	def test_list_instances(self):
-		instances = self.cloud_obj.compute.list_instances()	
+
+    def setUp(self):
+        from TestCases.utils import get_cloud_obj
+        self.cloud_obj = get_cloud_obj()
+
+    def test_list_instances(self):
+        instances = self.cloud_obj.compute.list_instances()
 
 if __name__ == "__main__":
-	unittest.main()
+    unittest.main()

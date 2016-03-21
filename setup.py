@@ -12,5 +12,4 @@ setup(name='ext_cloud',
       maintainer_email='hawkgirlgit@gmail.com',
       license='BSD',
       packages=find_packages()
-)
-
+      )
