@@ -18,12 +18,19 @@ class OpenStackObjectStorecls(OpenStackBaseCloudcls, BaseObjectStorecls):
     @__SwiftClient.getter
     def __SwiftClient(self):
         if self.__swiftclient is None:
-            self.__swiftclient = s3.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                                      'username'], aws_secret_access_key=self._credentials['password'], calling_format=OrdinaryCallingFormat())
+            self.__swiftclient = s3.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'],
+                calling_format=OrdinaryCallingFormat())
         return self.__swiftclient
 
-    def get_all_buckets(self): pass
+    def get_all_buckets(self):
+        pass
 
-    def get_bucket_by_name(self, bucket_name): pass
+    def get_bucket_by_name(self, bucket_name):
+        pass
 
-    def create_bucket(self, bucket_name): pass
+    def create_bucket(self, bucket_name):
+        pass

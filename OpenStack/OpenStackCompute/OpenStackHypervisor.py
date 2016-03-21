@@ -8,14 +8,18 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_hypervisor = arg[0]
-        super(OpenStackHypervisorcls, self).__init__(id=self.__openstack_hypervisor.id,
-                                                     name=self.__openstack_hypervisor.hypervisor_hostname, credentials=kwargs['credentials'])
+        super(OpenStackHypervisorcls, self).__init__(
+            id=self.__openstack_hypervisor.id,
+            name=self.__openstack_hypervisor.hypervisor_hostname,
+            credentials=kwargs['credentials'])
 
     @property
-    def state(self): return self.__openstack_hypervisor.state
+    def state(self):
+        return self.__openstack_hypervisor.state
 
     @property
-    def status(self): return self.__openstack_hypervisor.status
+    def status(self):
+        return self.__openstack_hypervisor.status
 
     @property
     def arch(self):
@@ -29,7 +33,8 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         return cpu_arch
 
     @property
-    def host_name(self): return self.__openstack_hypervisor.hypervisor_hostname
+    def host_name(self):
+        return self.__openstack_hypervisor.hypervisor_hostname
 
     @property
     def short_host_name(self):
@@ -42,21 +47,26 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         # load cpu multiplication factor from ext_cloud.config file
         # default is 16
         if dic.has_key('cpu_allocation_ratio'):
-            return self.__openstack_hypervisor.vcpus * int(dic['cpu_allocation_ratio'])
+            return self.__openstack_hypervisor.vcpus * int(dic[
+                'cpu_allocation_ratio'])
         else:
             return self.__openstack_hypervisor.vcpus * 16
 
     @property
-    def vcpus_used(self): return self.__openstack_hypervisor.vcpus_used
+    def vcpus_used(self):
+        return self.__openstack_hypervisor.vcpus_used
 
     @property
-    def disk_gb(self): return self.__openstack_hypervisor.local_gb
+    def disk_gb(self):
+        return self.__openstack_hypervisor.local_gb
 
     @property
-    def disk_used_gb(self): return self.__openstack_hypervisor.local_gb_used
+    def disk_used_gb(self):
+        return self.__openstack_hypervisor.local_gb_used
 
     @property
-    def free_disk_gb(self): return self.__openstack_hypervisor.free_disk_gb
+    def free_disk_gb(self):
+        return self.__openstack_hypervisor.free_disk_gb
 
     @property
     def memory_mb(self):
@@ -65,27 +75,33 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         # load memory multiplication factor from ext_cloud.config file
         # default is 1.5
         if dic.has_key('ram_allocation_ratio'):
-            return self.__openstack_hypervisor.memory_mb * int(dic['ram_allocation_ratio'])
+            return self.__openstack_hypervisor.memory_mb * int(dic[
+                'ram_allocation_ratio'])
         else:
             return self.__openstack_hypervisor.memory_mb * 1.5
 
     @property
-    def memory_used_mb(self): return self.__openstack_hypervisor.memory_mb_used
+    def memory_used_mb(self):
+        return self.__openstack_hypervisor.memory_mb_used
 
     @property
-    def memory_free_mb(self): return self.__openstack_hypervisor.free_ram_mb
+    def memory_free_mb(self):
+        return self.__openstack_hypervisor.free_ram_mb
 
     @property
-    def running_vms(self): return self.__openstack_hypervisor.running_vms
+    def running_vms(self):
+        return self.__openstack_hypervisor.running_vms
 
     @property
-    def host_ip(self): return self.__openstack_hypervisor.host_ip
+    def host_ip(self):
+        return self.__openstack_hypervisor.host_ip
 
     def list_metrics(self):
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
         metrics = []
-        metric_property = ('cpus', 'vcpus_used', 'disk_gb', 'disk_used_gb', 'free_disk_gb',
-                           'memory_mb', 'memory_used_mb', 'memory_free_mb', 'running_vms')
+        metric_property = ('cpus', 'vcpus_used', 'disk_gb', 'disk_used_gb',
+                           'free_disk_gb', 'memory_mb', 'memory_used_mb',
+                           'memory_free_mb', 'running_vms')
 
         metric_str = 'openstack.hypervisors.' + self.short_host_name + '.'
         for metric in metric_property:
@@ -93,12 +109,15 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             new_metric = BaseMetricscls(full_metric_str, getattr(self, metric))
             metrics.append(new_metric)
         # percentage metric
-        metrics.append(BaseMetricscls(
-            metric_str + 'vcpus_used_percentage', self.vcpus_used / float(self.cpus) * 100))
+        metrics.append(BaseMetricscls(metric_str + 'vcpus_used_percentage',
+                                      self.vcpus_used / float(
+                                          self.cpus) * 100))
         metrics.append(BaseMetricscls(metric_str + 'memory_used_percentage',
-                                      self.memory_used_mb / float(self.memory_mb) * 100))
+                                      self.memory_used_mb / float(
+                                          self.memory_mb) * 100))
         metrics.append(BaseMetricscls(metric_str + 'disk_used_percentage',
-                                      self.disk_used_gb / float(self.disk_gb) * 100))
+                                      self.disk_used_gb / float(
+                                          self.disk_gb) * 100))
         # state metric
         full_metric_str = metric_str + 'statedown'
         value = 1 if self.state == 'down' else 0

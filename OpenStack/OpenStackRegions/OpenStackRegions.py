@@ -3,13 +3,13 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
-
     def __init__(self, *args, **kwargs):
         self._credentials = kwargs['credentials']
         self.__childrens = None
 
     @property
-    def Childrens(self): return []
+    def Childrens(self):
+        return []
 
     def list_regions(self):
         from ext_cloud.OpenStack.OpenStackRegions.OpenStackRegion import OpenStackRegioncls
@@ -27,9 +27,11 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
 
         return openstack_regions
 
-    def get_region_by_id(self, instance_id): pass
+    def get_region_by_id(self, instance_id):
+        pass
 
-    def get_region_by_name(self, instance_name): pass
+    def get_region_by_name(self, instance_name):
+        pass
 
     def list_metrics(self):
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
@@ -39,6 +41,6 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
         zone_count = 0
         for region in regions:
             zone_count += len(region.list_zones())
-        metrics.append(BaseMetricscls(
-            'openstack.regions.zones.count', zone_count))
+        metrics.append(BaseMetricscls('openstack.regions.zones.count',
+                                      zone_count))
         return metrics

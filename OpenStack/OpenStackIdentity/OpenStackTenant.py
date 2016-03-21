@@ -9,8 +9,10 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_tenant = arg[0]
-        super(OpenStackTenantcls, self).__init__(id=self.__openstack_tenant.id,
-                                                 name=self.__openstack_tenant.name, credentials=kwargs['credentials'])
+        super(OpenStackTenantcls, self).__init__(
+            id=self.__openstack_tenant.id,
+            name=self.__openstack_tenant.name,
+            credentials=kwargs['credentials'])
 
     @property
     def status(self):
@@ -52,7 +54,8 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
         resource_usage = self.usage
         if resource_usage is not None:
             for varible in dir(resource_usage):
-                if not varible.startswith("_") and isinstance(getattr(resource_usage.__class__, varible), property):
+                if not varible.startswith("_") and isinstance(
+                        getattr(resource_usage.__class__, varible), property):
                     value = getattr(resource_usage, varible)
                     if value is None:
                         continue
@@ -61,11 +64,12 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
         # network metrics
         from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
         network_obj = OpenStackNetworkscls(**self._credentials)
-        metrics.append(BaseMetricscls(metric_str + 'networks.count',
-                                      len(network_obj.get_networks_by_tenant_id(self.id))))
-        metrics.append(BaseMetricscls(metric_str + 'subnets.count',
-                                      len(network_obj.get_subnets_by_tenant_id(self.id))))
-        metrics.append(BaseMetricscls(metric_str + 'networks.used_floating_ips',
-                                      len(network_obj.list_floating_ips_by_tenant_id(self.id))))
+        metrics.append(BaseMetricscls(metric_str + 'networks.count', len(
+            network_obj.get_networks_by_tenant_id(self.id))))
+        metrics.append(BaseMetricscls(metric_str + 'subnets.count', len(
+            network_obj.get_subnets_by_tenant_id(self.id))))
+        metrics.append(BaseMetricscls(
+            metric_str + 'networks.used_floating_ips', len(
+                network_obj.list_floating_ips_by_tenant_id(self.id))))
 
         return metrics

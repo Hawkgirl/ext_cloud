@@ -16,8 +16,10 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
     def __init__(self, *arg, **kwargs):
         self.__azure_service = arg[0]
         self._azure_ref = arg[0]
-        super(AzureInstancecls, self).__init__(id=self.__azure_service.service_name,
-                                               name=self.__azure_service.service_name, credentials=kwargs['credentials'])
+        super(AzureInstancecls, self).__init__(
+            id=self.__azure_service.service_name,
+            name=self.__azure_service.service_name,
+            credentials=kwargs['credentials'])
 
     @property
     def __SMS(self):
@@ -27,7 +29,8 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
     def __SMS(self):
         if self.__sms is None:
             self.__sms = ServiceManagementService(
-                self._credentials['subscription_id'], self._credentials['certificate_path'])
+                self._credentials['subscription_id'],
+                self._credentials['certificate_path'])
         return self.__sms
 
     def _update(self):
@@ -44,7 +47,8 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
                 0].os_virtual_hard_disk.os
 
     @property
-    def size(self): pass
+    def size(self):
+        pass
 
     @property
     def state(self):
@@ -52,22 +56,28 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
         return self.__state
 
     @property
-    def arch(self): pass
+    def arch(self):
+        pass
 
     @property
-    def network_id(self): pass
+    def network_id(self):
+        pass
 
     @property
-    def subnet_id(self): pass
+    def subnet_id(self):
+        pass
 
     @property
-    def private_ip(self): pass
+    def private_ip(self):
+        pass
 
     @property
-    def public_ip(self): pass
+    def public_ip(self):
+        pass
 
     @property
-    def instance_type(self): pass
+    def instance_type(self):
+        pass
 
     @property
     def image_id(self):
@@ -85,7 +95,8 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
         return self.__image_name
 
     @property
-    def keypair_name(self): pass
+    def keypair_name(self):
+        pass
 
     @property
     def dns_name(self):
@@ -95,7 +106,8 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
     def creation_time(self):
         import datetime
         dt = datetime.datetime.strptime(
-            self.__azure_service.hosted_service_properties.date_created, '%Y-%m-%dT%H:%M:%SZ')
+            self.__azure_service.hosted_service_properties.date_created,
+            '%Y-%m-%dT%H:%M:%SZ')
 
         return dt.strftime("%B %d, %Y %I:%M:%S %p")
 
@@ -110,8 +122,10 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
         return True
 
     def stop(self):
-        self.__SMS.shutdown_role(
-            self.name, self.name, self.name, post_shutdown_action='StoppedDeallocated')
+        self.__SMS.shutdown_role(self.name,
+                                 self.name,
+                                 self.name,
+                                 post_shutdown_action='StoppedDeallocated')
         return True
 
     def reboot(self):
@@ -122,8 +136,8 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
         properties = self.__SMS.get_deployment_by_name(self.name, self.name)
         media_link = properties.role_list.roles[
             0].os_virtual_hard_disk.media_link
-        storage_name = media_link[media_link.find(
-            "//") + 2:media_link.find(".blob")]
+        storage_name = media_link[media_link.find("//") + 2:media_link.find(
+            ".blob")]
 
         from Azure.AzureVolumes.AzureVolumes import AzureVolumescls
         volume_service = AzureVolumescls(credentials=self._credentials)
@@ -142,6 +156,7 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
 
         keys = self.__SMS.get_storage_account_keys(storage_name)
         blob_service = BlobService(
-            account_name=storage_name, account_key=keys.storage_service_keys.primary)
+            account_name=storage_name,
+            account_key=keys.storage_service_keys.primary)
 
         blob_service.delete_container(self.name, fail_not_exist=True)

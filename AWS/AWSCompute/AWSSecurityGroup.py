@@ -11,8 +11,10 @@ class AWSSecurityGroupcls(AWSBaseCloudcls, BaseSecurityGroupcls):
     def __init__(self, *arg, **kwargs):
         self.__aws_security_group = arg[0]
 
-        super(AWSSecurityGroupcls, self).__init__(id=self.__aws_security_group.id,
-                                                  name=self.__aws_security_group.name, credentials=kwargs['credentials'])
+        super(AWSSecurityGroupcls, self).__init__(
+            id=self.__aws_security_group.id,
+            name=self.__aws_security_group.name,
+            credentials=kwargs['credentials'])
 
     @property
     def __EC2(self):
@@ -21,8 +23,11 @@ class AWSSecurityGroupcls(AWSBaseCloudcls, BaseSecurityGroupcls):
     @__EC2.getter
     def __EC2(self):
         if self.__ec2 is None:
-            self.__ec2 = ec2.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                               'username'], aws_secret_access_key=self._credentials['password'])
+            self.__ec2 = ec2.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self.__ec2
 
     @property
@@ -48,10 +53,22 @@ class AWSSecurityGroupcls(AWSBaseCloudcls, BaseSecurityGroupcls):
     def delete(self):
         self.__aws_security_group.delete()
 
-    def add_rule(self, ip_protocol='tcp', from_port=None, to_port=None, cidr_block='0.0.0.0/0'):
-        self.__aws_security_group.authorize(
-            ip_protocol=ip_protocol, from_port=from_port, to_port=to_port, cidr_ip=cidr_block)
+    def add_rule(self,
+                 ip_protocol='tcp',
+                 from_port=None,
+                 to_port=None,
+                 cidr_block='0.0.0.0/0'):
+        self.__aws_security_group.authorize(ip_protocol=ip_protocol,
+                                            from_port=from_port,
+                                            to_port=to_port,
+                                            cidr_ip=cidr_block)
 
-    def delete_rule(self, ip_protocol='tcp', from_port=None, to_port=None, cidr_block=None):
-        self.__aws_security_group.revoke(
-            ip_protocol=ip_protocol, from_port=from_port, to_port=to_port, cidr_ip=cidr_block)
+    def delete_rule(self,
+                    ip_protocol='tcp',
+                    from_port=None,
+                    to_port=None,
+                    cidr_block=None):
+        self.__aws_security_group.revoke(ip_protocol=ip_protocol,
+                                         from_port=from_port,
+                                         to_port=to_port,
+                                         cidr_ip=cidr_block)

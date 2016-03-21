@@ -9,8 +9,10 @@ class OpenStackInstanceTypecls(OpenStackBaseCloudcls, BaseInstanceTypecls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_instancetype = arg[0]
 
-        super(OpenStackInstanceTypecls, self).__init__(id=self.__openstack_instancetype.id,
-                                                       name=self.__openstack_instancetype.name, credentials=kwargs['credentials'])
+        super(OpenStackInstanceTypecls, self).__init__(
+            id=self.__openstack_instancetype.id,
+            name=self.__openstack_instancetype.name,
+            credentials=kwargs['credentials'])
 
     @property
     def memory(self):

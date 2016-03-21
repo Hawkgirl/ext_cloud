@@ -5,13 +5,17 @@ class BaseImagecls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractproperty
-    def size(self): pass
+    def size(self):
+        pass
 
     @abstractproperty
-    def state(self): pass
+    def state(self):
+        pass

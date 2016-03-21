@@ -10,7 +10,8 @@ class AWSImagecls(AWSBaseCloudcls, BaseImagecls):
         self.__aws_image = arg[0]
 
         super(AWSImagecls, self).__init__(id=self.__aws_image.id,
-                                          name=self.__aws_image.name, credentials=kwargs['credentials'])
+                                          name=self.__aws_image.name,
+                                          credentials=kwargs['credentials'])
 
     @property
     def size(self):
@@ -23,13 +24,17 @@ class AWSImagecls(AWSBaseCloudcls, BaseImagecls):
         return size
 
     @property
-    def state(self): return self.__aws_image.state
+    def state(self):
+        return self.__aws_image.state
 
     @property
-    def architecture(self): return self.__aws_image.architecture
+    def architecture(self):
+        return self.__aws_image.architecture
 
     @property
-    def description(self): return self.__aws_image.description
+    def description(self):
+        return self.__aws_image.description
 
     @property
-    def os_type(self): return self.__aws_image.platform
+    def os_type(self):
+        return self.__aws_image.platform

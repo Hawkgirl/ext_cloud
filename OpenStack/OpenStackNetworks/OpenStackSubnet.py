@@ -4,27 +4,34 @@ from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNIC import OpenStackNICcls
 
 
 class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
-
     def __init__(self, *arg, **kwargs):
         self.__openstack_subnet = arg[0]
 
-        super(OpenStackSubnetcls, self).__init__(id=self.__openstack_subnet[
-            'id'], name=self.__openstack_subnet['name'], credentials=kwargs['credentials'])
+        super(OpenStackSubnetcls, self).__init__(
+            id=self.__openstack_subnet[
+                'id'],
+            name=self.__openstack_subnet['name'],
+            credentials=kwargs['credentials'])
 
     @property
-    def state(self): pass
+    def state(self):
+        pass
 
     @property
-    def cidr_block(self): return self.__openstack_subnet['cidr']
+    def cidr_block(self):
+        return self.__openstack_subnet['cidr']
 
     @property
-    def network_id(self): return self.__openstack_subnet['network_id']
+    def network_id(self):
+        return self.__openstack_subnet['network_id']
 
     @property
-    def tenant_id(self): return self.__openstack_subnet['tenant_id']
+    def tenant_id(self):
+        return self.__openstack_subnet['tenant_id']
 
     @property
-    def zone(self): pass
+    def zone(self):
+        pass
 
     def attach_nic(self, name=None, ip_address=None):
         if ip_address is None:
@@ -35,8 +42,7 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
             'name': name,
             'network_id': self.network_id,
             'fixed_ips': fixed_ips
-        }
-        }
+        }}
 
         nic_dict = self._NeutronClient.create_port(params)
         openstack_nic = nic_dict['port']

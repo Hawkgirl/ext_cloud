@@ -19,8 +19,11 @@ class AWSImagescls(AWSBaseCloudcls, BaseImagescls):
     @_EC2.getter
     def _EC2(self):
         if self._ec2 is None:
-            self._ec2 = ec2.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                              'username'], aws_secret_access_key=self._credentials['password'])
+            self._ec2 = ec2.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self._ec2
 
     def list_images(self):

@@ -12,10 +12,12 @@ class AWSKeycls(AWSBaseCloudcls, BaseKeycls):
         self.__aws_key = arg[0]
 
         super(AWSKeycls, self).__init__(id=self.__aws_key.name,
-                                        name=self.__aws_key.name, credentials=kwargs['credentials'])
+                                        name=self.__aws_key.name,
+                                        credentials=kwargs['credentials'])
 
     @property
-    def size(self): return self.__aws_key.size
+    def size(self):
+        return self.__aws_key.size
 
     def delete(self):
         self.__aws_key.delete()

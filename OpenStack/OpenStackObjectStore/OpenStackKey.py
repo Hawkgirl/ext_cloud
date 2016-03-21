@@ -9,16 +9,23 @@ class OpenStackKeycls(OpenStackBaseCloudcls, BaseKeycls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_key = arg[0]
 
-        super(OpenStackKeycls, self).__init__(id=self.__openstack_key.name,
-                                              name=self.__openstack_key.name, credentials=kwargs['credentials'])
+        super(OpenStackKeycls, self).__init__(
+            id=self.__openstack_key.name,
+            name=self.__openstack_key.name,
+            credentials=kwargs['credentials'])
 
     @property
-    def size(self): pass
+    def size(self):
+        pass
 
-    def delete(self): pass
+    def delete(self):
+        pass
 
-    def download(self, file_path): pass
+    def download(self, file_path):
+        pass
 
-    def upload(self, file_path): pass
+    def upload(self, file_path):
+        pass
 
-    def get_url(self): pass
+    def get_url(self):
+        pass

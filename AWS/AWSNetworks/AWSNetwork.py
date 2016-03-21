@@ -19,7 +19,8 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
             name = self.__aws_network.tags['name']
 
         super(AWSNetworkcls, self).__init__(id=self.__aws_network.id,
-                                            name=name, credentials=kwargs['credentials'])
+                                            name=name,
+                                            credentials=kwargs['credentials'])
 
     @AWSBaseCloudcls.name.setter
     def name(self, value):
@@ -27,7 +28,8 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
         self._name = value
 
     @property
-    def state(self): return self.__aws_network.state
+    def state(self):
+        return self.__aws_network.state
 
     @property
     def __Vpc(self):
@@ -36,8 +38,11 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
     @__Vpc.getter
     def __Vpc(self):
         if self.__vpc is None:
-            self.__vpc = boto.vpc.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                                    'username'], aws_secret_access_key=self._credentials['password'])
+            self.__vpc = boto.vpc.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self.__vpc
 
     def delete(self):
@@ -62,7 +67,8 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
         subnet = AWSSubnetcls(aws_subnet, credentials=self._credentials)
         return subnet
 
-    def get_subnets_by_name(self, subnet_name): pass
+    def get_subnets_by_name(self, subnet_name):
+        pass
 
     def get_subnets_by_tag(self, tag_name, tag_value):
         subnet_filters = {'tag-key': tag_name, 'tag-value': tag_value}
@@ -88,9 +94,14 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
 
         return subnets
 
-    def create_subnet(self, name=None, cidr_block=None, zone=None, enable_dhcp=False):
-        aws_subnet = self.__Vpc.create_subnet(
-            self._id, cidr_block, availability_zone=zone)
+    def create_subnet(self,
+                      name=None,
+                      cidr_block=None,
+                      zone=None,
+                      enable_dhcp=False):
+        aws_subnet = self.__Vpc.create_subnet(self._id,
+                                              cidr_block,
+                                              availability_zone=zone)
         subnet = AWSSubnetcls(aws_subnet, credentials=self._credentials)
         if not name is None:
             subnet.name = name
@@ -98,10 +109,10 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
         # auto assign public ip for subnet
         orig_api_version = self.__Vpc.APIVersion
         self.__Vpc.APIVersion = '2014-06-15'
-        self.__Vpc.get_status(
-            'ModifySubnetAttribute',
-            {'SubnetId': aws_subnet.id, 'MapPublicIpOnLaunch.Value': 'true'},
-            verb='POST')
+        self.__Vpc.get_status('ModifySubnetAttribute',
+                              {'SubnetId': aws_subnet.id,
+                               'MapPublicIpOnLaunch.Value': 'true'},
+                              verb='POST')
         self.__Vpc.APIVersion = orig_api_version
 
         # assign router to subnet for public access

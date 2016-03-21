@@ -9,20 +9,27 @@ class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_nic = arg[0]
 
-        super(OpenStackNICcls, self).__init__(id=self.__openstack_nic[
-            'id'], name=self.__openstack_nic['name'], credentials=kwargs['credentials'])
+        super(OpenStackNICcls, self).__init__(
+            id=self.__openstack_nic[
+                'id'],
+            name=self.__openstack_nic['name'],
+            credentials=kwargs['credentials'])
 
     @property
-    def state(self): return self.__openstack_nic['status']
+    def state(self):
+        return self.__openstack_nic['status']
 
     @property
-    def mac_address(self): return self.__openstack_nic['mac_address']
+    def mac_address(self):
+        return self.__openstack_nic['mac_address']
 
     @property
-    def network_id(self): return self.__openstack_nic['network_id']
+    def network_id(self):
+        return self.__openstack_nic['network_id']
 
     @property
-    def tenant_id(self): return self.__openstack_nic['tenant_id']
+    def tenant_id(self):
+        return self.__openstack_nic['tenant_id']
 
     @property
     def is_zombie(self):

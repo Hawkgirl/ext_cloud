@@ -10,7 +10,8 @@ class AzureImagecls(AzureBaseCloudcls, BaseImagecls):
         self.__azure_image = arg[0]
 
         super(AzureImagecls, self).__init__(id=self.__azure_image.name,
-                                            name=self.__azure_image.label, credentials=kwargs['credentials'])
+                                            name=self.__azure_image.label,
+                                            credentials=kwargs['credentials'])
 
     @property
     def size(self):
@@ -21,4 +22,5 @@ class AzureImagecls(AzureBaseCloudcls, BaseImagecls):
         return "ACTIVE"
 
     @property
-    def os_type(self): return self.__azure_image.os
+    def os_type(self):
+        return self.__azure_image.os

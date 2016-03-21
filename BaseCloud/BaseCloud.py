@@ -5,27 +5,36 @@ class BaseCloudcls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def identity(self): pass
+    def identity(self):
+        pass
 
     @abstractproperty
-    def compute(self): pass
+    def compute(self):
+        pass
 
     @abstractproperty
-    def networks(self): pass
+    def networks(self):
+        pass
 
     @abstractproperty
-    def images(self): pass
+    def images(self):
+        pass
 
     @abstractproperty
-    def volumes(self): pass
+    def volumes(self):
+        pass
 
     @abstractproperty
-    def objectstore(self): pass
+    def objectstore(self):
+        pass
 
     @abstractproperty
-    def templates(self): pass
+    def templates(self):
+        pass
 
     @abstractmethod
-    def validate_credentials(self): pass
+    def validate_credentials(self):
+        pass
 
-    def list_metrics(self): return []
+    def list_metrics(self):
+        return []

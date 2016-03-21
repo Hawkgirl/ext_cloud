@@ -17,14 +17,18 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_instance = arg[0]
-        super(OpenStackInstancecls, self).__init__(id=self.__openstack_instance.id,
-                                                   name=self.__openstack_instance.name, credentials=kwargs['credentials'])
+        super(OpenStackInstancecls, self).__init__(
+            id=self.__openstack_instance.id,
+            name=self.__openstack_instance.name,
+            credentials=kwargs['credentials'])
 
     @property
-    def size(self): return self.__openstack_instance.flavor['id']
+    def size(self):
+        return self.__openstack_instance.flavor['id']
 
     @property
-    def state(self): return str(STATE_MAP[self.__openstack_instance.status])
+    def state(self):
+        return str(STATE_MAP[self.__openstack_instance.status])
 
     def start(self):
         return self.__openstack_instance.start_instance()
@@ -35,9 +39,11 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     def reboot(self):
         return self.__openstack_instance.reboot_instance()
 
-    def delete(self): pass
+    def delete(self):
+        pass
 
-    def setname(self, name): pass
+    def setname(self, name):
+        pass
 
     def attach_nic(self, port_id=None, net_id=None, ip_address=None):
         self.__openstack_instance.interface_attach(port_id, net_id, ip_address)
@@ -49,7 +55,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         self.__openstack_instance.add_security_group(security_group)
 
     @property
-    def keypair_name(self): return self.__openstack_instance.key_name
+    def keypair_name(self):
+        return self.__openstack_instance.key_name
 
     @property
     def image_id(self):
@@ -59,22 +66,28 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         return None
 
     @property
-    def tenant_id(self): return self.__openstack_instance.tenant_id
+    def tenant_id(self):
+        return self.__openstack_instance.tenant_id
 
     @property
-    def user_id(self): return self.__openstack_instance.user_id
+    def user_id(self):
+        return self.__openstack_instance.user_id
 
     @property
-    def image_name(self): pass
+    def image_name(self):
+        pass
 
     @property
-    def arch(self): pass
+    def arch(self):
+        pass
 
     @property
-    def network_id(self): pass
+    def network_id(self):
+        pass
 
     @property
-    def subnet_id(self): pass
+    def subnet_id(self):
+        pass
 
     @property
     def private_ip(self):
@@ -93,16 +106,20 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
                     return nic['addr']
 
     @property
-    def keypair_name(self): pass
+    def keypair_name(self):
+        pass
 
     @property
-    def dns_name(self): pass
+    def dns_name(self):
+        pass
 
     @property
-    def creation_time(self): pass
+    def creation_time(self):
+        pass
 
     @property
-    def os_type(self): pass
+    def os_type(self):
+        pass
 
     def attach_floatingip(self):
         from OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
@@ -123,12 +140,14 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         # empty floating ip not found, create?
         if floatingip_id is None:
             return
-        self._NeutronClient.update_floatingip(floatingip_id,
-                                              {'floatingip': {'port_id': nic_id}})
+        self._NeutronClient.update_floatingip(
+            floatingip_id, {'floatingip': {'port_id': nic_id}})
 
-    def addtag(self): pass
+    def addtag(self):
+        pass
 
-    def gettags(self): pass
+    def gettags(self):
+        pass
 
     @property
     def is_zombie(self):

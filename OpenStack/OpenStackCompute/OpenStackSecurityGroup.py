@@ -11,8 +11,10 @@ class OpenStackSecurityGroupcls(OpenStackBaseCloudcls, BaseSecurityGroupcls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_securitygroup = arg[0]
 
-        super(OpenStackSecurityGroupcls, self).__init__(id=self.__openstack_securitygroup.id,
-                                                        name=self.__openstack_securitygroup.name, credentials=kwargs['credentials'])
+        super(OpenStackSecurityGroupcls, self).__init__(
+            id=self.__openstack_securitygroup.id,
+            name=self.__openstack_securitygroup.name,
+            credentials=kwargs['credentials'])
 
     @property
     def description(self):
@@ -26,8 +28,13 @@ class OpenStackSecurityGroupcls(OpenStackBaseCloudcls, BaseSecurityGroupcls):
     def rules(self):
         rules = []
         for rule in self.__openstack_securitygroup.rules:
-            openstack_rule = OpenStackSecurityGroupRulecls(ip_protocol=rule['ip_protocol'], from_port=rule[
-                                                           'from_port'], to_port=rule['to_port'], cidr_block=rule['ip_range'], id=rule['id'])
+            openstack_rule = OpenStackSecurityGroupRulecls(
+                ip_protocol=rule['ip_protocol'],
+                from_port=rule[
+                    'from_port'],
+                to_port=rule['to_port'],
+                cidr_block=rule['ip_range'],
+                id=rule['id'])
             rules.append(openstack_rule)
 
         return rules
@@ -35,9 +42,21 @@ class OpenStackSecurityGroupcls(OpenStackBaseCloudcls, BaseSecurityGroupcls):
     def delete(self):
         self.__openstack_securitygroup.delete()
 
-    def add_rule(self, ip_protocol='tcp', from_port=None, to_port=None, cidr_block=None):
+    def add_rule(self,
+                 ip_protocol='tcp',
+                 from_port=None,
+                 to_port=None,
+                 cidr_block=None):
         self.__NovaClient.security_group_rules.create(
-            self.__openstack_securitygroup.id, ip_protocol=ip_protocol, from_port=from_port, to_port=to_port, cidr=cidr_block)
+            self.__openstack_securitygroup.id,
+            ip_protocol=ip_protocol,
+            from_port=from_port,
+            to_port=to_port,
+            cidr=cidr_block)
 
-    def delete_rule(self, ip_protocol='tcp', from_port=None, to_port=None, cidr_block=None):
+    def delete_rule(self,
+                    ip_protocol='tcp',
+                    from_port=None,
+                    to_port=None,
+                    cidr_block=None):
         pass

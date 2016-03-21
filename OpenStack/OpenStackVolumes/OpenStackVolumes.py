@@ -5,7 +5,6 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
-
     def __init__(self, *args, **kwargs):
         super(OpenStackVolumescls, self).__init__(credentials=kwargs)
 
@@ -16,14 +15,14 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
     def list_metrics(self):
         metrics = []
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count', self.count_total_volumes))
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count_error_volumes', self.count_error_volumes))
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count_used_volumes', self.count_used_volumes))
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count_free_volumes', self.count_free_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count',
+                                      self.count_total_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count_error_volumes',
+                                      self.count_error_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count_used_volumes',
+                                      self.count_used_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count_free_volumes',
+                                      self.count_free_volumes))
 
         return metrics
 
@@ -36,19 +35,23 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         return zombies
 
     @property
-    def count_total_volumes(self): return len(self.list_volumes())
+    def count_total_volumes(self):
+        return len(self.list_volumes())
 
     @property
-    def count_used_volumes(self): return reduce(
-        lambda x, y: x + 1 if y.is_attached else x, self.list_volumes(), 0)
+    def count_used_volumes(self):
+        return reduce(lambda x, y: x + 1 if y.is_attached else x,
+                      self.list_volumes(), 0)
 
     @property
     def count_free_volumes(self):
-        return reduce(lambda x, y: x + 1 if (not y.is_attached) and (y.status == 'available') else x, self.list_volumes(), 0)
+        return reduce(
+            lambda x, y: x + 1 if (not y.is_attached) and (y.status == 'available') else x,
+            self.list_volumes(), 0)
 
     @property
-    def count_error_volumes(self): return len(
-        self.get_volumes_by_error_state())
+    def count_error_volumes(self):
+        return len(self.get_volumes_by_error_state())
 
     def list_volumes(self):
         search_opts = {'all_tenants': 1}
@@ -56,8 +59,8 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
             search_opts=search_opts)
         volumes = []
         for openstack_volume in openstack_volumes:
-            volume = OpenStackVolumecls(
-                openstack_volume, credentials=self._credentials)
+            volume = OpenStackVolumecls(openstack_volume,
+                                        credentials=self._credentials)
             volumes.append(volume)
 
         return volumes
@@ -79,18 +82,23 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
             search_opts=search_opts)
         volumes = []
         for openstack_volume in openstack_volumes:
-            volume = OpenStackVolumecls(
-                openstack_volume, credentials=self._credentials)
+            volume = OpenStackVolumecls(openstack_volume,
+                                        credentials=self._credentials)
             volumes.append(volume)
 
         return volumes
 
-    def create_volume(self, size=2, name=None): pass
+    def create_volume(self, size=2, name=None):
+        pass
 
-    def attach_volume(self, volume_id=None, instance_id=None,
-                      device_path=None): pass
+    def attach_volume(self,
+                      volume_id=None,
+                      instance_id=None,
+                      device_path=None):
+        pass
 
-    def detach_volume(self, volume_id=None, instance_id=None): pass
+    def detach_volume(self, volume_id=None, instance_id=None):
+        pass
 
     def list_snapshots(self):
         search_opts = {'all_tenants': 1}
@@ -98,8 +106,8 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
             search_opts=search_opts)
         snapshots = []
         for openstack_snapshot in openstack_snapshots:
-            snapshot = OpenStackSnapshotcls(
-                openstack_snapshot, credentials=self._credentials)
+            snapshot = OpenStackSnapshotcls(openstack_snapshot,
+                                            credentials=self._credentials)
             snapshots.append(snapshot)
 
         return snapshots

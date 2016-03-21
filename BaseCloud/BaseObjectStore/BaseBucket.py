@@ -5,13 +5,17 @@ class BaseBucketcls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractproperty
-    def get_all_keys(self): pass
+    def get_all_keys(self):
+        pass
 
     @abstractproperty
-    def delete(self): pass
+    def delete(self):
+        pass

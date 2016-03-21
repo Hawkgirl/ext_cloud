@@ -8,8 +8,10 @@ class OpenStackImagecls(OpenStackBaseCloudcls, BaseImagecls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_image = arg[0]
-        super(OpenStackImagecls, self).__init__(id=self.__openstack_image.id,
-                                                name=self.__openstack_image.name, credentials=kwargs['credentials'])
+        super(OpenStackImagecls, self).__init__(
+            id=self.__openstack_image.id,
+            name=self.__openstack_image.name,
+            credentials=kwargs['credentials'])
 
     @property
     def size(self):
@@ -20,19 +22,23 @@ class OpenStackImagecls(OpenStackBaseCloudcls, BaseImagecls):
         return self.__openstack_image['status']
 
     @property
-    def arch(self): return self.__openstack_image['architecture'] if hasattr(
-        self.__openstack_image, 'architecture') else None
+    def arch(self):
+        return self.__openstack_image['architecture'] if hasattr(
+            self.__openstack_image, 'architecture') else None
 
     @property
-    def os_type(self): return self.__openstack_image['os_type'] if hasattr(
-        self.__openstack_image, 'os_type') else None
+    def os_type(self):
+        return self.__openstack_image['os_type'] if hasattr(
+            self.__openstack_image, 'os_type') else None
 
     @property
     def os_distribution(self):
-        return self.__openstack_image['os_distro'] if hasattr(self.__openstack_image, 'os_distro') else None
+        return self.__openstack_image['os_distro'] if hasattr(
+            self.__openstack_image, 'os_distro') else None
 
     @property
-    def format(self): return self.__openstack_image['disk_format']
+    def format(self):
+        return self.__openstack_image['disk_format']
 
     def __human_format(self, num):
         for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:

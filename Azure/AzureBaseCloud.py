@@ -14,15 +14,18 @@ class AzureBaseCloudcls:
             self._credentials = kwargs['credentials']
 
     @property
-    def name(self): return self._name
+    def name(self):
+        return self._name
 
     @property
-    def id(self): return self._id
+    def id(self):
+        return self._id
 
     def __repr__(self):
         ret = ""
         for varible in dir(self):
-            if not varible.startswith("_") and isinstance(getattr(self.__class__, varible), property):
+            if not varible.startswith("_") and isinstance(
+                    getattr(self.__class__, varible), property):
                 value = getattr(self, varible)
                 if value is None:
                     value = "None"
@@ -31,6 +34,8 @@ class AzureBaseCloudcls:
                 ret = ret + varible + ":" + value + "  "
         return ret
 
-    def addtag(self, name, value): pass
+    def addtag(self, name, value):
+        pass
 
-    def gettags(self): pass
+    def gettags(self):
+        pass

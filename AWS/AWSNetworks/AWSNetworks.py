@@ -21,8 +21,11 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
     @__Vpc.getter
     def __Vpc(self):
         if self.__vpc is None:
-            self.__vpc = boto.vpc.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                                    'username'], aws_secret_access_key=self._credentials['password'])
+            self.__vpc = boto.vpc.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self.__vpc
 
     def list_networks(self):
@@ -42,7 +45,8 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
         vpc = AWSNetworkcls(aws_vpc, credentials=self._credentials)
         return vpc
 
-    def get_networks_by_name(self, network_name): pass
+    def get_networks_by_name(self, network_name):
+        pass
 
     def get_networks_by_tag(self, tag_name, tag_value):
         network_filters = {'tag-key': tag_name, 'tag-value': tag_value}
@@ -89,7 +93,8 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
         subnet = AWSSubnetcls(aws_subnet, credentials=self._credentials)
         return subnet
 
-    def get_subnets_by_name(self, subnet_name): pass
+    def get_subnets_by_name(self, subnet_name):
+        pass
 
     def get_subnets_by_tag(self, tag_name, tag_value):
         subnet_filters = {'tag-key': tag_name, 'tag-value': tag_value}

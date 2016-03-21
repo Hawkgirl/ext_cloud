@@ -4,7 +4,6 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
-
     def __init__(self, *args, **kwargs):
         super(OpenStackImagescls, self).__init__(credentials=kwargs)
 
@@ -20,11 +19,11 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
                 else:
                     arch_dict[image.arch] = 1
 
-        metrics.append(BaseMetricscls(
-            'openstack.images.count', len(self.list_images())))
+        metrics.append(BaseMetricscls('openstack.images.count', len(
+            self.list_images())))
         for key in arch_dict:
-            metrics.append(BaseMetricscls(
-                'openstack.images.' + key, arch_dict[key]))
+            metrics.append(BaseMetricscls('openstack.images.' + key, arch_dict[
+                key]))
 
         return metrics
 
@@ -32,8 +31,8 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
         openstack_images = self._GlanceClient.images.list()
         images = []
         for openstack_image in openstack_images:
-            image = OpenStackImagecls(
-                openstack_image, credentials=self._credentials)
+            image = OpenStackImagecls(openstack_image,
+                                      credentials=self._credentials)
             images.append(image)
         return images
 

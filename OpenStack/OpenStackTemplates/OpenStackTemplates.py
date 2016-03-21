@@ -35,6 +35,8 @@ class OpenStackTemplatescls(OpenStackBaseCloudcls, BaseTemplatescls):
         #self.__heat.validate_template(template_body = json_data)
         return True
 
-    def create_template(self): pass
+    def create_template(self):
+        pass
 
-    def get_all_templates(self): pass
+    def get_all_templates(self):
+        pass

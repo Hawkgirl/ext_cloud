@@ -1,4 +1,3 @@
-
 class OpenStackSecurityGroupRulecls():
 
     __ip_protocol = None

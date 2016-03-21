@@ -20,8 +20,11 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
     @__EC2.getter
     def __EC2(self):
         if self.__ec2 is None:
-            self.__ec2 = ec2.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                               'username'], aws_secret_access_key=self._credentials['password'])
+            self.__ec2 = ec2.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self.__ec2
 
     def list_volumes(self):
@@ -45,8 +48,8 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
         if aws_snapshot is None:
             return
 
-        snapshot = AWSSnapshotcls(
-            aws_snapshot[0], credentials=self._credentials)
+        snapshot = AWSSnapshotcls(aws_snapshot[0],
+                                  credentials=self._credentials)
         return snapshot
 
     def get_volumes_by_tag(self, tag_name, tag_value):
@@ -69,7 +72,10 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
             volume.name = name
         return volume
 
-    def attach_volume(self, volume_id=None, instance_id=None, device_path=None):
+    def attach_volume(self,
+                      volume_id=None,
+                      instance_id=None,
+                      device_path=None):
         self.__EC2.attach_volume(volume_id, instance_id, device_path)
 
     def detach_volume(self, volume_id=None, instance_id=None):
@@ -79,8 +85,8 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
         aws_snapshots = self.__EC2.get_all_snapshots(owner="self")
         snapshots = []
         for aws_snapshot in aws_snapshots:
-            snapshot = AWSSnapshotcls(
-                aws_snapshot, credentials=self._credentials)
+            snapshot = AWSSnapshotcls(aws_snapshot,
+                                      credentials=self._credentials)
             snapshots.append(snapshot)
 
         return snapshots
@@ -89,8 +95,8 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
         self.__EC2.delete_volume(volume_id=volume_id)
 
     def create_snapshot(self, volume_id, name=None, description=None):
-        aws_snapshot = self.__EC2.create_snapshot(
-            volume_id=volume_id, description=description)
+        aws_snapshot = self.__EC2.create_snapshot(volume_id=volume_id,
+                                                  description=description)
         if not name is None:
             aws_snapshot.add_tag('Name', name)
         snapshot = AWSSnapshotcls(aws_snapshot, credentials=self._credentials)
@@ -98,8 +104,9 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
 
     def create_volume_from_snapshot(self, snapshot_id, size=2, name=None):
         aws_zones = self.__EC2.get_all_zones()
-        aws_volume = self.__EC2.create_volume(
-            size, aws_zones[0], snapshot=snapshot_id)
+        aws_volume = self.__EC2.create_volume(size,
+                                              aws_zones[0],
+                                              snapshot=snapshot_id)
         volume = AWSVolumecls(aws_volume, credentials=self._credentials)
         if not name is None:
             volume.name = name
@@ -110,8 +117,8 @@ class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):
         aws_snapshots = self.__EC2.get_all_snapshots(filters=snapshot_filters)
         snapshots = []
         for aws_snapshot in aws_snapshots:
-            snapshot = AWSSnapshotcls(
-                aws_snapshot, credentials=self._credentials)
+            snapshot = AWSSnapshotcls(aws_snapshot,
+                                      credentials=self._credentials)
             snapshots.append(snapshot)
         return snapshots
 

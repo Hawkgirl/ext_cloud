@@ -1,4 +1,3 @@
-
 class AWSSecurityGroupRulecls():
 
     __ip_protocol = None

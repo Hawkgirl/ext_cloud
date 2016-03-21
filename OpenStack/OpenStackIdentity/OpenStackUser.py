@@ -8,13 +8,17 @@ class OpenStackUsercls(OpenStackBaseCloudcls, BaseUsercls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_user = arg[0]
-        super(OpenStackUsercls, self).__init__(id=self.__openstack_user.id,
-                                               name=self.__openstack_user.username, credentials=kwargs['credentials'])
+        super(OpenStackUsercls, self).__init__(
+            id=self.__openstack_user.id,
+            name=self.__openstack_user.username,
+            credentials=kwargs['credentials'])
 
     @property
     def status(self):
-        return 'enabled' if self.__openstack_user.enabled is True else 'disabled'
+        return 'enabled' if self.__openstack_user.enabled is True \
+            else 'disabled'
 
     @property
-    def email_id(self): return  self.__openstack_user.email if hasattr( self.__openstack_user, 'email') else None
-
+    def email_id(self):
+        return self.__openstack_user.email if hasattr(self.__openstack_user,
+                                                      'email') else None

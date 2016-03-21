@@ -5,16 +5,21 @@ class BaseObjectStorecls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractmethod
-    def get_all_buckets(self): pass
+    def get_all_buckets(self):
+        pass
 
     @abstractmethod
-    def get_bucket_by_name(self, bucket_name): pass
+    def get_bucket_by_name(self, bucket_name):
+        pass
 
     @abstractmethod
-    def create_bucket(self, bucket_name): pass
+    def create_bucket(self, bucket_name):
+        pass

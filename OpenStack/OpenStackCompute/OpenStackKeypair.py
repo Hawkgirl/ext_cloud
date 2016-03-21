@@ -9,8 +9,10 @@ class OpenStackKeypaircls(OpenStackBaseCloudcls, BaseKeypaircls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_keypair = arg[0]
 
-        super(OpenStackKeypaircls, self).__init__(id=self.__openstack_keypair.fingerprint,
-                                                  name=self.__openstack_keypair.name, credentials=kwargs['credentials'])
+        super(OpenStackKeypaircls, self).__init__(
+            id=self.__openstack_keypair.fingerprint,
+            name=self.__openstack_keypair.name,
+            credentials=kwargs['credentials'])
 
     @property
     def privatekey(self):

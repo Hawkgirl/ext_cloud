@@ -3,7 +3,6 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
-
     def __init__(self, *args, **kwargs):
         self.__args = args
         self.__kwargs = kwargs

@@ -21,8 +21,11 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
     @__EC2.getter
     def __EC2(self):
         if self.__ec2 is None:
-            self.__ec2 = ec2.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                               'username'], aws_secret_access_key=self._credentials['password'])
+            self.__ec2 = ec2.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self.__ec2
 
     # ------ instance  opertations ----------------------------------------
@@ -34,8 +37,8 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         for aws_reservation in aws_reservations:
             aws_instances = aws_reservation.instances
             for aws_instance in aws_instances:
-                instance = AWSInstancecls(
-                    aws_instance, credentials=self._credentials)
+                instance = AWSInstancecls(aws_instance,
+                                          credentials=self._credentials)
                 instances.append(instance)
 
         return instances
@@ -45,8 +48,8 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
             instance_ids=instance_id)[0]
         if fetched_instance is None:
             return None
-        instance = AWSInstancecls(
-            fetched_instance, credentials=self._credentials)
+        instance = AWSInstancecls(fetched_instance,
+                                  credentials=self._credentials)
         return instance
 
     def get_instances_by_name(self, instance_name):
@@ -59,22 +62,53 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         if aws_instances is None:
             return instances
         for aws_instance in aws_instances:
-            instance = AWSInstancecls(
-                aws_instance, credentials=self._credentials)
+            instance = AWSInstancecls(aws_instance,
+                                      credentials=self._credentials)
             instances.append(instance)
 
         return instances
 
-    def create_instance(self, image_id=None, key_name=None, security_groups=None, security_group_ids=None, instancetype_id="m1.small", name=None, zone=None, subnet_id=None, private_ips=None, user_data=None):
-        instances = self.create_instances(count=1, image_id=image_id, key_name=key_name, security_groups=security_groups, security_group_ids=security_group_ids,
-                                          instancetype_id=instancetype_id, name=name, zone=zone, subnet_id=subnet_id, private_ips=private_ips, user_data=user_data)
+    def create_instance(self,
+                        image_id=None,
+                        key_name=None,
+                        security_groups=None,
+                        security_group_ids=None,
+                        instancetype_id="m1.small",
+                        name=None,
+                        zone=None,
+                        subnet_id=None,
+                        private_ips=None,
+                        user_data=None):
+        instances = self.create_instances(
+            count=1,
+            image_id=image_id,
+            key_name=key_name,
+            security_groups=security_groups,
+            security_group_ids=security_group_ids,
+            instancetype_id=instancetype_id,
+            name=name,
+            zone=zone,
+            subnet_id=subnet_id,
+            private_ips=private_ips,
+            user_data=user_data)
 
         if len(instances) > 0:
             return instances[0]
         else:
             return []
 
-    def create_instances(self, count=1, image_id=None, key_name=None, security_groups=None, security_group_ids=None, instancetype_id='m1.small', name=None, zone=None, subnet_id=None, private_ips=None, user_data=None):
+    def create_instances(self,
+                         count=1,
+                         image_id=None,
+                         key_name=None,
+                         security_groups=None,
+                         security_group_ids=None,
+                         instancetype_id='m1.small',
+                         name=None,
+                         zone=None,
+                         subnet_id=None,
+                         private_ips=None,
+                         user_data=None):
 
         if zone is None:
             aws_zones = self.__EC2.get_all_zones()
@@ -91,17 +125,35 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         # if vm need to be booted in subnet, use security_group_id instead of
         # security_group name.
         if subnet_id is None:
-            aws_reservation = self.__EC2.run_instances(image_id, key_name=key_name, security_groups=security_groups, min_count=count, max_count=count,
-                                                       instance_type=instancetype_id, placement=zone, subnet_id=subnet_id, private_ip_address=private_ips, user_data=user_data)
+            aws_reservation = self.__EC2.run_instances(
+                image_id,
+                key_name=key_name,
+                security_groups=security_groups,
+                min_count=count,
+                max_count=count,
+                instance_type=instancetype_id,
+                placement=zone,
+                subnet_id=subnet_id,
+                private_ip_address=private_ips,
+                user_data=user_data)
         else:
-            aws_reservation = self.__EC2.run_instances(image_id, key_name=key_name, security_group_ids=security_group_ids, min_count=count, max_count=count,
-                                                       instance_type=instancetype_id, placement=zone, subnet_id=subnet_id, private_ip_address=private_ips, user_data=user_data)
+            aws_reservation = self.__EC2.run_instances(
+                image_id,
+                key_name=key_name,
+                security_group_ids=security_group_ids,
+                min_count=count,
+                max_count=count,
+                instance_type=instancetype_id,
+                placement=zone,
+                subnet_id=subnet_id,
+                private_ip_address=private_ips,
+                user_data=user_data)
 
         instances = []
         aws_instances = aws_reservation.instances
         for aws_instance in aws_instances:
-            instance = AWSInstancecls(
-                aws_instance, credentials=self._credentials)
+            instance = AWSInstancecls(aws_instance,
+                                      credentials=self._credentials)
             if not name is None:
                 instance.name = name
             instances.append(instance)
@@ -149,7 +201,8 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         instancetypes = []
         for aws_instancetype in aws_instancetypes_dict:
             instancetype = AWSInstanceTypecls(
-                aws_instancetypes_dict[aws_instancetype], credentials=self._credentials)
+                aws_instancetypes_dict[aws_instancetype],
+                credentials=self._credentials)
             instancetypes.append(instancetype)
         return instancetypes
 
@@ -189,8 +242,8 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         aws_security_groups = self.__EC2.get_all_security_groups()
         security_groups = []
         for aws_security_group in aws_security_groups:
-            security_group = AWSSecurityGroupcls(
-                aws_security_group, credentials=self._credentials)
+            security_group = AWSSecurityGroupcls(aws_security_group,
+                                                 credentials=self._credentials)
             security_groups.append(security_group)
 
         return security_groups
@@ -201,13 +254,18 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         if len(aws_security_groups) < 1:
             return None
         aws_security_group = aws_security_groups[0]
-        security_group = AWSSecurityGroupcls(
-            aws_security_group, credentials=self._credentials)
+        security_group = AWSSecurityGroupcls(aws_security_group,
+                                             credentials=self._credentials)
         return security_group
 
-    def create_security_group(self, name=None, description=None, network_id=None):
+    def create_security_group(self,
+                              name=None,
+                              description=None,
+                              network_id=None):
         aws_security_group = self.__EC2.create_security_group(
-            name, description, vpc_id=network_id)
-        security_group = AWSSecurityGroupcls(
-            aws_security_group, credentials=self._credentials)
+            name,
+            description,
+            vpc_id=network_id)
+        security_group = AWSSecurityGroupcls(aws_security_group,
+                                             credentials=self._credentials)
         return security_group

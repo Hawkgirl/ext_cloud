@@ -14,10 +14,13 @@ class AWSSnapshotcls(AWSBaseCloudcls, BaseSnapshotcls):
             name = self.__aws_snapshot.tags['Name']
 
         super(AWSSnapshotcls, self).__init__(id=self.__aws_snapshot.id,
-                                             name=name, credentials=kwargs['credentials'])
+                                             name=name,
+                                             credentials=kwargs['credentials'])
 
     @property
-    def size(self): pass
+    def size(self):
+        pass
 
     @property
-    def state(self): return self.__aws_snapshot.status
+    def state(self):
+        return self.__aws_snapshot.status

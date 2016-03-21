@@ -10,8 +10,10 @@ class OpenStackBucketcls(OpenStackBaseCloudcls, BaseBucketcls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_bucket = arg[0]
 
-        super(OpenStackBucketcls, self).__init__(id=self.__openstack_bucket.name,
-                                                 name=self.__openstack_bucket.name, credentials=kwargs['credentials'])
+        super(OpenStackBucketcls, self).__init__(
+            id=self.__openstack_bucket.name,
+            name=self.__openstack_bucket.name,
+            credentials=kwargs['credentials'])
 
     def get_all_keys(self):
         openstack_keys = self.__openstack_bucket.get_all_keys()

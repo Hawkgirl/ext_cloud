@@ -5,16 +5,21 @@ class BaseKeypaircls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractproperty
-    def privatekey(self): pass
+    def privatekey(self):
+        pass
 
     @abstractproperty
-    def publickey(self): pass
+    def publickey(self):
+        pass
 
     @abstractmethod
-    def delete(self): pass
+    def delete(self):
+        pass

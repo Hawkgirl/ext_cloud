@@ -5,7 +5,9 @@ class BaseIdentitycls:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def list_users(self): pass
+    def list_users(self):
+        pass
 
     @abstractmethod
-    def list_tenants(self): pass
+    def list_tenants(self):
+        pass

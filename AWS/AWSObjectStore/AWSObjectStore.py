@@ -20,8 +20,12 @@ class AWSObjectStorecls(AWSBaseCloudcls, BaseObjectStorecls):
     @__S3.getter
     def __S3(self):
         if self.__s3 is None:
-            self.__s3 = s3.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                             'username'], aws_secret_access_key=self._credentials['password'], calling_format=OrdinaryCallingFormat())
+            self.__s3 = s3.connect_to_region(
+                self._credentials['region_name'],
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'],
+                calling_format=OrdinaryCallingFormat())
         return self.__s3
 
     def get_all_buckets(self):

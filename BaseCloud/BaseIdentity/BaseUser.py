@@ -5,13 +5,17 @@ class BaseUsercls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractproperty
-    def email_id(self): pass
+    def email_id(self):
+        pass
 
     @abstractproperty
-    def status(self): pass
+    def status(self):
+        pass

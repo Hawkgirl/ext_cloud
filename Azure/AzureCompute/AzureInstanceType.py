@@ -10,8 +10,11 @@ class AzureInstanceTypecls(AzureBaseCloudcls, BaseInstanceTypecls):
     def __init__(self, *arg, **kwargs):
         self.__azure_instancetype = arg[0]
 
-        super(AzureInstanceTypecls, self).__init__(id=self.__azure_instancetype[
-            'id'], name=self.__azure_instancetype['name'], credentials=kwargs['credentials'])
+        super(AzureInstanceTypecls, self).__init__(
+            id=self.__azure_instancetype[
+                'id'],
+            name=self.__azure_instancetype['name'],
+            credentials=kwargs['credentials'])
 
     @property
     def memory(self):

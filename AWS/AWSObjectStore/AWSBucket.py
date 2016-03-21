@@ -13,7 +13,8 @@ class AWSBucketcls(AWSBaseCloudcls, BaseBucketcls):
         self.__aws_bucket = arg[0]
 
         super(AWSBucketcls, self).__init__(id=self.__aws_bucket.name,
-                                           name=self.__aws_bucket.name, credentials=kwargs['credentials'])
+                                           name=self.__aws_bucket.name,
+                                           credentials=kwargs['credentials'])
 
     def get_all_keys(self):
         aws_keys = self.__aws_bucket.get_all_keys()

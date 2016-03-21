@@ -14,7 +14,8 @@ class AWSVolumecls(AWSBaseCloudcls, BaseVolumecls):
             name = self.__aws_volume.tags['Name']
 
         super(AWSVolumecls, self).__init__(id=self.__aws_volume.id,
-                                           name=name, credentials=kwargs['credentials'])
+                                           name=name,
+                                           credentials=kwargs['credentials'])
 
     # override name property
     @AWSBaseCloudcls.name.setter
@@ -23,13 +24,16 @@ class AWSVolumecls(AWSBaseCloudcls, BaseVolumecls):
         self._name = value
 
     @property
-    def description(self): pass
+    def description(self):
+        pass
 
     @property
-    def size(self): return self.__aws_volume.size
+    def size(self):
+        return self.__aws_volume.size
 
     @property
-    def state(self): return self.__aws_volume.status
+    def state(self):
+        return self.__aws_volume.status
 
     @property
     def instance_id(self):

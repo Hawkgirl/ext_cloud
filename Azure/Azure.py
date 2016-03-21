@@ -29,7 +29,8 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
             self._credentials['region_name'] = kwargs['region_name']
 
     @property
-    def identity(self): pass
+    def identity(self):
+        pass
 
     @property
     def compute(self):
@@ -39,7 +40,8 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
         return self.__compute
 
     @property
-    def networks(self): pass
+    def networks(self):
+        pass
 
     @property
     def images(self):
@@ -65,9 +67,12 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
         return self.__volumes
 
     @property
-    def objectstore(self): pass
+    def objectstore(self):
+        pass
 
     @property
-    def templates(self): pass
+    def templates(self):
+        pass
 
-    def validate_credentials(self): pass
+    def validate_credentials(self):
+        pass

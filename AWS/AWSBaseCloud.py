@@ -17,15 +17,18 @@ class AWSBaseCloudcls:
             self._credentials['auth_url'] = 'https://aws.amazon.com/'
 
     @property
-    def name(self): return self._name
+    def name(self):
+        return self._name
 
     @property
-    def id(self): return self._id
+    def id(self):
+        return self._id
 
     def __repr__(self):
         ret = ""
         for varible in dir(self):
-            if not varible.startswith("_") and isinstance(getattr(self.__class__, varible), property):
+            if not varible.startswith("_") and isinstance(
+                    getattr(self.__class__, varible), property):
                 value = getattr(self, varible)
                 if value is None:
                     value = "None"

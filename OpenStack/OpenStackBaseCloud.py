@@ -20,19 +20,22 @@ class OpenStackBaseCloudcls():
             self._id = kwargs['id']
         if kwargs.has_key('credentials'):
             import collections
-            self._credentials = collections.defaultdict(
-                lambda: None, kwargs['credentials'])
+            self._credentials = collections.defaultdict(lambda: None,
+                                                        kwargs['credentials'])
 
     @property
-    def name(self): return self._name
+    def name(self):
+        return self._name
 
     @property
-    def id(self): return self._id
+    def id(self):
+        return self._id
 
     def __repr__(self):
         ret = ""
         for varible in dir(self):
-            if not varible.startswith("_") and isinstance(getattr(self.__class__, varible), property):
+            if not varible.startswith("_") and isinstance(
+                    getattr(self.__class__, varible), property):
                 value = getattr(self, varible)
                 if value is None:
                     value = "None"
@@ -41,7 +44,8 @@ class OpenStackBaseCloudcls():
                 ret = ret + varible + ":" + value + "  "
         return ret
 
-    def list_metrics(self): return []
+    def list_metrics(self):
+        return []
 
     @property
     def _KeystoneClient(self):
@@ -50,7 +54,8 @@ class OpenStackBaseCloudcls():
     @_KeystoneClient.getter
     def _KeystoneClient(self):
         if self._keystoneclient is None:
-            self._keystoneclient = OpenStackClientsCls().get_keystone_client(self._credentials)
+            self._keystoneclient = OpenStackClientsCls().get_keystone_client(
+                self._credentials)
         return self._keystoneclient
 
     @property
@@ -60,7 +65,8 @@ class OpenStackBaseCloudcls():
     @_NovaClient.getter
     def _NovaClient(self):
         if self._novaclient is None:
-            self._novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
+            self._novaclient = OpenStackClientsCls().get_nova_client(
+                self._credentials)
         return self._novaclient
 
     @property
@@ -70,7 +76,8 @@ class OpenStackBaseCloudcls():
     @_NeutronClient.getter
     def _NeutronClient(self):
         if self._neutronclient is None:
-            self._neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
+            self._neutronclient = OpenStackClientsCls().get_neutron_client(
+                self._credentials)
         return self._neutronclient
 
     @property
@@ -80,7 +87,8 @@ class OpenStackBaseCloudcls():
     @_CinderClient.getter
     def _CinderClient(self):
         if self._cinderclient is None:
-            self._cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
+            self._cinderclient = OpenStackClientsCls().get_cinder_client(
+                self._credentials)
         return self._cinderclient
 
     @property
@@ -90,6 +98,7 @@ class OpenStackBaseCloudcls():
     @_GlanceClient.getter
     def _GlanceClient(self):
         if self._glanceclient is None:
-            self._glanceclient = OpenStackClientsCls().get_glance_client(self._credentials)
+            self._glanceclient = OpenStackClientsCls().get_glance_client(
+                self._credentials)
 
         return self._glanceclient

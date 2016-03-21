@@ -21,8 +21,10 @@ class AWSTemplatescls(AWSBaseCloudcls, BaseTemplatescls):
     @__CloudFormation.getter
     def __CloudFormation(self):
         if self.__cloudformation is None:
-            self.__cloudformation = CloudFormationConnection(aws_access_key_id=self._credentials[
-                                                             'username'], aws_secret_access_key=self._credentials['password'])
+            self.__cloudformation = CloudFormationConnection(
+                aws_access_key_id=self._credentials[
+                    'username'],
+                aws_secret_access_key=self._credentials['password'])
         return self.__cloudformation
 
     def is_valid(self, *arg, **kwargs):
@@ -47,7 +49,8 @@ class AWSTemplatescls(AWSBaseCloudcls, BaseTemplatescls):
                 "create_template should have file=<filepath> or data=<data> as method args")
 
         aws_template = self.__CloudFormation.create_stack(
-            kwargs['name'], template_body=json_data)
+            kwargs['name'],
+            template_body=json_data)
         data = dict()
         data['id'] = aws_template
         data['name'] = kwargs['name']

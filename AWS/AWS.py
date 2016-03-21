@@ -25,29 +25,39 @@ class AWScls(AWSBaseCloudcls, Cloudcls):
         self._credentials['region_name'] = kwargs['region_name']
 
     @property
-    def identity(self): pass
+    def identity(self):
+        pass
 
     @property
     def compute(self):
         if self.__compute is None:
-            self.__compute = AWSComputecls(username=self._credentials['username'], password=self._credentials[
-                                           'password'], region_name=self._credentials['region_name'])
+            self.__compute = AWSComputecls(
+                username=self._credentials['username'],
+                password=self._credentials[
+                    'password'],
+                region_name=self._credentials['region_name'])
 
         return self.__compute
 
     @property
     def networks(self):
         if self.__networks is None:
-            self.__networks = AWSNetworkscls(username=self._credentials['username'], password=self._credentials[
-                                             'password'], region_name=self._credentials['region_name'])
+            self.__networks = AWSNetworkscls(
+                username=self._credentials['username'],
+                password=self._credentials[
+                    'password'],
+                region_name=self._credentials['region_name'])
 
         return self.__networks
 
     @property
     def images(self):
         if self.__images is None:
-            self.__images = AWSImagescls(username=self._credentials['username'], password=self._credentials[
-                                         'password'], region_name=self._credentials['region_name'])
+            self.__images = AWSImagescls(
+                username=self._credentials['username'],
+                password=self._credentials[
+                    'password'],
+                region_name=self._credentials['region_name'])
 
         return self.__images
 
@@ -62,24 +72,33 @@ class AWScls(AWSBaseCloudcls, Cloudcls):
     @property
     def volumes(self):
         if self.__volumes is None:
-            self.__volumes = AWSVolumescls(username=self._credentials['username'], password=self._credentials[
-                                           'password'], region_name=self._credentials['region_name'])
+            self.__volumes = AWSVolumescls(
+                username=self._credentials['username'],
+                password=self._credentials[
+                    'password'],
+                region_name=self._credentials['region_name'])
 
         return self.__volumes
 
     @property
     def objectstore(self):
         if self.__objectstore is None:
-            self.__objectstore = AWSObjectStorecls(username=self._credentials['username'], password=self._credentials[
-                                                   'password'], region_name=self._credentials['region_name'])
+            self.__objectstore = AWSObjectStorecls(
+                username=self._credentials['username'],
+                password=self._credentials[
+                    'password'],
+                region_name=self._credentials['region_name'])
 
         return self.__objectstore
 
     @property
     def templates(self):
         if self.__templates is None:
-            self.__templates = AWSTemplatescls(username=self._credentials['username'], password=self._credentials[
-                                               'password'], region_name=self._credentials['region_name'])
+            self.__templates = AWSTemplatescls(
+                username=self._credentials['username'],
+                password=self._credentials[
+                    'password'],
+                region_name=self._credentials['region_name'])
 
         return self.__templates
 
