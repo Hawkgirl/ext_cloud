@@ -13,16 +13,20 @@ class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
             'id'], name=self.__openstack_nic['name'], credentials=kwargs['credentials'])
 
     @property
-    def state(self): return self.__openstack_nic['status']
+    def state(self):
+        return self.__openstack_nic['status']
 
     @property
-    def mac_address(self): return self.__openstack_nic['mac_address']
+    def mac_address(self):
+        return self.__openstack_nic['mac_address']
 
     @property
-    def network_id(self): return self.__openstack_nic['network_id']
+    def network_id(self):
+        return self.__openstack_nic['network_id']
 
     @property
-    def tenant_id(self): return self.__openstack_nic['tenant_id']
+    def tenant_id(self):
+        return self.__openstack_nic['tenant_id']
 
     @property
     def is_zombie(self):
@@ -35,12 +39,12 @@ class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
 
     @property
     def subnet_id(self):
-        if self.__openstack_nic.has_key('fixed_ips'):
+        if 'fixed_ip' in self.__openstack_nic:
             return self.__openstack_nic['fixed_ips'][0]['subnet_id']
         return None
 
     @property
     def ip_address(self):
-        if self.__openstack_nic.has_key('fixed_ips'):
+        if 'fixed_ip' in self.__openstack_nic:
             return self.__openstack_nic['fixed_ips'][0]['ip_address']
         return None

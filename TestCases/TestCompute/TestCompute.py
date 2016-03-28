@@ -8,7 +8,7 @@ class BaseComputeTest(unittest.TestCase):
         self.cloud_obj = get_cloud_obj()
 
     def test_list_instances(self):
-        instances = self.cloud_obj.compute.list_instances()
+        self.cloud_obj.compute.list_instances()
 
 if __name__ == "__main__":
     unittest.main()

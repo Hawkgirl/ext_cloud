@@ -1,6 +1,5 @@
 from ext_cloud.BaseCloud.BaseIdentity.BaseTenant import BaseTenantcls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
 
 
 class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):

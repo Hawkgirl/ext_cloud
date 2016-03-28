@@ -1,5 +1,4 @@
 from BaseCloud.BaseCloud import Cloudcls
-from boto import ec2
 from AWSCompute.AWSCompute import AWSComputecls
 from AWSImages.AWSImages import AWSImagescls
 from AWSNetworks.AWSNetworks import AWSNetworkscls
@@ -25,7 +24,8 @@ class AWScls(AWSBaseCloudcls, Cloudcls):
         self._credentials['region_name'] = kwargs['region_name']
 
     @property
-    def identity(self): pass
+    def identity(self):
+        pass
 
     @property
     def compute(self):

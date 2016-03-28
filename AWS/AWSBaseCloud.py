@@ -6,21 +6,23 @@ class AWSBaseCloudcls:
     _aws_ref = None
 
     def __init__(self, *arg, **kwargs):
-        if kwargs.has_key('name'):
+        if 'name' in kwargs:
             self._name = kwargs['name']
-        if kwargs.has_key('id'):
+        if 'id' in kwargs:
             self._id = kwargs['id']
-        if kwargs.has_key('credentials'):
+        if 'credentials' in kwargs:
             self._credentials = kwargs['credentials']
 
-        if not self._credentials.has_key('auth_url'):
+        if 'auth_url' not in self._credentials:
             self._credentials['auth_url'] = 'https://aws.amazon.com/'
 
     @property
-    def name(self): return self._name
+    def name(self):
+        return self._name
 
     @property
-    def id(self): return self._id
+    def id(self):
+        return self._id
 
     def __repr__(self):
         ret = ""

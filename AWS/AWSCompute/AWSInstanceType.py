@@ -1,5 +1,4 @@
 from BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
-from boto import ec2
 from AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
@@ -10,8 +9,7 @@ class AWSInstanceTypecls(AWSBaseCloudcls, BaseInstanceTypecls):
     def __init__(self, *arg, **kwargs):
         self.__aws_instancetype = arg[0]
 
-        super(AWSInstanceTypecls, self).__init__(id=self.__aws_instancetype[
-            'id'], name=self.__aws_instancetype['name'], credentials=kwargs['credentials'])
+        super(AWSInstanceTypecls, self).__init__(id=self.__aws_instancetype['id'], name=self.__aws_instancetype['name'], credentials=kwargs['credentials'])
 
     @property
     def memory(self):

@@ -1,5 +1,4 @@
 from BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls
-from boto import ec2
 from AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
@@ -10,11 +9,10 @@ class AWSVolumecls(AWSBaseCloudcls, BaseVolumecls):
     def __init__(self, *arg, **kwargs):
         self.__aws_volume = arg[0]
         name = None
-        if self.__aws_volume.tags.has_key('Name'):
+        if 'Name' in self.__aws_volume.tags:
             name = self.__aws_volume.tags['Name']
 
-        super(AWSVolumecls, self).__init__(id=self.__aws_volume.id,
-                                           name=name, credentials=kwargs['credentials'])
+        super(AWSVolumecls, self).__init__(id=self.__aws_volume.id, name=name, credentials=kwargs['credentials'])
 
     # override name property
     @AWSBaseCloudcls.name.setter
@@ -23,13 +21,16 @@ class AWSVolumecls(AWSBaseCloudcls, BaseVolumecls):
         self._name = value
 
     @property
-    def description(self): pass
+    def description(self):
+        pass
 
     @property
-    def size(self): return self.__aws_volume.size
+    def size(self):
+        return self.__aws_volume.size
 
     @property
-    def state(self): return self.__aws_volume.status
+    def state(self):
+        return self.__aws_volume.status
 
     @property
     def instance_id(self):

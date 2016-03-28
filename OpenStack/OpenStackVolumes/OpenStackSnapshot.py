@@ -13,10 +13,12 @@ class OpenStackSnapshotcls(OpenStackBaseCloudcls, BaseSnapshotcls):
                                                    name=self.__openstack_snapshot.name, credentials=kwargs['credentials'])
 
     @property
-    def size(self): return self.__openstack_snapshot.size
+    def size(self):
+        return self.__openstack_snapshot.size
 
     @property
-    def state(self): return self.__openstack_snapshot.status
+    def state(self):
+        return self.__openstack_snapshot.status
 
     @property
     def is_zombie(self):

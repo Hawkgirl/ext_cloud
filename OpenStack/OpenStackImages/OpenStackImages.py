@@ -15,7 +15,7 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
         arch_dict = {}
         for image in images:
             if image.arch is not None:
-                if arch_dict.has_key(image.arch):
+                if image.arch in arch_dict:
                     arch_dict[image.arch] += 1
                 else:
                     arch_dict[image.arch] = 1

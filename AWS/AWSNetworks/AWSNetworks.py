@@ -21,8 +21,7 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
     @__Vpc.getter
     def __Vpc(self):
         if self.__vpc is None:
-            self.__vpc = boto.vpc.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials[
-                                                    'username'], aws_secret_access_key=self._credentials['password'])
+            self.__vpc = boto.vpc.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials['username'], aws_secret_access_key=self._credentials['password'])
         return self.__vpc
 
     def list_networks(self):
@@ -42,7 +41,8 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
         vpc = AWSNetworkcls(aws_vpc, credentials=self._credentials)
         return vpc
 
-    def get_networks_by_name(self, network_name): pass
+    def get_networks_by_name(self, network_name):
+        pass
 
     def get_networks_by_tag(self, tag_name, tag_value):
         network_filters = {'tag-key': tag_name, 'tag-value': tag_value}
@@ -57,7 +57,7 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
     def create_network(self, name=None, cidr_block=None):
         aws_network = self.__Vpc.create_vpc(cidr_block)
         vpc = AWSNetworkcls(aws_network, credentials=self._credentials)
-        if not name is None:
+        if name is not None:
             vpc.name = name
         # create gateway and attached to this network
         aws_gateway = self.create_gateway(name=vpc.name)
@@ -68,7 +68,7 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
     def create_gateway(self, name=None):
         aws_gateway = self.__Vpc.create_internet_gateway()
         gateway = AWSGatewaycls(aws_gateway, credentials=self._credentials)
-        if not name is None:
+        if name is not None:
             gateway.name = name
         return gateway
 
@@ -89,7 +89,8 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
         subnet = AWSSubnetcls(aws_subnet, credentials=self._credentials)
         return subnet
 
-    def get_subnets_by_name(self, subnet_name): pass
+    def get_subnets_by_name(self, subnet_name):
+        pass
 
     def get_subnets_by_tag(self, tag_name, tag_value):
         subnet_filters = {'tag-key': tag_name, 'tag-value': tag_value}
@@ -104,7 +105,7 @@ class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
     def get_subnets_by_filter(self, filter_dict):
 
         aws_dict = dict()
-        if filter_dict.has_key('cidr_block'):
+        if 'cidr_block' in filter_dict:
             aws_dict['cidrBlock'] = filter_dict['cidr_block']
         subnets = []
         aws_subnets = self.__Vpc.get_all_subnets(filters=aws_dict)

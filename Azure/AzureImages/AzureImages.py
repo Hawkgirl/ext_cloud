@@ -19,8 +19,7 @@ class AzureImagescls(AzureBaseCloudcls, BaseImagescls):
     @__SMS.getter
     def __SMS(self):
         if self.__sms is None:
-            self.__sms = ServiceManagementService(
-                self._credentials['subscription_id'], self._credentials['certificate_path'])
+            self.__sms = ServiceManagementService(self._credentials['subscription_id'], self._credentials['certificate_path'])
         return self.__sms
 
     def list_images(self):
@@ -40,4 +39,5 @@ class AzureImagescls(AzureBaseCloudcls, BaseImagescls):
             return image
         return None
 
-    def create_image_from_instance(self, instance_id, name=None): pass
+    def create_image_from_instance(self, instance_id, name=None):
+        pass

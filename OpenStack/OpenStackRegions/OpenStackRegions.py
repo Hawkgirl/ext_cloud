@@ -9,7 +9,8 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
         self.__childrens = None
 
     @property
-    def Childrens(self): return []
+    def Childrens(self):
+        return []
 
     def list_regions(self):
         from ext_cloud.OpenStack.OpenStackRegions.OpenStackRegion import OpenStackRegioncls
@@ -17,7 +18,7 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
         endpoints = self._KeystoneClient.endpoints.list()
         regions = set()
         for endpoint in endpoints:
-            if not endpoint.region in regions:
+            if endpoint.region not in regions:
                 regions.add(endpoint.region)
 
         openstack_regions = []
@@ -27,9 +28,11 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
 
         return openstack_regions
 
-    def get_region_by_id(self, instance_id): pass
+    def get_region_by_id(self, instance_id):
+        pass
 
-    def get_region_by_name(self, instance_name): pass
+    def get_region_by_name(self, instance_name):
+        pass
 
     def list_metrics(self):
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls

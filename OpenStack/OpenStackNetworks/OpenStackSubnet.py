@@ -12,19 +12,24 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
             'id'], name=self.__openstack_subnet['name'], credentials=kwargs['credentials'])
 
     @property
-    def state(self): pass
+    def state(self):
+        pass
 
     @property
-    def cidr_block(self): return self.__openstack_subnet['cidr']
+    def cidr_block(self):
+        return self.__openstack_subnet['cidr']
 
     @property
-    def network_id(self): return self.__openstack_subnet['network_id']
+    def network_id(self):
+        return self.__openstack_subnet['network_id']
 
     @property
-    def tenant_id(self): return self.__openstack_subnet['tenant_id']
+    def tenant_id(self):
+        return self.__openstack_subnet['tenant_id']
 
     @property
-    def zone(self): pass
+    def zone(self):
+        pass
 
     def attach_nic(self, name=None, ip_address=None):
         if ip_address is None:

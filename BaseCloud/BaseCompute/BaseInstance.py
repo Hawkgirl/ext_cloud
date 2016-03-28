@@ -19,70 +19,89 @@ class BaseInstancecls:
     __metaclass__ = ABCMeta
 
     @property
-    def resource_type(self): return 'instance'
+    def resource_type(self):
+        return 'instance'
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractproperty
-    def size(self): pass
+    def size(self):
+        pass
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def public_ip(self): pass
+    def public_ip(self):
+        pass
 
     @abstractproperty
-    def state(self): pass
+    def state(self):
+        pass
 
     @abstractproperty
-    def image_id(self): pass
+    def image_id(self):
+        pass
 
     @abstractproperty
-    def image_name(self): pass
+    def image_name(self):
+        pass
 
     @abstractproperty
-    def arch(self): pass
+    def arch(self):
+        pass
 
     @abstractproperty
-    def network_id(self): pass
+    def network_id(self):
+        pass
 
     @abstractproperty
-    def subnet_id(self): pass
+    def subnet_id(self):
+        pass
 
     @abstractproperty
-    def private_ip(self): pass
+    def private_ip(self):
+        pass
 
     @abstractproperty
-    def public_ip(self): pass
+    def keypair_name(self):
+        pass
 
     @abstractproperty
-    def keypair_name(self): pass
+    def dns_name(self):
+        pass
 
     @abstractproperty
-    def dns_name(self): pass
+    def creation_time(self):
+        pass
 
     @abstractproperty
-    def creation_time(self): pass
-
-    @abstractproperty
-    def os_type(self): pass
+    def os_type(self):
+        pass
 
     @abstractmethod
-    def start(self): pass
+    def start(self):
+        pass
 
     @abstractmethod
-    def stop(self): pass
+    def stop(self):
+        pass
 
     @abstractmethod
-    def reboot(self): pass
+    def reboot(self):
+        pass
 
     @abstractmethod
-    def delete(self): pass
+    def delete(self):
+        pass
 
     @abstractmethod
-    def addtag(self, name=None, value=None): pass
+    def addtag(self, name=None, value=None):
+        pass
 
     @abstractmethod
-    def gettags(self): pass
+    def gettags(self):
+        pass

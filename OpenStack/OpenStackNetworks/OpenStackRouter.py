@@ -14,10 +14,12 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
             'id'], name=self.__openstack_router['name'], credentials=kwargs['credentials'])
 
     @property
-    def state(self): return self.__openstack_router['status']
+    def state(self):
+        return self.__openstack_router['status']
 
     @property
-    def tenant_id(self): return self.__openstack_router['tenant_id']
+    def tenant_id(self):
+        return self.__openstack_router['tenant_id']
 
     @property
     def is_zombie(self):
@@ -28,12 +30,14 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
             return True
         return False
 
-    def delete(self): pass
+    def delete(self):
+        pass
 
-    def add_route(self, destination_cidr_block=None,
-                  gateway_id=None, instance_id=None, interface_id=None): pass
+    def add_route(self, destination_cidr_block=None, gateway_id=None, instance_id=None, interface_id=None):
+        pass
 
-    def attach_nic(self, nic_id): pass
+    def attach_nic(self, nic_id):
+        pass
 
     def attach_subnet(self, subnet_id):
         self.__NeutronClient.add_interface_router(

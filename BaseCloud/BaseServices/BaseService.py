@@ -1,23 +1,29 @@
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import ABCMeta, abstractproperty
 
 
 class BaseServicecls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def id(self): pass
+    def id(self):
+        pass
 
     @abstractproperty
-    def name(self): pass
+    def name(self):
+        pass
 
     @abstractproperty
-    def state(self): pass
+    def state(self):
+        pass
 
     @abstractproperty
-    def status(self): pass
+    def status(self):
+        pass
 
     @abstractproperty
-    def port(self): pass
+    def port(self):
+        pass
 
     @abstractproperty
-    def host(self): pass
+    def host(self):
+        pass

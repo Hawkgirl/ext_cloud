@@ -1,7 +1,6 @@
 from BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
 from AWS.AWSTemplates.AWSTemplate import AWSTemplatecls
 from AWS.AWSBaseCloud import AWSBaseCloudcls
-import json
 from boto.cloudformation.connection import CloudFormationConnection
 
 
@@ -21,33 +20,29 @@ class AWSTemplatescls(AWSBaseCloudcls, BaseTemplatescls):
     @__CloudFormation.getter
     def __CloudFormation(self):
         if self.__cloudformation is None:
-            self.__cloudformation = CloudFormationConnection(aws_access_key_id=self._credentials[
-                                                             'username'], aws_secret_access_key=self._credentials['password'])
+            self.__cloudformation = CloudFormationConnection(aws_access_key_id=self._credentials['username'], aws_secret_access_key=self._credentials['password'])
         return self.__cloudformation
 
     def is_valid(self, *arg, **kwargs):
-        if kwargs.has_key('file'):
+        if 'file' in kwargs:
             json_data = open(kwargs['file']).read()
-        elif kwargs.has_key('data'):
+        elif 'data' in kwargs:
             json_data = kwargs['data']
 
         else:
-            raise Exception(
-                "is_valid should have file=<filepath> or data=<data> as method args")
+            raise Exception("is_valid should have file=<filepath> or data=<data> as method args")
         self.__CloudFormation.validate_template(template_body=json_data)
         return True
 
     def create_template(self, *arg, **kwargs):
-        if kwargs.has_key('file'):
+        if 'file' in kwargs:
             json_data = open(kwargs['file']).read()
-        elif kwargs.has_key('data'):
+        elif 'data' in kwargs:
             json_data = kwargs['data']
         else:
-            raise Exception(
-                "create_template should have file=<filepath> or data=<data> as method args")
+            raise Exception("create_template should have file=<filepath> or data=<data> as method args")
 
-        aws_template = self.__CloudFormation.create_stack(
-            kwargs['name'], template_body=json_data)
+        aws_template = self.__CloudFormation.create_stack(kwargs['name'], template_body=json_data)
         data = dict()
         data['id'] = aws_template
         data['name'] = kwargs['name']

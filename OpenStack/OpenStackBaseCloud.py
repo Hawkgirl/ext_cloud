@@ -14,20 +14,22 @@ class OpenStackBaseCloudcls():
     _glanceclient = None
 
     def __init__(self, *arg, **kwargs):
-        if kwargs.has_key('name'):
+        if 'name' in kwargs:
             self._name = kwargs['name']
-        if kwargs.has_key('id'):
+        if 'id' in kwargs:
             self._id = kwargs['id']
-        if kwargs.has_key('credentials'):
+        if 'credentials' in kwargs:
             import collections
             self._credentials = collections.defaultdict(
                 lambda: None, kwargs['credentials'])
 
     @property
-    def name(self): return self._name
+    def name(self):
+        return self._name
 
     @property
-    def id(self): return self._id
+    def id(self):
+        return self._id
 
     def __repr__(self):
         ret = ""
@@ -41,7 +43,8 @@ class OpenStackBaseCloudcls():
                 ret = ret + varible + ":" + value + "  "
         return ret
 
-    def list_metrics(self): return []
+    def list_metrics(self):
+        return []
 
     @property
     def _KeystoneClient(self):

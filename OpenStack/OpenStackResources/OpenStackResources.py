@@ -38,10 +38,10 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
         lst_childrens = openstack_obj.Childrens
         for child in lst_childrens:
             if hasattr(child, 'user_id'):
-                if not child.user_id in users_set:
+                if child.user_id not in users_set:
                     resources.append(child)
             if hasattr(child, 'tenant_id'):
-                if not child.tenant_id in tenants_set:
+                if child.tenant_id not in tenants_set:
                     resources.append(child)
 
             if hasattr(child, 'Childrens'):
@@ -62,7 +62,7 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
         lst_childrens = openstack_obj.Childrens
         for child in lst_childrens:
             if hasattr(child, 'tenant_id'):
-                if not child.tenant_id in tenants_set:
+                if child.tenant_id not in tenants_set:
                     resources.append(child)
 
             if hasattr(child, 'Childrens'):

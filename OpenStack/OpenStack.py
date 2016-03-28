@@ -16,7 +16,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     __regions = None
 
     def __init__(self, *args, **kwargs):
-        if kwargs.has_key('username'):
+        if 'username' in kwargs:
             self._credentials = kwargs
             return None
         import os
@@ -39,8 +39,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 
             return None
         else:
-            raise Exception(
-                "Credentails not exported in environment varibles and /etc/ext_cloud/ext_cloud.conf file")
+            raise Exception("Credentails not exported in environment varibles and /etc/ext_cloud/ext_cloud.conf file")
 
     @property
     def identity(self):

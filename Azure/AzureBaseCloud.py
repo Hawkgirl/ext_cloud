@@ -6,18 +6,20 @@ class AzureBaseCloudcls:
     _azure_ref = None
 
     def __init__(self, *arg, **kwargs):
-        if kwargs.has_key('name'):
+        if 'name' in kwargs:
             self._name = kwargs['name']
-        if kwargs.has_key('id'):
+        if 'id' in kwargs:
             self._id = kwargs['id']
-        if kwargs.has_key('credentials'):
+        if 'credentials' in kwargs:
             self._credentials = kwargs['credentials']
 
     @property
-    def name(self): return self._name
+    def name(self):
+        return self._name
 
     @property
-    def id(self): return self._id
+    def id(self):
+        return self._id
 
     def __repr__(self):
         ret = ""
@@ -30,7 +32,3 @@ class AzureBaseCloudcls:
                     value = str(value)
                 ret = ret + varible + ":" + value + "  "
         return ret
-
-    def addtag(self, name, value): pass
-
-    def gettags(self): pass

@@ -23,50 +23,65 @@ class BaseResourceUsagecls:
             setattr(self, attr, kwargs[key])
 
     @property
-    def available_vms(self): return self.__available_vms
+    def available_vms(self):
+        return self.__available_vms
 
     @property
-    def free_vms(self): return self.__free_vms
+    def free_vms(self):
+        return self.__free_vms
 
     @property
-    def used_vms(self): return self.__used_vms
+    def used_vms(self):
+        return self.__used_vms
 
     @property
     def deleted_vms(self):
         return self.__deleted_vms
 
     @property
-    def available_memory(self): return self.__available_memory
+    def available_memory(self):
+        return self.__available_memory
 
     @property
-    def free_memory(self): return self.__free_memory
+    def free_memory(self):
+        return self.__free_memory
 
     @property
-    def used_memory(self): return self.__used_memory
+    def used_memory(self):
+        return self.__used_memory
 
     @property
-    def hours_memory(self): return self.__hours_memory
+    def hours_memory(self):
+        return self.__hours_memory
 
     @property
-    def available_disk(self): return self.__available_disk
+    def available_disk(self):
+        return self.__available_disk
 
     @property
-    def used_disk(self): return self.__used_disk
+    def used_disk(self):
+        return self.__used_disk
 
     @property
-    def free_disk(self): return self.__free_disk
+    def free_disk(self):
+        return self.__free_disk
 
     @property
-    def hours_disk(self): return self.__hours_disk
+    def hours_disk(self):
+        return self.__hours_disk
 
     @property
-    def availble_cpus(self): return self.__availble_cpus
+    def availble_cpus(self):
+        return self.__availble_cpus
 
     @property
-    def used_cpus(self): return self.__used_cpus
+    def used_cpus(self):
+        return self.__used_cpus
 
     @property
-    def free_cpus(self): return self.__free_cpus
+    def free_cpus(self):
+        return self.__free_cpus
 
     @property
-    def hours_cpus(self): return self.__hours_cpus
+    def hours_cpus(self):
+        return self.__hours_cpus

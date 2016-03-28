@@ -1,5 +1,4 @@
 from BaseCloud.BaseObjectStore.BaseKey import BaseKeycls
-from boto import s3
 from AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
@@ -11,11 +10,11 @@ class AWSKeycls(AWSBaseCloudcls, BaseKeycls):
     def __init__(self, *arg, **kwargs):
         self.__aws_key = arg[0]
 
-        super(AWSKeycls, self).__init__(id=self.__aws_key.name,
-                                        name=self.__aws_key.name, credentials=kwargs['credentials'])
+        super(AWSKeycls, self).__init__(id=self.__aws_key.name, name=self.__aws_key.name, credentials=kwargs['credentials'])
 
     @property
-    def size(self): return self.__aws_key.size
+    def size(self):
+        return self.__aws_key.size
 
     def delete(self):
         self.__aws_key.delete()

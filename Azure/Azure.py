@@ -1,12 +1,6 @@
 from BaseCloud.BaseCloud import Cloudcls
 from AzureCompute.AzureCompute import AzureComputecls
 from AzureImages.AzureImages import AzureImagescls
-"""
-from AzureNetworks.AzureNetworks import AzureNetworkscls
-from AzureVolumes.AzureVolumes import AzureVolumescls
-from AzureObjectStore.AzureObjectStore import AzureObjectStorecls
-from AzureTemplates.AzureTemplates import AzureTemplatescls
-"""
 from AzureBaseCloud import AzureBaseCloudcls
 
 
@@ -23,13 +17,14 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
     def __init__(self, *args, **kwargs):
         self._credentials['subscription_id'] = kwargs['subscription_id']
         self._credentials['certificate_path'] = kwargs['certificate_path']
-        if not kwargs.has_key('region_name'):
+        if 'region_name' not in kwargs:
             self._credentials['region_name'] = "East US"
         else:
             self._credentials['region_name'] = kwargs['region_name']
 
     @property
-    def identity(self): pass
+    def identity(self):
+        pass
 
     @property
     def compute(self):
@@ -39,7 +34,8 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
         return self.__compute
 
     @property
-    def networks(self): pass
+    def networks(self):
+        pass
 
     @property
     def images(self):
@@ -65,9 +61,12 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
         return self.__volumes
 
     @property
-    def objectstore(self): pass
+    def objectstore(self):
+        pass
 
     @property
-    def templates(self): pass
+    def templates(self):
+        pass
 
-    def validate_credentials(self): pass
+    def validate_credentials(self):
+        pass

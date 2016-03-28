@@ -13,11 +13,10 @@ class AWSInstancecls(AWSBaseCloudcls, BaseInstancecls):
         self.__aws_instance = arg[0]
         self._aws_ref = arg[0]
         name = None
-        if self.__aws_instance.tags.has_key('Name'):
+        if 'Name' in self.__aws_instance.tags:
             name = self.__aws_instance.tags['Name']
 
-        super(AWSInstancecls, self).__init__(id=self.__aws_instance.id,
-                                             name=name, credentials=kwargs['credentials'])
+        super(AWSInstancecls, self).__init__(id=self.__aws_instance.id, name=name, credentials=kwargs['credentials'])
 
     # override name property
     @AWSBaseCloudcls.name.setter
@@ -48,10 +47,12 @@ class AWSInstancecls(AWSBaseCloudcls, BaseInstancecls):
         return self._compute
 
     @property
-    def size(self): pass
+    def size(self):
+        pass
 
     @property
-    def state(self): return self.__aws_instance.state
+    def state(self):
+        return self.__aws_instance.state
 
     @property
     def image_id(self):
@@ -138,7 +139,8 @@ class AWSInstancecls(AWSBaseCloudcls, BaseInstancecls):
     def delete(self):
         return self.__aws_instance.terminate()
 
-    def add_security_group(self, security_group): pass
+    def add_security_group(self, security_group):
+        pass
 
     def update(self):
         aws_reservations = self._EC2.get_all_instances(instance_ids=[self.id])

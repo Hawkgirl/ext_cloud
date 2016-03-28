@@ -16,4 +16,5 @@ class OpenStackUsercls(OpenStackBaseCloudcls, BaseUsercls):
         return 'enabled' if self.__openstack_user.enabled is True else 'disabled'
 
     @property
-    def email_id(self): return self.__openstack_user.email
+    def email_id(self):
+        return self.__openstack_user.email

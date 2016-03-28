@@ -16,8 +16,7 @@ class AzureRegionscls(AzureBaseCloudcls, BaseRegionscls):
     @__SMS.getter
     def __SMS(self):
         if self.__sms is None:
-            self.__sms = ServiceManagementService(
-                self._credentials['subscription_id'], self._credentials['certificate_path'])
+            self.__sms = ServiceManagementService(self._credentials['subscription_id'], self._credentials['certificate_path'])
         return self.__sms
 
     def list_regions(self):
@@ -25,12 +24,13 @@ class AzureRegionscls(AzureBaseCloudcls, BaseRegionscls):
         azure_locations = self.__SMS.list_locations()
         regions = []
         for azure_location in azure_locations:
-            location = AzureRegioncls(
-                azure_location, credentials=self._credentials)
+            location = AzureRegioncls(azure_location, credentials=self._credentials)
             regions.append(location)
 
         return regions
 
-    def get_region_by_id(self, instance_id): pass
+    def get_region_by_id(self, instance_id):
+        pass
 
-    def get_region_by_name(self, instance_name): pass
+    def get_region_by_name(self, instance_name):
+        pass

@@ -40,7 +40,8 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
     def get_networks_by_tenant_id(self, tenant_id):
         return [OpenStackNetworkcls(openstack_network, credentials=self._credentials) for openstack_network in self._NeutronClient.list_networks(tenant_id=tenant_id)['networks']]
 
-    def get_networks_by_tag(self, tag_name, tag_value): pass
+    def get_networks_by_tag(self, tag_name, tag_value):
+        pass
 
     def list_networks(self):
         return [OpenStackNetworkcls(openstack_network, credentials=self._credentials) for openstack_network in self._NeutronClient.list_networks()['networks']]
@@ -73,9 +74,11 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
                 return subnet
         return None
 
-    def get_subnets_by_name(self, subnet_name): pass
+    def get_subnets_by_name(self, subnet_name):
+        pass
 
-    def get_subnets_by_tag(self, tag_name, tag_value): pass
+    def get_subnets_by_tag(self, tag_name, tag_value):
+        pass
 
     # ----------------- Nic operations ------------------------- #
     def list_nics(self):

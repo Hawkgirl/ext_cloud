@@ -13,12 +13,17 @@ class OpenStackKeycls(OpenStackBaseCloudcls, BaseKeycls):
                                               name=self.__openstack_key.name, credentials=kwargs['credentials'])
 
     @property
-    def size(self): pass
+    def size(self):
+        pass
 
-    def delete(self): pass
+    def delete(self):
+        pass
 
-    def download(self, file_path): pass
+    def download(self, file_path):
+        pass
 
-    def upload(self, file_path): pass
+    def upload(self, file_path):
+        pass
 
-    def get_url(self): pass
+    def get_url(self):
+        pass

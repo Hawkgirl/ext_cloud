@@ -1,6 +1,5 @@
 from ext_cloud.BaseCloud.BaseIdentity.BaseIdentity import BaseIdentitycls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
 
 
 class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
@@ -79,7 +78,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         from keystoneclient.openstack.common.apiclient.exceptions import NotFound
         try:
             openstack_user = self._KeystoneClient.users.get(user_id)
-        except NotFound as e:
+        except NotFound:
             # user got deleted
             return None
 
@@ -101,7 +100,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         from keystoneclient.openstack.common.apiclient.exceptions import NotFound
         try:
             openstack_tenant = self._KeystoneClient.tenants.get(tenant_id)
-        except NotFound as e:
+        except NotFound:
             return None
         tenant = OpenStackTenantcls(
             openstack_tenant, credentials=self._credentials)

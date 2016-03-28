@@ -12,14 +12,16 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
             'id'], name=self.__openstack_network['name'], credentials=kwargs['credentials'])
 
     @property
-    def state(self): return self.__openstack_network['status']
+    def state(self):
+        return self.__openstack_network['status']
 
     @property
-    def is_external_network(self): return self.__openstack_network[
-        'router:external']
+    def is_external_network(self):
+        return self.__openstack_network['router:external']
 
     @property
-    def tenant_id(self): return self.__openstack_network['tenant_id']
+    def tenant_id(self):
+        return self.__openstack_network['tenant_id']
 
     @property
     def is_zombie(self):
@@ -42,7 +44,8 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
     def get_subnets_by_name(self, subnet_name):
         return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(name=subnet_name)['subnets']]
 
-    def get_subnets_by_tag(self, tag_name, tag_value): pass
+    def get_subnets_by_tag(self, tag_name, tag_value):
+        pass
 
     def create_subnet(self, name=None, cidr_block=None, enable_dhcp=False, dns_nameservers=None):
         if dns_nameservers is None:

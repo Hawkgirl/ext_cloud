@@ -36,19 +36,20 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         return zombies
 
     @property
-    def count_total_volumes(self): return len(self.list_volumes())
+    def count_total_volumes(self):
+        return len(self.list_volumes())
 
     @property
-    def count_used_volumes(self): return reduce(
-        lambda x, y: x + 1 if y.is_attached else x, self.list_volumes(), 0)
+    def count_used_volumes(self):
+        return reduce(lambda x, y: x + 1 if y.is_attached else x, self.list_volumes(), 0)
 
     @property
     def count_free_volumes(self):
         return reduce(lambda x, y: x + 1 if (not y.is_attached) and (y.status == 'available') else x, self.list_volumes(), 0)
 
     @property
-    def count_error_volumes(self): return len(
-        self.get_volumes_by_error_state())
+    def count_error_volumes(self):
+        return len(self.get_volumes_by_error_state())
 
     def list_volumes(self):
         search_opts = {'all_tenants': 1}
@@ -67,7 +68,6 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         return self.get_volumes_by_state(STATE.ERROR)
 
     def get_volumes_by_state(self, state):
-
         state_str = 'READY'
         for key in STATE_MAP:
             if state == STATE_MAP[key]:
@@ -85,12 +85,14 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
         return volumes
 
-    def create_volume(self, size=2, name=None): pass
+    def create_volume(self, size=2, name=None):
+        pass
 
-    def attach_volume(self, volume_id=None, instance_id=None,
-                      device_path=None): pass
+    def attach_volume(self, volume_id=None, instance_id=None, device_path=None):
+        pass
 
-    def detach_volume(self, volume_id=None, instance_id=None): pass
+    def detach_volume(self, volume_id=None, instance_id=None):
+        pass
 
     def list_snapshots(self):
         search_opts = {'all_tenants': 1}
@@ -103,9 +105,6 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
             snapshots.append(snapshot)
 
         return snapshots
-
-    def create_volume(self, size=2, name=None):
-        pass
 
     def delete_volume_by_id(self, volume_id):
         pass

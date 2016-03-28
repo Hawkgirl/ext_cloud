@@ -1,7 +1,6 @@
 from BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
 from Azure.AzureVolumes.AzureVolume import AzureVolumecls
 from Azure.AzureBaseCloud import AzureBaseCloudcls
-from Azure.AzureVolumes.AzureVolume import AzureVolumecls
 
 
 class AzureVolumescls(AzureBaseCloudcls, BaseVolumescls):
@@ -19,16 +18,14 @@ class AzureVolumescls(AzureBaseCloudcls, BaseVolumescls):
     def __SMS(self):
         from azure.servicemanagement import ServiceManagementService
         if self.__sms is None:
-            self.__sms = ServiceManagementService(
-                self._credentials['subscription_id'], self._credentials['certificate_path'])
+            self.__sms = ServiceManagementService(self._credentials['subscription_id'], self._credentials['certificate_path'])
         return self.__sms
 
     def list_volumes(self):
         azure_volumes = self.__SMS.list_disks()
         volumes = []
         for azure_volume in azure_volumes:
-            azure_volume = AzureVolumecls(
-                azure_volume, credentials=self._credentials)
+            azure_volume = AzureVolumecls(azure_volume, credentials=self._credentials)
             volumes.append(azure_volume)
 
         return volumes
@@ -47,26 +44,35 @@ class AzureVolumescls(AzureBaseCloudcls, BaseVolumescls):
 
         return volumes
 
-    def get_volumes_by_tag(self, tag_name, tag_value): pass
+    def get_volumes_by_tag(self, tag_name, tag_value):
+        pass
 
-    def create_volume(self, size=2, name=None, zone=None): pass
+    def create_volume(self, size=2, name=None, zone=None):
+        pass
 
-    def attach_volume(self, volume_id=None, instance_id=None,
-                      device_path=None): pass
+    def attach_volume(self, volume_id=None, instance_id=None, device_path=None):
+        pass
 
-    def detach_volume(self, volume_id=None, instance_id=None): pass
+    def detach_volume(self, volume_id=None, instance_id=None):
+        pass
 
     def delete_volume_by_id(self, volume_id):
         self.__SMS.delete_disk(volume_id)
 
-    def list_snapshots(self): pass
+    def list_snapshots(self):
+        pass
 
-    def get_snapshot_by_id(self, snapshot_id): pass
+    def get_snapshot_by_id(self, snapshot_id):
+        pass
 
-    def create_snapshot(self, volume_id, name=None, description=None): pass
+    def create_snapshot(self, volume_id, name=None, description=None):
+        pass
 
-    def create_volume_from_snapshot(self, snapshot_id, size=2, name=None): pass
+    def create_volume_from_snapshot(self, snapshot_id, size=2, name=None):
+        pass
 
-    def get_snapshots_by_tag(self, tag_name, tag_value): pass
+    def get_snapshots_by_tag(self, tag_name, tag_value):
+        pass
 
-    def delete_snapshot_by_id(self, snapshot_id): pass
+    def delete_snapshot_by_id(self, snapshot_id):
+        pass
