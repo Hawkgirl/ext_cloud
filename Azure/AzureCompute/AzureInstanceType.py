@@ -2,24 +2,25 @@ from BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
 from boto import ec2
 from Azure.AzureBaseCloud import AzureBaseCloudcls
 
+
 class AzureInstanceTypecls(AzureBaseCloudcls, BaseInstanceTypecls):
-	
-	__azure_instancetype = None
 
-	def __init__(self, *arg, **kwargs):
-                self.__azure_instancetype = arg[0]
+    __azure_instancetype = None
 
-                super(AzureInstanceTypecls, self).__init__(id=self.__azure_instancetype['id'], name=self.__azure_instancetype['name'], credentials=kwargs['credentials'])
+    def __init__(self, *arg, **kwargs):
+        self.__azure_instancetype = arg[0]
 
-        @property
-        def memory(self):
-		return self.__azure_instancetype['ram']
+        super(AzureInstanceTypecls, self).__init__(id=self.__azure_instancetype[
+            'id'], name=self.__azure_instancetype['name'], credentials=kwargs['credentials'])
 
-        @property
-        def disk(self): 
-                return None
+    @property
+    def memory(self):
+        return self.__azure_instancetype['ram']
 
-        @property
-        def cpus(self):
-                return  self.__azure_instancetype['cpus']
+    @property
+    def disk(self):
+        return None
 
+    @property
+    def cpus(self):
+        return self.__azure_instancetype['cpus']

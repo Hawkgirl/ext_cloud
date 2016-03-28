@@ -1,45 +1,46 @@
 from ext_cloud.BaseCloud.BaseNetworks.BaseNIC import BaseNICcls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
+
 class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
-	
-	__openstack_nic = None
 
-	def __init__(self, *arg, **kwargs):
-                self.__openstack_nic = arg[0]
+    __openstack_nic = None
 
-                super(OpenStackNICcls, self).__init__(id=self.__openstack_nic['id'], name=self.__openstack_nic['name'], credentials=kwargs['credentials'])
+    def __init__(self, *arg, **kwargs):
+        self.__openstack_nic = arg[0]
 
+        super(OpenStackNICcls, self).__init__(id=self.__openstack_nic[
+            'id'], name=self.__openstack_nic['name'], credentials=kwargs['credentials'])
 
-        @property
-        def state(self): return self.__openstack_nic['status']
+    @property
+    def state(self): return self.__openstack_nic['status']
 
-	@property
-	def mac_address(self): return self.__openstack_nic['mac_address']
+    @property
+    def mac_address(self): return self.__openstack_nic['mac_address']
 
-	@property
-	def network_id(self): return self.__openstack_nic['network_id']
+    @property
+    def network_id(self): return self.__openstack_nic['network_id']
 
-	@property
-	def tenant_id(self): return self.__openstack_nic['tenant_id']
+    @property
+    def tenant_id(self): return self.__openstack_nic['tenant_id']
 
-	@property
-	def is_zombie(self):
-		from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
-                tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
-                if tenant is None:
-                        return True
-                return False
+    @property
+    def is_zombie(self):
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+        tenant = OpenStackIdentitycls(
+            **self._credentials).get_tenant_by_id(self.tenant_id)
+        if tenant is None:
+            return True
+        return False
 
-	@property
-	def subnet_id(self): 
-		if self.__openstack_nic.has_key('fixed_ips'):
-			return self.__openstack_nic['fixed_ips'][0]['subnet_id']
-		return None
+    @property
+    def subnet_id(self):
+        if self.__openstack_nic.has_key('fixed_ips'):
+            return self.__openstack_nic['fixed_ips'][0]['subnet_id']
+        return None
 
-	@property
-	def ip_address(self):
-		if self.__openstack_nic.has_key('fixed_ips'):
-			return self.__openstack_nic['fixed_ips'][0]['ip_address']
-		return None
-
+    @property
+    def ip_address(self):
+        if self.__openstack_nic.has_key('fixed_ips'):
+            return self.__openstack_nic['fixed_ips'][0]['ip_address']
+        return None

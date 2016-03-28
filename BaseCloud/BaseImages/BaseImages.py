@@ -1,10 +1,11 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
+
 class BaseImagescls:
-        __metaclass__ = ABCMeta
+    __metaclass__ = ABCMeta
 
-        @abstractmethod
-        def list_images(self): pass
+    @abstractmethod
+    def list_images(self): pass
 
-        @abstractmethod
-        def create_image_from_instance(self, instance_id, name=None): pass
+    @abstractmethod
+    def create_image_from_instance(self, instance_id, name=None): pass
