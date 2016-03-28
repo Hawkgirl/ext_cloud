@@ -1,25 +1,20 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-
 class BaseKeypaircls:
-    __metaclass__ = ABCMeta
+	__metaclass__ = ABCMeta
 
-    @abstractproperty
-    def name(self):
-        pass
+	@abstractproperty
+	def name(self): pass
 
-    @abstractproperty
-    def id(self):
-        pass
+	@abstractproperty
+	def id(self): pass
 
-    @abstractproperty
-    def privatekey(self):
-        pass
+	@abstractproperty
+	def privatekey(self): pass
 
-    @abstractproperty
-    def publickey(self):
-        pass
+	@abstractproperty
+	def publickey(self): pass
 
-    @abstractmethod
-    def delete(self):
-        pass
+	@abstractmethod
+        def delete(self): pass
+

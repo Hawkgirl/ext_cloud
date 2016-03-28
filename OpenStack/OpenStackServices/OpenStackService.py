@@ -1,32 +1,27 @@
 from ext_cloud.BaseCloud.BaseServices.BaseService import BaseServicecls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
-
 class OpenStackServicecls(OpenStackBaseCloudcls, BaseServicecls):
+	
+	__openstack_service = None
 
-    __openstack_service = None
+	def __init__(self, *arg, **kwargs):
+		self.__openstack_service = kwargs
+                super(OpenStackServicecls, self).__init__(id=kwargs['id'], name=kwargs['name'])
 
-    def __init__(self, *arg, **kwargs):
-        self.__openstack_service = kwargs
-        super(OpenStackServicecls, self).__init__(id=kwargs['id'],
-                                                  name=kwargs['name'])
+        @property
+        def state(self): return self.__openstack_service['state']
 
-    @property
-    def state(self):
-        return self.__openstack_service['state']
+	@property
+        def status(self): return self.__openstack_service['status']
+	
+	@property
+        def port(self): return None
 
-    @property
-    def status(self):
-        return self.__openstack_service['status']
+	@property
+        def host(self): return self.__openstack_service['host']
+	
+	@property
+	def group(self): return self.__openstack_service['group']
 
-    @property
-    def port(self):
-        return None
 
-    @property
-    def host(self):
-        return self.__openstack_service['host']
-
-    @property
-    def group(self):
-        return self.__openstack_service['group']
