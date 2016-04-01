@@ -26,7 +26,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def state(self):
-        return str(STATE_MAP[self.__openstack_instance.status])
+        return STATE_MAP[self.__openstack_instance.status].name
 
     def start(self):
         return self.__openstack_instance.start_instance()
