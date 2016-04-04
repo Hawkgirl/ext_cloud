@@ -75,7 +75,12 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def image_name(self):
-        pass
+	if self.image_id is None:
+		return None
+	from ext_cloud.OpenStack.OpenStackImages.OpenStackImages import OpenStackImagescls
+        images_service = OpenStackImagescls(**self._credentials)
+	images = images_service.list_images_cache()
+	return images[self.image_id]['name'] if self.image_id in images else None
 
     @property
     def arch(self):
@@ -136,8 +141,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         # empty floating ip not found, create?
         if floatingip_id is None:
             return
-        self._NeutronClient.update_floatingip(
-            floatingip_id, {'floatingip': {'port_id': nic_id}})
+        self._NeutronClient.update_floatingip(floatingip_id, {'floatingip': {'port_id': nic_id}})
 
     def addtag(self):
         pass
@@ -148,13 +152,11 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     @property
     def is_zombie(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
-        tenant = OpenStackIdentitycls(
-            **self._credentials).get_tenant_by_id(self.tenant_id)
+        tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
         if tenant is None:
             return True
 
-        user = OpenStackIdentitycls(
-            **self._credentials).get_user_by_id(self.user_id)
+        user = OpenStackIdentitycls(**self._credentials).get_user_by_id(self.user_id)
         if user is None:
             return True
 

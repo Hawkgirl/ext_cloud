@@ -19,16 +19,11 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         from toolz import countby
         instances = self.list_instances()
         group_by_state = countby(lambda x: x.state, instances)
-        metrics.append(BaseMetricscls(
-            'openstack.instances.total', len(instances)))
-        metrics.append(BaseMetricscls('openstack.instances.running', group_by_state[
-                       'STATE.RUNNING'] if 'STATE.RUNNING' in group_by_state else 0))
-        metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state[
-                       'STATE.STOPPED'] if 'STATE.STOPPED' in group_by_state else 0))
-        metrics.append(BaseMetricscls('openstack.instances.paused', group_by_state[
-                       'STATE.PAUSED'] if 'STATE.PAUSED' in group_by_state else 0))
-        metrics.append(BaseMetricscls('openstack.instances.error', group_by_state[
-                       'STATE.ERROR'] if 'STATE.ERROR' in group_by_state else 0))
+        metrics.append(BaseMetricscls('openstack.instances.total', len(instances)))
+        metrics.append(BaseMetricscls('openstack.instances.running', group_by_state['STATE.RUNNING'] if 'STATE.RUNNING' in group_by_state else 0))
+        metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['STATE.STOPPED'] if 'STATE.STOPPED' in group_by_state else 0))
+        metrics.append(BaseMetricscls('openstack.instances.paused', group_by_state['STATE.PAUSED'] if 'STATE.PAUSED' in group_by_state else 0))
+        metrics.append(BaseMetricscls('openstack.instances.error', group_by_state['STATE.ERROR'] if 'STATE.ERROR' in group_by_state else 0))
         return metrics
 
     @property
@@ -41,8 +36,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         instances = []
 
         for openstack_instance in openstack_instances:
-            instance = OpenStackInstancecls(
-                openstack_instance, credentials=self._credentials)
+            instance = OpenStackInstancecls(openstack_instance, credentials=self._credentials)
             instances.append(instance)
 
         return instances
@@ -74,8 +68,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
                 state_str = key
                 break
 
-        openstack_instances = self._NovaClient.servers.list(
-            search_opts={'all_tenants': 1, 'status': state_str})
+        openstack_instances = self._NovaClient.servers.list(search_opts={'all_tenants': 1, 'status': state_str})
         instances = []
 
         for openstack_instance in openstack_instances:
