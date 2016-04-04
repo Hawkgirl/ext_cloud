@@ -43,6 +43,19 @@ class OpenStackBaseCloudcls():
                 ret = ret + varible + ":" + value + "  "
         return ret
 
+    def obj_to_dict(self):
+	dic = {}
+	for varible in dir(self):
+            if not varible.startswith("_") and isinstance(getattr(self.__class__, varible), property):
+                value = getattr(self, varible)
+                if value is None:
+                    value = "None"
+                if not isinstance(value, str):
+                    value = str(value)
+
+		dic[varible] = value
+	return dic
+
     def list_metrics(self):
         return []
 

@@ -17,12 +17,14 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_instance = arg[0]
-        super(OpenStackInstancecls, self).__init__(id=self.__openstack_instance.id,
-                                                   name=self.__openstack_instance.name, credentials=kwargs['credentials'])
+        super(OpenStackInstancecls, self).__init__(id=self.__openstack_instance.id, name=self.__openstack_instance.name, credentials=kwargs['credentials'])
 
     @property
     def size(self):
-        return self.__openstack_instance.flavor['id']
+	from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
+        compute = OpenStackComputecls(**self._credentials)
+	instance_types = compute.list_instancetypes_cache()
+	return instance_types[self.__openstack_instance.flavor['id']]['name'] if self.__openstack_instance.flavor['id'] in instance_types else None
 
     @property
     def state(self):

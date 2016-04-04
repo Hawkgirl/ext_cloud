@@ -162,9 +162,26 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     '''
     # ------ Instance Type opertations ----------------------------------------
     '''
+    def list_instancetypes_cache(self):
+	from dogpile.cache import make_region
+	from dogpile.cache.api import NO_VALUE
 
+	region = make_region().configure('dogpile.cache.dbm', expiration_time = 3600, arguments = { "filename":"/tmp/ext_cloud.dbm" })
+
+	instance_types = region.get('instancetypes')
+	if instance_types is not NO_VALUE:
+		return instance_types
+	dic = {}
+	instance_types = self.list_instancetypes()
+	for instance_type in instance_types:
+		dic[instance_type.id] = instance_type.obj_to_dict()
+
+	region.set('instancetypes', dic)
+	return dic
+	
     def list_instancetypes(self):
-        openstack_instancetypes = self._NovaClient.flavors.list()
+	# is_public=None gives all flavors(for admins only)
+        openstack_instancetypes = self._NovaClient.flavors.list(is_public=None)
         instancetypes = []
         for openstack_instancetype in openstack_instancetypes:
             instancetype = OpenStackInstanceTypecls(openstack_instancetype, credentials=self._credentials)
