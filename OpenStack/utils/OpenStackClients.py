@@ -42,6 +42,8 @@ class OpenStackClientsCls:
         from glanceclient import client as GlanceClient
         from keystoneclient.v2_0 import client as KeystoneClient
         keystoneclient = KeystoneClient.Client(**credentials)
+	import pdb
+	pdb.set_trace()
         token = keystoneclient.auth_token
         endpoint = keystoneclient.service_catalog.url_for(service_type='image', endpoint_type='publicURL')
         return GlanceClient.Client('2', endpoint=endpoint, token=token, cacert=credentials['cacert'])

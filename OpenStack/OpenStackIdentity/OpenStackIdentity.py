@@ -125,3 +125,9 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
             return None
         tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
         return tenant
+
+    def create_token(self):
+	from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
+	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackToken import OpenStackTokenCls
+	keystone_client = OpenStackClientsCls().get_keystone_client(self._credentials)
+	return OpenStackTokenCls(keystone_client, credentials = self._credentials)
