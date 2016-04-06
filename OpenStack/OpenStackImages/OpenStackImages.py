@@ -44,7 +44,7 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
         return dic
 
     def list_images(self):
-        openstack_images = self._GlanceClient.images.list()
+        openstack_images = self._GlanceClient.images.list(all_tenants=True)
         images = []
         for openstack_image in openstack_images:
             image = OpenStackImagecls(openstack_image, credentials=self._credentials)
