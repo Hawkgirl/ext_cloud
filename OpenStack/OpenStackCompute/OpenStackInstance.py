@@ -66,12 +66,46 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         return None
 
     @property
+    def tenant_name(self):
+	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+        identity = OpenStackIdentitycls(**self._credentials)
+        tenants = identity.list_tenants_cache()
+        return tenants[self.tenant_id]['name'] if self.tenant_id in tenants else None
+
+	
+    @property
     def tenant_id(self):
         return self.__openstack_instance.tenant_id
 
     @property
+    def user_name(self):
+	if self.user_id is None:
+		return None
+
+	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+        identity = OpenStackIdentitycls(**self._credentials)
+        users = identity.list_users_cache()
+        return users[self.user_id]['name'] if self.user_id in users else None
+
+    @property
     def user_id(self):
         return self.__openstack_instance.user_id
+
+    @property
+    def availability_zone(self):
+	return getattr(self.__openstack_instance,'OS-EXT-AZ:availability_zone')
+
+    @property
+    def hypervisor_name(self):
+	return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:hypervisor_hostname') 
+
+    @property
+    def hypervisor_instance_name(self):
+	return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:instance_name')
+
+    @property
+    def launch_time(self):
+	return getattr(self.__openstack_instance, 'OS-SRV-USG:launched_at')
 
     @property
     def image_name(self):

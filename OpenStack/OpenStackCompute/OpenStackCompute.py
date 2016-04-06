@@ -31,8 +31,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return self.list_hypervisors() + self.list_instances() + self.list_security_groups()
 
     def list_instances(self):
-        openstack_instances = self._NovaClient.servers.list(
-            search_opts={'all_tenants': 1})
+        openstack_instances = self._NovaClient.servers.list(search_opts={'all_tenants': 1})
         instances = []
 
         for openstack_instance in openstack_instances:
@@ -42,11 +41,8 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return instances
 
     def get_instance_by_id(self, instance_id):
-        instances = self.list_instances()
-        for instance in instances:
-            if instance.id == instance_id:
-                return instance
-        return None
+        instance = self._NovaClient.servers.get(instance_id)
+	return OpenStackInstancecls(instance, credentials=self._credentials)
 
     def get_instances_by_name(self, instance_name):
         pass
