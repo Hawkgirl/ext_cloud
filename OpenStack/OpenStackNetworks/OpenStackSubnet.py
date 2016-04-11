@@ -8,8 +8,7 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
     def __init__(self, *arg, **kwargs):
         self.__openstack_subnet = arg[0]
 
-        super(OpenStackSubnetcls, self).__init__(id=self.__openstack_subnet[
-            'id'], name=self.__openstack_subnet['name'], credentials=kwargs['credentials'])
+        super(OpenStackSubnetcls, self).__init__(id=self.__openstack_subnet['id'], name=self.__openstack_subnet['name'], credentials=kwargs['credentials'])
 
     @property
     def state(self):
@@ -43,7 +42,7 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
         }
         }
 
-        nic_dict = self._NeutronClient.create_port(params)
+        nic_dict = self._Clients.neutron.create_port(params)
         openstack_nic = nic_dict['port']
         nic = OpenStackNICcls(openstack_nic, credentials=self._credentials)
         return nic

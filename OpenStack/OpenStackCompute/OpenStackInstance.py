@@ -164,7 +164,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
             if nic.ip_address == self.private_ip:
                 nic_id = nic.id
                 break
-        floatingips_dict = self._NeutronClient.list_floatingips()
+        floatingips_dict = self._Clients.neutron.list_floatingips()
         floatingips_list = floatingips_dict['floatingips']
         floatingip_id = None
         for floatingip in floatingips_list:
@@ -175,7 +175,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         # empty floating ip not found, create?
         if floatingip_id is None:
             return
-        self._NeutronClient.update_floatingip(floatingip_id, {'floatingip': {'port_id': nic_id}})
+        self._Clients.neutron.update_floatingip(floatingip_id, {'floatingip': {'port_id': nic_id}})
 
     def addtag(self):
         pass

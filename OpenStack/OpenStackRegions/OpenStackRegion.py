@@ -5,11 +5,10 @@ from ext_cloud.BaseCloud.BaseRegions.BaseRegion import BaseRegioncls
 class OpenStackRegioncls(OpenStackBaseCloudcls, BaseRegioncls):
 
     def __init__(self, *args, **kwargs):
-        super(OpenStackRegioncls, self).__init__(
-            id=args[0], name=args[0], credentials=kwargs['credentials'])
+        super(OpenStackRegioncls, self).__init__(id=args[0], name=args[0], credentials=kwargs['credentials'])
 
     def list_zones(self):
-        zones = self._NovaClient.availability_zones.list()
+        zones = self._Clients.nova.availability_zones.list()
         openstack_zones = []
         for zone in zones:
             from ext_cloud.OpenStack.OpenStackRegions.OpenStackZone import OpenStackZonecls

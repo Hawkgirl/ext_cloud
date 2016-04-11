@@ -7,11 +7,7 @@ class OpenStackBaseCloudcls():
     _name = None
     _id = None
 
-    _keystoneclient = None
-    _novaclient = None
-    _neutronclient = None
-    _cinderclient = None
-    _glanceclient = None
+    _clients = None
 
     def __init__(self, *arg, **kwargs):
         if 'name' in kwargs:
@@ -20,8 +16,7 @@ class OpenStackBaseCloudcls():
             self._id = kwargs['id']
         if 'credentials' in kwargs:
             import collections
-            self._credentials = collections.defaultdict(
-                lambda: None, kwargs['credentials'])
+            self._credentials = collections.defaultdict(lambda: None, kwargs['credentials'])
 
     @property
     def name(self):
@@ -60,52 +55,11 @@ class OpenStackBaseCloudcls():
         return []
 
     @property
-    def _KeystoneClient(self):
-        return self._keystoneclient
+    def _Clients(self):
+        return self._Clients
 
-    @_KeystoneClient.getter
-    def _KeystoneClient(self):
-        if self._keystoneclient is None:
-            self._keystoneclient = OpenStackClientsCls().get_keystone_client(self._credentials)
-        return self._keystoneclient
-
-    @property
-    def _NovaClient(self):
-        return self._novaclient
-
-    @_NovaClient.getter
-    def _NovaClient(self):
-        if self._novaclient is None:
-            self._novaclient = OpenStackClientsCls().get_nova_client(self._credentials)
-        return self._novaclient
-
-    @property
-    def _NeutronClient(self):
-        return self._neutronclient
-
-    @_NeutronClient.getter
-    def _NeutronClient(self):
-        if self._neutronclient is None:
-            self._neutronclient = OpenStackClientsCls().get_neutron_client(self._credentials)
-        return self._neutronclient
-
-    @property
-    def _CinderClient(self):
-        return self._cinderclient
-
-    @_CinderClient.getter
-    def _CinderClient(self):
-        if self._cinderclient is None:
-            self._cinderclient = OpenStackClientsCls().get_cinder_client(self._credentials)
-        return self._cinderclient
-
-    @property
-    def _GlanceClient(self):
-        return self._glanceclient
-
-    @_GlanceClient.getter
-    def _GlanceClient(self):
-        if self._glanceclient is None:
-            self._glanceclient = OpenStackClientsCls().get_glance_client(self._credentials)
-
-        return self._glanceclient
+    @_Clients.getter
+    def _Clients(self):
+        if self._clients is None:
+            self._clients = OpenStackClientsCls(**self._credentials)
+        return self._clients

@@ -55,7 +55,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
     def list_compute_services(self):
         services = []
-        nova_services = self._NovaClient.services.list()
+        nova_services = self._Clients.nova.services.list()
         for nova_service in nova_services:
             kwargs = {}
             kwargs['id'] = nova_service.id
@@ -72,7 +72,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
     def list_network_services(self):
         services = []
-        neutron_services = self._NeutronClient.list_agents()['agents']
+        neutron_services = self._Clients.neutron.list_agents()['agents']
         for service in neutron_services:
             kwargs = {}
             kwargs['id'] = service['id']
@@ -90,7 +90,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
     def list_volume_services(self):
         services = []
-        volume_services = self._CinderClient.services.list()
+        volume_services = self._Clients.cinder.services.list()
         for service in volume_services:
             kwargs = {}
             kwargs['id'] = service.binary

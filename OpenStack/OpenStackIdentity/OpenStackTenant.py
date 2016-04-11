@@ -21,7 +21,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
         import datetime
         now = datetime.datetime.now()
         epoch = datetime.datetime(year=1970, month=1, day=1)
-        tenant_usage = self._NovaClient.usage.get(self.id, epoch, now)
+        tenant_usage = self._Clients.nova.usage.get(self.id, epoch, now)
 
         if not hasattr(tenant_usage, 'total_vcpus_usage'):
             return None

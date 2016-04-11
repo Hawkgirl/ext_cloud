@@ -17,7 +17,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         import datetime
 
         now = datetime.datetime.utcnow()
-        usages = self._NovaClient.usage.list(now - datetime.timedelta(days=1), now, detailed=True)
+        usages = self._Clients.nova.usage.list(now - datetime.timedelta(days=1), now, detailed=True)
         vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
 
         for usage in usages:
@@ -33,7 +33,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
         from dateutil.relativedelta import relativedelta
         one_month_back = now - relativedelta(months=1)
-        usages = self._NovaClient.usage.list(one_month_back, now, detailed=True)
+        usages = self._Clients.nova.usage.list(one_month_back, now, detailed=True)
         vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
 
         for usage in usages:
@@ -71,7 +71,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def list_users(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackUser import OpenStackUsercls
-        openstack_users = self._KeystoneClient.users.list()
+        openstack_users = self._Clients.keystone.users.list()
         users = []
         for openstack_user in openstack_users:
             user = OpenStackUsercls(openstack_user, credentials=self._credentials)
@@ -82,7 +82,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackUser import OpenStackUsercls
         from keystoneclient.openstack.common.apiclient.exceptions import NotFound
         try:
-            openstack_user = self._KeystoneClient.users.get(user_id)
+            openstack_user = self._Clients.keystone.users.get(user_id)
         except NotFound:
             # user got deleted
             return None
@@ -109,7 +109,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def list_tenants(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
-        openstack_tenants = self._KeystoneClient.tenants.list()
+        openstack_tenants = self._Clients.keystone.tenants.list()
         tenants = []
         for openstack_tenant in openstack_tenants:
             tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
@@ -120,7 +120,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
         from keystoneclient.openstack.common.apiclient.exceptions import NotFound
         try:
-            openstack_tenant = self._KeystoneClient.tenants.get(tenant_id)
+            openstack_tenant = self._Clients.keystone.tenants.get(tenant_id)
         except NotFound:
             return None
         tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)

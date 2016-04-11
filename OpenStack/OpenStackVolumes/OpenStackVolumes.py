@@ -16,14 +16,10 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
     def list_metrics(self):
         metrics = []
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count', self.count_total_volumes))
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count_error_volumes', self.count_error_volumes))
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count_used_volumes', self.count_used_volumes))
-        metrics.append(BaseMetricscls(
-            'openstack.volumes.count_free_volumes', self.count_free_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count', self.count_total_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count_error_volumes', self.count_error_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count_used_volumes', self.count_used_volumes))
+        metrics.append(BaseMetricscls('openstack.volumes.count_free_volumes', self.count_free_volumes))
 
         return metrics
 
@@ -53,12 +49,10 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
     def list_volumes(self):
         search_opts = {'all_tenants': 1}
-        openstack_volumes = self._CinderClient.volumes.list(
-            search_opts=search_opts)
+        openstack_volumes = self._Clients.cinder.volumes.list(search_opts=search_opts)
         volumes = []
         for openstack_volume in openstack_volumes:
-            volume = OpenStackVolumecls(
-                openstack_volume, credentials=self._credentials)
+            volume = OpenStackVolumecls(openstack_volume, credentials=self._credentials)
             volumes.append(volume)
 
         return volumes
@@ -75,12 +69,11 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
                 break
 
         search_opts = {'all_tenants': 1, 'status': state_str}
-        openstack_volumes = self._CinderClient.volumes.list(
+        openstack_volumes = self._Clients.cinder.volumes.list(
             search_opts=search_opts)
         volumes = []
         for openstack_volume in openstack_volumes:
-            volume = OpenStackVolumecls(
-                openstack_volume, credentials=self._credentials)
+            volume = OpenStackVolumecls(openstack_volume, credentials=self._credentials)
             volumes.append(volume)
 
         return volumes
@@ -96,12 +89,10 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
     def list_snapshots(self):
         search_opts = {'all_tenants': 1}
-        openstack_snapshots = self._CinderClient.volume_snapshots.list(
-            search_opts=search_opts)
+        openstack_snapshots = self._Clients.cinder.volume_snapshots.list(search_opts=search_opts)
         snapshots = []
         for openstack_snapshot in openstack_snapshots:
-            snapshot = OpenStackSnapshotcls(
-                openstack_snapshot, credentials=self._credentials)
+            snapshot = OpenStackSnapshotcls(openstack_snapshot, credentials=self._credentials)
             snapshots.append(snapshot)
 
         return snapshots

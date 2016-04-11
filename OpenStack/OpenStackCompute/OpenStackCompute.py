@@ -31,7 +31,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return self.list_hypervisors() + self.list_instances() + self.list_security_groups()
 
     def list_instances(self):
-        openstack_instances = self._NovaClient.servers.list(search_opts={'all_tenants': 1})
+        openstack_instances = self._Clients.nova.servers.list(search_opts={'all_tenants': 1})
         instances = []
 
         for openstack_instance in openstack_instances:
@@ -41,7 +41,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return instances
 
     def get_instance_by_id(self, instance_id):
-        instance = self._NovaClient.servers.get(instance_id)
+        instance = self._Clients.nova.servers.get(instance_id)
 	return OpenStackInstancecls(instance, credentials=self._credentials)
 
     def get_instances_by_name(self, instance_name):
@@ -64,7 +64,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
                 state_str = key
                 break
 
-        openstack_instances = self._NovaClient.servers.list(search_opts={'all_tenants': 1, 'status': state_str})
+        openstack_instances = self._Clients.nova.servers.list(search_opts={'all_tenants': 1, 'status': state_str})
         instances = []
 
         for openstack_instance in openstack_instances:
@@ -82,7 +82,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
             nic = subnet.attach_nic(name=name)
             nics = [{"port-id": nic.id}]
 
-        openstack_instance = self._NovaClient.servers.create(name, image_id, instancetype_id, nics=nics, security_groups=security_groups, key_name=key_name)
+        openstack_instance = self._Clients.nova.servers.create(name, image_id, instancetype_id, nics=nics, security_groups=security_groups, key_name=key_name)
         instance = OpenStackInstancecls(openstack_instance, credentials=self._credentials)
         return instance
 
@@ -94,7 +94,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     '''
 
     def list_hypervisors(self):
-        openstack_hypervisors = self._NovaClient.hypervisors.list()
+        openstack_hypervisors = self._Clients.nova.hypervisors.list()
         hypervisors = []
         for openstack_hypervisor in openstack_hypervisors:
             hypervisor = OpenStackHypervisorcls(openstack_hypervisor, credentials=self._credentials)
@@ -107,7 +107,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     '''
 
     def list_keypairs(self):
-        openstack_keypairs = self._NovaClient.keypairs.list(search_opts={'all_tenants': 1})
+        openstack_keypairs = self._Clients.nova.keypairs.list(search_opts={'all_tenants': 1})
         keypairs = []
         for openstack_keypair in openstack_keypairs:
             keypair = OpenStackKeypaircls(openstack_keypair, credentials=self._credentials)
@@ -115,7 +115,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return keypairs
 
     def create_keypair(self, name=None):
-        openstack_keypair = self._NovaClient.keypairs.create(name)
+        openstack_keypair = self._Clients.nova.keypairs.create(name)
         keypair = OpenStackKeypaircls(openstack_keypair, credentials=self._credentials)
         return keypair
 
@@ -130,7 +130,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     '''
 
     def list_security_groups(self):
-        openstack_security_groups = self._NovaClient.security_groups.list(search_opts={'all_tenants': 1})
+        openstack_security_groups = self._Clients.nova.security_groups.list(search_opts={'all_tenants': 1})
         security_groups = []
         for openstack_security_group in openstack_security_groups:
             security_group = OpenStackSecurityGroupcls(openstack_security_group, credentials=self._credentials)
@@ -139,12 +139,12 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return security_groups
 
     def get_security_group_by_id(self, sg_id):
-        openstack_security_group = self._NovaClient.security_groups.get(sg_id)
+        openstack_security_group = self._Clients.nova.security_groups.get(sg_id)
         security_group = OpenStackSecurityGroupcls(openstack_security_group, credentials=self._credentials)
         return security_group
 
     def create_security_group(self, name=None, description=None, network_id=None):
-        openstack_security_group = self._NovaClient.security_groups.create(name, description)
+        openstack_security_group = self._Clients.nova.security_groups.create(name, description)
         security_group = OpenStackSecurityGroupcls(openstack_security_group, credentials=self._credentials)
         return security_group
 
@@ -170,7 +170,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 	
     def list_instancetypes(self):
 	# is_public=None gives all flavors(for admins only)
-        openstack_instancetypes = self._NovaClient.flavors.list(is_public=None)
+        openstack_instancetypes = self._Clients.nova.flavors.list(is_public=None)
         instancetypes = []
         for openstack_instancetype in openstack_instancetypes:
             instancetype = OpenStackInstanceTypecls(openstack_instancetype, credentials=self._credentials)
@@ -179,7 +179,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return instancetypes
 
     def create_instancetype(self, name=None, ram=100, vcpus=1, disk=5):
-        openstack_instancetype = self._NovaClient.flavors.create(name=name, ram=ram, vcpus=vcpus, disk=disk)
+        openstack_instancetype = self._Clients.nova.flavors.create(name=name, ram=ram, vcpus=vcpus, disk=disk)
 
         instancetype = OpenStackInstanceTypecls(openstack_instancetype, credentials=self._credentials)
         return instancetype

@@ -36,13 +36,13 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
         return False
 
     def list_subnets(self):
-        return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(network_id=self.id)['subnets']]
+        return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._Clients.neutron.list_subnets(network_id=self.id)['subnets']]
 
     def get_subnet_by_id(self, subnet_id):
-        return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(id=subnet_id)['subnets']]
+        return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._Clients.neutron.list_subnets(id=subnet_id)['subnets']]
 
     def get_subnets_by_name(self, subnet_name):
-        return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._NeutronClient.list_subnets(name=subnet_name)['subnets']]
+        return [OpenStackSubnetcls(openstack_subnet, credentials=self._credentials) for openstack_subnet in self._Clients.neutron.list_subnets(name=subnet_name)['subnets']]
 
     def get_subnets_by_tag(self, tag_name, tag_value):
         pass
@@ -60,7 +60,7 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
                 'dns_nameservers': dns_nameservers,
                 'name': name,
                 'cidr': cidr_block}}
-        subnet_dict = self._NeutronClient.create_subnet(params)
+        subnet_dict = self._Clients.neutron.create_subnet(params)
         openstack_subnet = subnet_dict['subnet']
         subnet = OpenStackSubnetcls(
             openstack_subnet, credentials=self._credentials)

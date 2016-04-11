@@ -15,7 +15,7 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
     def list_regions(self):
         from ext_cloud.OpenStack.OpenStackRegions.OpenStackRegion import OpenStackRegioncls
 
-        endpoints = self._KeystoneClient.endpoints.list()
+        endpoints = self._Clients.keystone.endpoints.list()
         regions = set()
         for endpoint in endpoints:
             if endpoint.region not in regions:
