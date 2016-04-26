@@ -54,6 +54,10 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         return self.__openstack_hypervisor.vcpus_used
 
     @property
+    def vpcus_used_percentage(self):
+	return round((self.vcpus_used / float(self.cpus) * 100), 2)
+
+    @property
     def disk_gb(self):
         return self.__openstack_hypervisor.local_gb
 
@@ -85,6 +89,10 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         return self.__openstack_hypervisor.free_ram_mb
 
     @property
+    def memory_used_percentage(self):
+	return round((self.memory_used_mb / float(self.memory_mb) * 100), 2)
+
+    @property
     def running_vms(self):
         return self.__openstack_hypervisor.running_vms
 
@@ -104,12 +112,9 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             new_metric = BaseMetricscls(full_metric_str, getattr(self, metric))
             metrics.append(new_metric)
         # percentage metric
-        metrics.append(BaseMetricscls(
-            metric_str + 'vcpus_used_percentage', self.vcpus_used / float(self.cpus) * 100))
-        metrics.append(BaseMetricscls(metric_str + 'memory_used_percentage',
-                                      self.memory_used_mb / float(self.memory_mb) * 100))
-        metrics.append(BaseMetricscls(metric_str + 'disk_used_percentage',
-                                      self.disk_used_gb / float(self.disk_gb) * 100))
+        metrics.append(BaseMetricscls( metric_str + 'vcpus_used_percentage', self.vcpus_used / float(self.cpus) * 100))
+	metrics.append(BaseMetricscls(metric_str + 'memory_used_percentage', self.memory_used_mb / float(self.memory_mb) * 100))
+        metrics.append(BaseMetricscls(metric_str + 'disk_used_percentage', self.disk_used_gb / float(self.disk_gb) * 100))
         # state metric
         full_metric_str = metric_str + 'statedown'
         value = 1 if self.state == 'down' else 0

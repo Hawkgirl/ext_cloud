@@ -51,6 +51,7 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
         services = []
         services += self.list_compute_services()
         services += self.list_network_services()
+	services += self.list_volume_services()
         return services
 
     def list_compute_services(self):

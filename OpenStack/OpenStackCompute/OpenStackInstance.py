@@ -122,12 +122,23 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def network_id(self):
-        pass
+	nics=self.__openstack_instance.interface_list()
+	return nics[0].net_id
 
     @property
     def subnet_id(self):
         pass
+    @property
+    def port_id(self):
+	# return the first port id 
+	nics=self.__openstack_instance.interface_list()
+	return nics[0].port_id
 
+    @property
+    def mac_id(self):
+	nics = self.__openstack_instance.interface_list()
+	return nics[0].mac_addr
+	
     @property
     def private_ip(self):
         for key in self.__openstack_instance.addresses:
