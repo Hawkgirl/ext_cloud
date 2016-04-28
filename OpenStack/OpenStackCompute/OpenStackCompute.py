@@ -152,10 +152,10 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     # ------ Instance Type opertations ----------------------------------------
     '''
     def list_instancetypes_cache(self):
-	from dogpile.cache import make_region
+	from ext_cloud.utils.dogpile_utils import get_region
 	from dogpile.cache.api import NO_VALUE
 
-	region = make_region().configure('dogpile.cache.dbm', expiration_time = 3600, arguments = { "filename":"/tmp/ext_cloud.dbm" })
+	region = get_region()
 
 	instance_types = region.get('instancetypes')
 	if instance_types is not NO_VALUE:

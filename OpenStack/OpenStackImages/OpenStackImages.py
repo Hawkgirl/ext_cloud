@@ -27,10 +27,10 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
         return metrics
 
     def list_images_cache(self):
-	from dogpile.cache import make_region
         from dogpile.cache.api import NO_VALUE
+	from ext_cloud.utils.dogpile_utils import get_region
 
-        region = make_region().configure('dogpile.cache.dbm', expiration_time = 3600, arguments = { "filename":"/tmp/ext_cloud.dbm" })
+	region = get_region()
 
         images = region.get('images')
         if images is not NO_VALUE:

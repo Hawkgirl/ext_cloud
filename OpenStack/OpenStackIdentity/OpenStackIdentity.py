@@ -53,10 +53,10 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         return self.list_tenants()
 
     def list_users_cache(self):
-        from dogpile.cache import make_region
+	from ext_cloud.utils.dogpile_utils import get_region
         from dogpile.cache.api import NO_VALUE
 
-        region = make_region().configure('dogpile.cache.dbm', expiration_time = 3600, arguments = { "filename":"/tmp/ext_cloud.dbm" })
+	region = get_region()
 
         users = region.get('users')
         if users is not NO_VALUE:
@@ -91,10 +91,10 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         return user
 
     def list_tenants_cache(self):
-        from dogpile.cache import make_region
         from dogpile.cache.api import NO_VALUE
+	from ext_cloud.utils.dogpile_utils import get_region
 
-        region = make_region().configure('dogpile.cache.dbm', expiration_time = 3600, arguments = { "filename":"/tmp/ext_cloud.dbm" })
+	region = get_region()
 
         tenants = region.get('tenants')
         if tenants is not NO_VALUE:
