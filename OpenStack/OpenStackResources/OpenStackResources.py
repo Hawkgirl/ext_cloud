@@ -33,10 +33,7 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
         for user in users:
             users_set.add(user.id)
 
-        from ext_cloud.OpenStack.OpenStack import OpenStackcls
-        openstack_obj = OpenStackcls(*self.__args, **self.__kwargs)
-        lst_childrens = openstack_obj.Childrens
-        for child in lst_childrens:
+        for child in self.list_all_resources():
             if hasattr(child, 'user_id'):
                 if child.user_id not in users_set:
                     resources.append(child)
@@ -44,8 +41,6 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
                 if child.tenant_id not in tenants_set:
                     resources.append(child)
 
-            if hasattr(child, 'Childrens'):
-                lst_childrens += child.Childrens
         return resources
 
     # do not include users
@@ -57,14 +52,19 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
         for tenant in tenants:
             tenants_set.add(tenant.id)
 
-        from ext_cloud.OpenStack.OpenStack import OpenStackcls
-        openstack_obj = OpenStackcls(*self.__args, **self.__kwargs)
-        lst_childrens = openstack_obj.Childrens
-        for child in lst_childrens:
+        for child in self.list_all_resources():
             if hasattr(child, 'tenant_id'):
                 if child.tenant_id not in tenants_set:
                     resources.append(child)
 
+        return resources
+
+    def list_all_resources(self):
+	resources = [] 
+        from ext_cloud.OpenStack.OpenStack import OpenStackcls
+        openstack_obj = OpenStackcls(*self.__args, **self.__kwargs)
+	resources = openstack_obj.Childrens
+	for child in resources:
             if hasattr(child, 'Childrens'):
-                lst_childrens += child.Childrens
+                resources += child.Childrens
         return resources
