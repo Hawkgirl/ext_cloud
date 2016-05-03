@@ -90,6 +90,10 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
     def list_floating_ips_by_tenant_id(self, tenant_id):
         return [OpenStackFloatingIpcls(openstack_floating_ip, credentials=self._credentials) for openstack_floating_ip in self._Clients.neutron.list_floatingips(tenant_id=tenant_id)['floatingips']]
 
+    def get_floating_ip_by_id(self, floatingip_id):
+	openstack_floating_ip = self._Clients.neutron.show_floatingip(floatingip_id)
+	return OpenStackFloatingIpcls(openstack_floating_ip['floatingip'], credentials=self._credentials)
+
     @property
     def total_floating_ips(self):
         return sum([subnet.count_total_ips for subnet in self.list_external_subnets()])
