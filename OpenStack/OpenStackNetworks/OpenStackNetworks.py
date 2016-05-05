@@ -23,6 +23,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         metrics.append(BaseMetricscls('openstack.networks.subnets.count', len(self.list_subnets())))
         metrics.append(BaseMetricscls('openstack.networks.free_floating_ips', self.free_floating_ips))
         metrics.append(BaseMetricscls('openstack.networks.used_floating_ips', self.used_floating_ips))
+        metrics.append(BaseMetricscls('openstack.networks.unallocated_floating_ips', self.unallocated_floating_ips))
         metrics.append(BaseMetricscls('openstack.networks.total_floating_ips', self.total_floating_ips))
         return metrics
 
@@ -101,6 +102,10 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
     @property
     def used_floating_ips(self):
         return sum([1 for floating_ip in self.list_floating_ips() if floating_ip.state == 'up'])
+
+    @property
+    def unallocated_floating_ips(self):
+        return sum([1 for floating_ip in self.list_floating_ips() if floating_ip.state == 'down'])
 
     @property
     def free_floating_ips(self):
