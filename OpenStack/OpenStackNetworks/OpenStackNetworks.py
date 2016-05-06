@@ -21,10 +21,19 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
         metrics.append(BaseMetricscls('openstack.networks.count', len(self.list_networks())))
         metrics.append(BaseMetricscls('openstack.networks.subnets.count', len(self.list_subnets())))
-        metrics.append(BaseMetricscls('openstack.networks.free_floating_ips', self.free_floating_ips))
-        metrics.append(BaseMetricscls('openstack.networks.used_floating_ips', self.used_floating_ips))
-        metrics.append(BaseMetricscls('openstack.networks.unallocated_floating_ips', self.unallocated_floating_ips))
-        metrics.append(BaseMetricscls('openstack.networks.total_floating_ips', self.total_floating_ips))
+	total = self.total_floating_ips	
+	all_fips  = self.list_floating_ips()
+	used = unused = 0
+	for fip in all_fips:
+		if fip.state == 'down':
+			unused += 1
+		else:
+			used += 1
+	free = total - len(all_fips)
+        metrics.append(BaseMetricscls('openstack.networks.free_floating_ips', free))
+        metrics.append(BaseMetricscls('openstack.networks.used_floating_ips', used))
+        metrics.append(BaseMetricscls('openstack.networks.unallocated_floating_ips', unused))
+        metrics.append(BaseMetricscls('openstack.networks.total_floating_ips', total))
         return metrics
 
     def get_network_by_id(self, network_id):
@@ -109,4 +118,4 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
     @property
     def free_floating_ips(self):
-        return self.total_floating_ips - self.used_floating_ips
+        return self.total_floating_ips - len(self.list_floating_ips())
