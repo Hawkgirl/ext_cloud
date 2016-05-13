@@ -29,6 +29,14 @@ class OpenStackFloatingIpcls(OpenStackBaseCloudcls, BaseFloatingIpcls):
         return self.__openstack_floating_ip['tenant_id']
 
     @property
+    def tenant_name(self):
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+        identity = OpenStackIdentitycls(**self._credentials)
+        tenants = identity.list_tenants_cache()
+        return tenants[self.tenant_id]['name'] if self.tenant_id in tenants else None
+
+
+    @property
     def nic_id(self):
         return self.__openstack_floating_ip['port_id']
 
