@@ -14,7 +14,12 @@ class OpenStackFloatingIpcls(OpenStackBaseCloudcls, BaseFloatingIpcls):
 
     @property
     def state(self):
-        return 'up' if self.__openstack_floating_ip['status'] == 'ACTIVE' else 'down'
+        if self.__openstack_floating_ip['status'] == 'ACTIVE':
+		return 'up'
+	elif self.__openstack_floating_ip['status'] == 'DOWN':
+		return 'down'
+	else:
+		return 'na'
 
     @property
     def floating_ip_address(self):
