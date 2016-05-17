@@ -39,3 +39,13 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
 
     def attach_subnet(self, subnet_id):
         self._Clients.neutron.add_interface_router(self.id, {'subnet_id': subnet_id})
+
+    @property
+    def port_ips(self):
+	dic = {}
+	dic['device_id'] = self.id
+	lst = []
+	ports = self._Clients.neutron.list_ports(**dic)['ports']
+	for port in ports:
+		lst.append(port['fixed_ips'][0]['ip_address'])
+	return lst
