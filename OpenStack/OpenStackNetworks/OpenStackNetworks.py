@@ -7,6 +7,9 @@ from ext_cloud.OpenStack.OpenStackNetworks.OpenStackRouter import OpenStackRoute
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
+from ext_cloud.utils.dogpile_utils import get_region
+from dogpile.cache.api import NO_VALUE
+
 class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
     def __init__(self, *args, **kwargs):
@@ -54,6 +57,22 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
     def list_external_networks(self):
         return [network for network in self.list_networks() if network.is_external_network]
 
+    def list_external_networks_cache(self):
+	region = get_region()
+        # check if external networks is in cache
+        networks = region.get('externalnetworks')
+
+        if networks is NO_VALUE:
+                dic = {}
+                new_networks = self.list_external_networks()
+                for network in new_networks:
+                        dic[network.id] = network.obj_to_dict()
+
+                region.set('externalnetworks', dic)
+                networks = dic
+
+	return networks
+
     def create_network(self, name=None, cidr_block=None):
         params = {'network': {'name': name}}
         openstack_network_dic = self._Clients.neutron.create_network(params)
@@ -92,6 +111,23 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
     # ----------------- Router operations ------------------------- #
     def list_routers(self):
         return [OpenStackRoutercls(router, credentials=self._credentials) for router in self._Clients.neutron.list_routers()['routers']]
+
+    def list_routers_from_cache(self):
+	region = get_region()
+        # check if routers is in cache
+        routers = region.get('routers')
+
+        if routers is NO_VALUE:
+                # cache not created for routers, create a cache of all routers
+                dic = {}
+                new_routers = self.list_routers()
+                for router in new_routers:
+                        dic[router.id] = router.obj_to_dict()
+
+                region.set('routers', dic)
+                routers = dic
+
+	return routers
 
     # ----------------- Floating ip operations ------------------------- #
     def list_floating_ips(self):

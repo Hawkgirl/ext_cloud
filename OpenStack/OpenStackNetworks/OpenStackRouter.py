@@ -21,6 +21,14 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
         return self.__openstack_router['tenant_id']
 
     @property
+    def router_ip(self):
+	if 'external_gateway_info' not in self.__openstack_router or self.__openstack_router['external_gateway_info'] is None:
+		return None
+	if 'external_fixed_ips' not in self.__openstack_router['external_gateway_info']:
+		return None
+	return self.__openstack_router['external_gateway_info']['external_fixed_ips'][0]['ip_address']
+
+    @property
     def is_zombie(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
         tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)

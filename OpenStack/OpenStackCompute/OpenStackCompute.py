@@ -6,6 +6,9 @@ from ext_cloud.OpenStack.OpenStackCompute.OpenStackSecurityGroup import OpenStac
 from ext_cloud.OpenStack.OpenStackCompute.OpenStackKeypair import OpenStackKeypaircls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
+from ext_cloud.utils.dogpile_utils import get_region
+from dogpile.cache.api import NO_VALUE
+
 
 class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
@@ -43,6 +46,29 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     def get_instance_by_id(self, instance_id):
         instance = self._Clients.nova.servers.get(instance_id)
 	return OpenStackInstancecls(instance, credentials=self._credentials)
+
+    def get_instance_by_id_cache(self, instance_id):
+	region = get_region()
+	# check if instance id is in cache
+	instances = region.get('instances')
+
+	if instances is NO_VALUE:
+		# cache not created for instances, create a cache of all instances
+       		dic = {}
+        	instances = self.list_instances()
+        	for instance in instances:
+               		dic[instance.id] = instance.obj_to_dict()
+
+        	region.set('instances', dic)
+		instances = dic
+
+	if instance_id in instances:
+		return instances[instance_id]
+
+	# instance id not found. call get_instance_by_id which will throw error or return instance which is not in cache
+	instance = self.get_instance_by_id(instance_id)
+	return instance.obj_to_dic()
+
 
     def get_instances_by_name(self, instance_name):
         pass
@@ -152,8 +178,6 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     # ------ Instance Type opertations ----------------------------------------
     '''
     def list_instancetypes_cache(self):
-	from ext_cloud.utils.dogpile_utils import get_region
-	from dogpile.cache.api import NO_VALUE
 
 	region = get_region()
 
