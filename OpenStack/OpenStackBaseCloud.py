@@ -61,5 +61,9 @@ class OpenStackBaseCloudcls():
     @_Clients.getter
     def _Clients(self):
         if self._clients is None:
-            self._clients = OpenStackClientsCls(**self._credentials)
+	    if 'clients' not in self._credentials:
+		# cashing clients in the credentials dict for performance
+		self._credentials['clients'] = self._clients = OpenStackClientsCls(**self._credentials)
+	    else:
+		self._clients = self._credentials['clients']
         return self._clients
