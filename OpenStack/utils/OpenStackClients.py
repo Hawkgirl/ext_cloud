@@ -1,4 +1,3 @@
-
 class OpenStackClientsCls:
 
     _token = None
@@ -18,11 +17,7 @@ class OpenStackClientsCls:
 		return self._token
     @token.getter
     def token(self):
-        if self._token is None:
-        	from keystoneclient.v2_0 import client as KeystoneClient
-	        self._keystoneclient = KeystoneClient.Client(**self._credentials)
-		self._token = self._keystoneclient.auth_token
-	return self._token
+	return self.keystone.auth_token
 
     @property
     def keystone(self):
@@ -87,3 +82,19 @@ class OpenStackClientsCls:
 		self._glanceclient  = GlanceClient.Client('2', endpoint=endpoint, token=self.token, cacert=self._credentials['cacert'])
 
 	return self._glanceclient
+
+
+# keep cache of all the clients for given input args
+class OpenStackClientFactory:
+        __key = []
+        __value = []
+        def get(self, *arg, **kwargs):
+                for i,item in enumerate(self.__key):
+                        if cmp(item, kwargs) == 0:
+                                return self.__value[i]
+
+                p = OpenStackClientsCls(**kwargs)
+                self.__key.append(kwargs)
+                self.__value.append(p)
+                return p
+

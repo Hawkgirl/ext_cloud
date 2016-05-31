@@ -1,4 +1,4 @@
-from utils.OpenStackClients import OpenStackClientsCls
+from utils.OpenStackClients import OpenStackClientFactory
 
 
 class OpenStackBaseCloudcls():
@@ -61,9 +61,5 @@ class OpenStackBaseCloudcls():
     @_Clients.getter
     def _Clients(self):
         if self._clients is None:
-	    if 'clients' not in self._credentials:
-		# cashing clients in the credentials dict for performance
-		self._credentials['clients'] = self._clients = OpenStackClientsCls(**self._credentials)
-	    else:
-		self._clients = self._credentials['clients']
+		self._clients = OpenStackClientFactory().get(**self._credentials)
         return self._clients
