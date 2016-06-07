@@ -6,6 +6,7 @@ class OpenStackClientsCls:
     _neutronclient = None
     _cinderclient = None
     _glanceclient = None
+    _ceilometerclient = None
 
     def __init__(self, *arg, **kwargs):
         self._credentials=kwargs
@@ -83,6 +84,17 @@ class OpenStackClientsCls:
 
 	return self._glanceclient
 
+    @property
+    def ceilometer(self):
+	return self._ceilometerclient
+
+    @ceilometer.getter
+    def ceilometer(self):
+	if self._ceilometerclient is None:
+		from ceilometerclient import client as CeilometerClient
+	        endpoint = self.keystone.service_catalog.url_for(service_type='metering', endpoint_type='publicURL')
+		self._ceilometerclient = CeilometerClient.get_client('2', os_token=self.token, os_endpoint = endpoint, cacert=self._credentials['cacert'])
+	return self._ceilometerclient
 
 # keep cache of all the clients for given input args
 class OpenStackClientFactory:

@@ -194,6 +194,23 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     def gettags(self):
         pass
 
+	# return count number of avg time between start time and end time
+    def cpu_usage(self, start_time=None, end_time=None, count=1):
+	ret = []
+	time_diff = (end_time - start_time).total_seconds() 
+	increment_value = int(time_diff / count)
+	
+	query = []
+	query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
+	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+
+	stats = self._Clients.ceilometer.statistics.list('cpu_util', q = query, period=increment_value )
+	for s in stats:
+		ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg})
+
+	return ret
+	
     @property
     def is_zombie(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
