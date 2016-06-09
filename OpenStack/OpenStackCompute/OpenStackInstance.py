@@ -1,5 +1,7 @@
-from ext_cloud.BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
+from __future__ import division
+
 from ext_cloud.BaseCloud.BaseCompute.BaseInstance import STATE
+from ext_cloud.BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 import collections
@@ -26,6 +28,13 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 	instance_types = compute.list_instancetypes_cache()
 	return instance_types[self.__openstack_instance.flavor['id']]['name'] if self.__openstack_instance.flavor['id'] in instance_types else None
 
+    @property
+    def total_memory(self):
+	from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
+        compute = OpenStackComputecls(**self._credentials)
+	instance_types = compute.list_instancetypes_cache()
+	return int(instance_types[self.__openstack_instance.flavor['id']]['memory']) if self.__openstack_instance.flavor['id'] in instance_types else None
+	
     @property
     def state(self):
         return STATE_MAP[self.__openstack_instance.status].name
@@ -132,6 +141,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     def port_id(self):
 	# return the first port id 
 	nics=self.__openstack_instance.interface_list()
+	if len(nics) == 0:
+		return None
 	return nics[0].port_id
 
     @property
@@ -208,6 +219,72 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 	stats = self._Clients.ceilometer.statistics.list('cpu_util', q = query, period=increment_value )
 	for s in stats:
 		ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg})
+
+	return ret
+
+    def net_tx_usage(self, start_time=None, end_time=None, count=1):
+	ret = []
+	if self.port_id is None:
+		return ret
+	time_diff = (end_time - start_time).total_seconds() 
+	increment_value = int(time_diff / count)
+	
+	query = []
+	
+	resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
+	query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
+	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+
+	try:
+		stats = self._Clients.ceilometer.statistics.list('network.outgoing.bytes', q = query, period=increment_value )
+	except:
+		# Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
+		#fixed in ceilometer 5.0, Remove this try except later
+		return ret
+	for s in stats:
+		ret.append({'time': s.period_end, 'bytes': s.max})
+
+	return ret
+
+    def net_rx_usage(self, start_time=None, end_time=None, count=1):
+	ret = []
+	if self.port_id is None:
+		return ret
+	time_diff = (end_time - start_time).total_seconds() 
+	increment_value = int(time_diff / count)
+	
+	query = []
+	
+	resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
+	query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
+	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+
+	try:
+		stats = self._Clients.ceilometer.statistics.list('network.incoming.bytes', q = query, period=increment_value )
+	except:
+		# Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
+		#fixed in ceilometer 5.0, Remove this try except later
+		return ret
+	for s in stats:
+		ret.append({'time': s.period_end, 'bytes': s.max})
+
+	return ret
+	# return count number of avg time between start time and end time
+    def mem_usage(self, start_time=None, end_time=None, count=1):
+	ret = []
+	time_diff = (end_time - start_time).total_seconds() 
+	increment_value = int(time_diff / count)
+	
+	query = []
+	query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
+	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+
+	stats = self._Clients.ceilometer.statistics.list('memory.usage', q = query, period=increment_value )
+	for s in stats:
+		ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg, 'percentage': s.avg/self.total_memory })
 
 	return ret
 	
