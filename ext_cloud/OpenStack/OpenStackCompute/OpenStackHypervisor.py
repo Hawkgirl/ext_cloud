@@ -50,6 +50,10 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             return self.__openstack_hypervisor.vcpus * 16
 
     @property
+    def hypervisor_type(self):
+	return self.__openstack_hypervisor.hypervisor_type
+
+    @property
     def vcpus_used(self):
         return self.__openstack_hypervisor.vcpus_used
 
@@ -131,6 +135,11 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         # arch metric
         if self.arch is not None:
             full_metric_str = metric_str + 'arch.' + self.arch
+            new_metric = BaseMetricscls(full_metric_str, 1)
+            metrics.append(new_metric)
+
+        if self.hypervisor_type is not None:
+            full_metric_str = metric_str + 'type.' + self.hypervisor_type
             new_metric = BaseMetricscls(full_metric_str, 1)
             metrics.append(new_metric)
 
