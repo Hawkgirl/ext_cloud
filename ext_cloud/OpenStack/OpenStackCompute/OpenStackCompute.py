@@ -29,6 +29,13 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         metrics.append(BaseMetricscls('openstack.instances.error', group_by_state['ERROR'] if 'ERROR' in group_by_state else 0))
         return metrics
 
+    def list_vm_usage_metrics(self):
+	metrics = []
+        instances = self.list_instances()
+	for instance in instances:
+		metrics.extend(instance.list_usage_metrics())
+
+	return metrics
     @property
     def Childrens(self):
         return self.list_hypervisors() + self.list_instances() + self.list_security_groups()

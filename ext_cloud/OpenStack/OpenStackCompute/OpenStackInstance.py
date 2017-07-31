@@ -4,6 +4,8 @@ from ext_cloud.BaseCloud.BaseCompute.BaseInstance import STATE
 from ext_cloud.BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
+import datetime
+
 import collections
 STATE_MAP = collections.defaultdict(lambda: STATE.UNKNOWN)
 STATE_MAP['ACTIVE'] = STATE.RUNNING
@@ -243,7 +245,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 		#fixed in ceilometer 5.0, Remove this try except later
 		return ret
 	for s in stats:
-		ret.append({'time': s.period_end, 'bytes': s.max})
+		period_end = datetime.datetime.strptime(s.period_end,"%Y-%m-%dT%H:%M:%S.%f")
+		ret.append({'time': period_end, 'bytes': s.max})
 
 	return ret
 
@@ -268,7 +271,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 		#fixed in ceilometer 5.0, Remove this try except later
 		return ret
 	for s in stats:
-		ret.append({'time': s.period_end, 'bytes': s.max})
+		period_end = datetime.datetime.strptime(s.period_end,"%Y-%m-%dT%H:%M:%S.%f")
+		ret.append({'time': period_end, 'bytes': s.max})
 
 	return ret
 	# return count number of avg time between start time and end time
@@ -287,6 +291,46 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 		ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg, 'percentage': s.avg/self.total_memory })
 
 	return ret
+	
+    # By defalt return the stats of the last one hour with 6 samples of 10 mins each.
+    # By default, ceilometer agent sends stats every 10 mins
+    def list_usage_metrics(self, start_time=datetime.datetime.now() - datetime.timedelta(hours=1), end_time=datetime.datetime.now(), count=6):
+
+	metrics = []
+	import time
+	from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
+	metric_str = 'openstack.tenant.' + self.tenant_id + '.' + self.tenant_name + '.instance.' + self.id + '.' + self.name + '.'
+	
+	results = self.cpu_usage(start_time, end_time, count)
+	for result in results:
+	    full_metric_str = metric_str + 'cpu_usage'
+
+            new_metric = BaseMetricscls(full_metric_str, result['avg'], int(time.mktime(end_time.timetuple())))
+            metrics.append(new_metric)
+
+	results = self.mem_usage(start_time, end_time, count)
+	for result in results:
+	    full_metric_str = metric_str + 'mem_usage'
+
+            new_metric = BaseMetricscls(full_metric_str, result['avg'], int(time.mktime(end_time.timetuple())))
+            metrics.append(new_metric)
+
+
+	results = self.net_rx_usage(start_time, end_time, count)
+	for result in results:
+	    full_metric_str = metric_str + 'net_rx'
+
+            new_metric = BaseMetricscls(full_metric_str, result['bytes'], int(time.mktime(result['time'].timetuple())))
+            metrics.append(new_metric)
+
+	results = self.net_tx_usage(start_time, end_time, count)
+	for result in results:
+	    full_metric_str = metric_str + 'net_tx'
+
+            new_metric = BaseMetricscls(full_metric_str, result['bytes'], int(time.mktime(result['time'].timetuple())))
+            metrics.append(new_metric)
+
+	return metrics
 	
     @property
     def is_zombie(self):
