@@ -299,7 +299,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 	metrics = []
 	import time
 	from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-	metric_str = 'openstack.tenant.' + self.tenant_id + '.' + self.tenant_name + '.instance.' + self.id + '.' + self.name + '.'
+	metric_str = 'openstack.tenant.' + self.tenant_name + '.instance.' + self.id + '.' + self.name + '.'
 	
 	results = self.cpu_usage(start_time, end_time, count)
 	for result in results:
