@@ -128,6 +128,12 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
                 routers = dic
 
 	return routers
+    
+    def create_router(self, name=None):
+        params = {'router': {'name': name}}
+	openstack_router = self._Clients.neutron.create_router(params)	
+	router  = OpenStackRoutercls(openstack_router['router'], credentials=self._credentials)
+	return router
 
     # ----------------- Floating ip operations ------------------------- #
     def list_floating_ips(self):

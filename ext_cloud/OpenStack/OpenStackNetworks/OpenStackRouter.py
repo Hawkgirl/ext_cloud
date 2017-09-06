@@ -48,6 +48,9 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
     def attach_subnet(self, subnet_id):
         self._Clients.neutron.add_interface_router(self.id, {'subnet_id': subnet_id})
 
+    def attach_gateway(self, external_net_id):
+	self._Clients.neutron.add_gateway_router(self.id, {'network_id': external_net_id})
+
     @property
     def port_ips(self):
 	dic = {}
