@@ -134,6 +134,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     @property
     def network_id(self):
 	nics=self.__openstack_instance.interface_list()
+	if len(nics) == 0:
+		return None
 	return nics[0].net_id
 
     @property
@@ -150,6 +152,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     @property
     def mac_id(self):
 	nics = self.__openstack_instance.interface_list()
+	if len(nics) == 0:
+		return None
 	return nics[0].mac_addr
 	
     @property
