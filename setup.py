@@ -10,6 +10,6 @@ setup(name='ext_cloud',
       maintainer='Hawkgril',
       maintainer_email='hawkgirlgit@gmail.com',
       license='BSD',
-      install_requires=['dogpile.cache',],
+      install_requires=['dogpile.cache', 'dateutil', 'toolz'],
       packages=find_packages()
       )

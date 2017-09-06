@@ -40,8 +40,12 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     def Childrens(self):
         return self.list_hypervisors() + self.list_instances() + self.list_security_groups()
 
-    def list_instances(self):
-        openstack_instances = self._Clients.nova.servers.list(search_opts={'all_tenants': 1})
+    def list_instances(self, all_tenants=True):
+	if all_tenants:
+	        openstack_instances = self._Clients.nova.servers.list(search_opts={'all_tenants': 1})
+	else:
+	        openstack_instances = self._Clients.nova.servers.list()
+	
         instances = []
 
         for openstack_instance in openstack_instances:
