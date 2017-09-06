@@ -51,7 +51,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 
     @property
     def hypervisor_type(self):
-	return self.__openstack_hypervisor.hypervisor_type
+        return self.__openstack_hypervisor.hypervisor_type
 
     @property
     def vcpus_used(self):
@@ -59,7 +59,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 
     @property
     def vpcus_used_percentage(self):
-	return round((self.vcpus_used / float(self.cpus) * 100), 2)
+        return round((self.vcpus_used / float(self.cpus) * 100), 2)
 
     @property
     def disk_gb(self):
@@ -94,7 +94,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 
     @property
     def memory_used_percentage(self):
-	return round((self.memory_used_mb / float(self.memory_mb) * 100), 2)
+        return round((self.memory_used_mb / float(self.memory_mb) * 100), 2)
 
     @property
     def running_vms(self):
@@ -116,12 +116,12 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             new_metric = BaseMetricscls(full_metric_str, getattr(self, metric))
             metrics.append(new_metric)
         # percentage metric
-	if self.cpus != 0:
-        	metrics.append(BaseMetricscls( metric_str + 'vcpus_used_percentage', self.vcpus_used / float(self.cpus) * 100))
-	if self.memory_mb != 0:
-		metrics.append(BaseMetricscls(metric_str + 'memory_used_percentage', self.memory_used_mb / float(self.memory_mb) * 100))
-	if self.disk_gb != 0:
-	        metrics.append(BaseMetricscls(metric_str + 'disk_used_percentage', self.disk_used_gb / float(self.disk_gb) * 100))
+        if self.cpus != 0:
+            metrics.append(BaseMetricscls(metric_str + 'vcpus_used_percentage', self.vcpus_used / float(self.cpus) * 100))
+        if self.memory_mb != 0:
+            metrics.append(BaseMetricscls(metric_str + 'memory_used_percentage', self.memory_used_mb / float(self.memory_mb) * 100))
+        if self.disk_gb != 0:
+            metrics.append(BaseMetricscls(metric_str + 'disk_used_percentage', self.disk_used_gb / float(self.disk_gb) * 100))
         # state metric
         full_metric_str = metric_str + 'statedown'
         value = 1 if self.state == 'down' else 0

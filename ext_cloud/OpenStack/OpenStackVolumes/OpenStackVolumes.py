@@ -2,6 +2,7 @@ from ext_cloud.BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
 from ext_cloud.OpenStack.OpenStackVolumes.OpenStackVolume import OpenStackVolumecls, STATE_MAP
 from ext_cloud.OpenStack.OpenStackVolumes.OpenStackSnapshot import OpenStackSnapshotcls
 from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from functools import reduce
 
 
 class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):

@@ -10,6 +10,7 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 from ext_cloud.utils.dogpile_utils import get_region
 from dogpile.cache.api import NO_VALUE
 
+
 class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
     def __init__(self, *args, **kwargs):
@@ -24,15 +25,15 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
         metrics.append(BaseMetricscls('openstack.networks.count', len(self.list_networks())))
         metrics.append(BaseMetricscls('openstack.networks.subnets.count', len(self.list_subnets())))
-	total = self.total_floating_ips	
-	all_fips  = self.list_floating_ips()
-	used = unused = 0
-	for fip in all_fips:
-		if fip.state == 'down':
-			unused += 1
-		else:
-			used += 1
-	free = total - len(all_fips)
+        total = self.total_floating_ips
+        all_fips = self.list_floating_ips()
+        used = unused = 0
+        for fip in all_fips:
+            if fip.state == 'down':
+                unused += 1
+            else:
+                used += 1
+        free = total - len(all_fips)
         metrics.append(BaseMetricscls('openstack.networks.free_floating_ips', free))
         metrics.append(BaseMetricscls('openstack.networks.used_floating_ips', used))
         metrics.append(BaseMetricscls('openstack.networks.unallocated_floating_ips', unused))
@@ -58,20 +59,20 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         return [network for network in self.list_networks() if network.is_external_network]
 
     def list_external_networks_cache(self):
-	region = get_region()
+        region = get_region()
         # check if external networks is in cache
         networks = region.get('externalnetworks')
 
         if networks is NO_VALUE:
-                dic = {}
-                new_networks = self.list_external_networks()
-                for network in new_networks:
-                        dic[network.id] = network.obj_to_dict()
+            dic = {}
+            new_networks = self.list_external_networks()
+            for network in new_networks:
+                dic[network.id] = network.obj_to_dict()
 
-                region.set('externalnetworks', dic)
-                networks = dic
+            region.set('externalnetworks', dic)
+            networks = dic
 
-	return networks
+        return networks
 
     def create_network(self, name=None, cidr_block=None):
         params = {'network': {'name': name}}
@@ -113,27 +114,27 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         return [OpenStackRoutercls(router, credentials=self._credentials) for router in self._Clients.neutron.list_routers()['routers']]
 
     def list_routers_from_cache(self):
-	region = get_region()
+        region = get_region()
         # check if routers is in cache
         routers = region.get('routers')
 
         if routers is NO_VALUE:
                 # cache not created for routers, create a cache of all routers
-                dic = {}
-                new_routers = self.list_routers()
-                for router in new_routers:
-                        dic[router.id] = router.obj_to_dict()
+            dic = {}
+            new_routers = self.list_routers()
+            for router in new_routers:
+                dic[router.id] = router.obj_to_dict()
 
-                region.set('routers', dic)
-                routers = dic
+            region.set('routers', dic)
+            routers = dic
 
-	return routers
-    
+        return routers
+
     def create_router(self, name=None):
         params = {'router': {'name': name}}
-	openstack_router = self._Clients.neutron.create_router(params)	
-	router  = OpenStackRoutercls(openstack_router['router'], credentials=self._credentials)
-	return router
+        openstack_router = self._Clients.neutron.create_router(params)
+        router = OpenStackRoutercls(openstack_router['router'], credentials=self._credentials)
+        return router
 
     # ----------------- Floating ip operations ------------------------- #
     def list_floating_ips(self):
@@ -143,8 +144,8 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
         return [OpenStackFloatingIpcls(openstack_floating_ip, credentials=self._credentials) for openstack_floating_ip in self._Clients.neutron.list_floatingips(tenant_id=tenant_id)['floatingips']]
 
     def get_floating_ip_by_id(self, floatingip_id):
-	openstack_floating_ip = self._Clients.neutron.show_floatingip(floatingip_id)
-	return OpenStackFloatingIpcls(openstack_floating_ip['floatingip'], credentials=self._credentials)
+        openstack_floating_ip = self._Clients.neutron.show_floatingip(floatingip_id)
+        return OpenStackFloatingIpcls(openstack_floating_ip['floatingip'], credentials=self._credentials)
 
     @property
     def total_floating_ips(self):

@@ -23,5 +23,3 @@ class BaseTokencls:
     @abstractproperty
     def auth_url(self):
         pass
-
-

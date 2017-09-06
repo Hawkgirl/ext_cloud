@@ -28,17 +28,17 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
 
     def list_images_cache(self):
         from dogpile.cache.api import NO_VALUE
-	from ext_cloud.utils.dogpile_utils import get_region
+        from ext_cloud.utils.dogpile_utils import get_region
 
-	region = get_region()
+        region = get_region()
 
         images = region.get('images')
         if images is not NO_VALUE:
-                return images
+            return images
         dic = {}
         images = self.list_images()
         for image in images:
-                dic[image.id] = image.obj_to_dict()
+            dic[image.id] = image.obj_to_dict()
 
         region.set('images', dic)
         return dic

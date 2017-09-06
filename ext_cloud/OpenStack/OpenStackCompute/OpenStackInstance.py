@@ -25,18 +25,18 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def size(self):
-	from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
+        from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
         compute = OpenStackComputecls(**self._credentials)
-	instance_types = compute.list_instancetypes_cache()
-	return instance_types[self.__openstack_instance.flavor['id']]['name'] if self.__openstack_instance.flavor['id'] in instance_types else None
+        instance_types = compute.list_instancetypes_cache()
+        return instance_types[self.__openstack_instance.flavor['id']]['name'] if self.__openstack_instance.flavor['id'] in instance_types else None
 
     @property
     def total_memory(self):
-	from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
+        from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
         compute = OpenStackComputecls(**self._credentials)
-	instance_types = compute.list_instancetypes_cache()
-	return int(instance_types[self.__openstack_instance.flavor['id']]['memory']) if self.__openstack_instance.flavor['id'] in instance_types else None
-	
+        instance_types = compute.list_instancetypes_cache()
+        return int(instance_types[self.__openstack_instance.flavor['id']]['memory']) if self.__openstack_instance.flavor['id'] in instance_types else None
+
     @property
     def state(self):
         return STATE_MAP[self.__openstack_instance.status].name
@@ -78,22 +78,21 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def tenant_name(self):
-	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
         identity = OpenStackIdentitycls(**self._credentials)
         tenants = identity.list_tenants_cache()
         return tenants[self.tenant_id]['name'] if self.tenant_id in tenants else None
 
-	
     @property
     def tenant_id(self):
         return self.__openstack_instance.tenant_id
 
     @property
     def user_name(self):
-	if self.user_id is None:
-		return None
+        if self.user_id is None:
+            return None
 
-	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
         identity = OpenStackIdentitycls(**self._credentials)
         users = identity.list_users_cache()
         return users[self.user_id]['name'] if self.user_id in users else None
@@ -104,28 +103,28 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def availability_zone(self):
-	return getattr(self.__openstack_instance,'OS-EXT-AZ:availability_zone')
+        return getattr(self.__openstack_instance, 'OS-EXT-AZ:availability_zone')
 
     @property
     def hypervisor_name(self):
-	return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:hypervisor_hostname') 
+        return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:hypervisor_hostname')
 
     @property
     def hypervisor_instance_name(self):
-	return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:instance_name')
+        return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:instance_name')
 
     @property
     def launch_time(self):
-	return getattr(self.__openstack_instance, 'OS-SRV-USG:launched_at')
+        return getattr(self.__openstack_instance, 'OS-SRV-USG:launched_at')
 
     @property
     def image_name(self):
-	if self.image_id is None:
-		return None
-	from ext_cloud.OpenStack.OpenStackImages.OpenStackImages import OpenStackImagescls
+        if self.image_id is None:
+            return None
+        from ext_cloud.OpenStack.OpenStackImages.OpenStackImages import OpenStackImagescls
         images_service = OpenStackImagescls(**self._credentials)
-	images = images_service.list_images_cache()
-	return images[self.image_id]['name'] if self.image_id in images else None
+        images = images_service.list_images_cache()
+        return images[self.image_id]['name'] if self.image_id in images else None
 
     @property
     def arch(self):
@@ -133,29 +132,30 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def network_id(self):
-	nics=self.__openstack_instance.interface_list()
-	if len(nics) == 0:
-		return None
-	return nics[0].net_id
+        nics = self.__openstack_instance.interface_list()
+        if len(nics) == 0:
+            return None
+        return nics[0].net_id
 
     @property
     def subnet_id(self):
         pass
+
     @property
     def port_id(self):
-	# return the first port id 
-	nics=self.__openstack_instance.interface_list()
-	if len(nics) == 0:
-		return None
-	return nics[0].port_id
+        # return the first port id
+        nics = self.__openstack_instance.interface_list()
+        if len(nics) == 0:
+            return None
+        return nics[0].port_id
 
     @property
     def mac_id(self):
-	nics = self.__openstack_instance.interface_list()
-	if len(nics) == 0:
-		return None
-	return nics[0].mac_addr
-	
+        nics = self.__openstack_instance.interface_list()
+        if len(nics) == 0:
+            return None
+        return nics[0].mac_addr
+
     @property
     def private_ip(self):
         for key in self.__openstack_instance.addresses:
@@ -211,131 +211,131 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     def gettags(self):
         pass
 
-	# return count number of avg time between start time and end time
+        # return count number of avg time between start time and end time
     def cpu_usage(self, start_time=None, end_time=None, count=1):
-	ret = []
-	time_diff = (end_time - start_time).total_seconds() 
-	increment_value = int(time_diff / count)
-	
-	query = []
-	query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
-	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
-	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+        ret = []
+        time_diff = (end_time - start_time).total_seconds()
+        increment_value = int(time_diff / count)
 
-	stats = self._Clients.ceilometer.statistics.list('cpu_util', q = query, period=increment_value )
-	for s in stats:
-		ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg})
+        query = []
+        query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
+        query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+        query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
 
-	return ret
+        stats = self._Clients.ceilometer.statistics.list('cpu_util', q=query, period=increment_value)
+        for s in stats:
+            ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg})
+
+        return ret
 
     def net_tx_usage(self, start_time=None, end_time=None, count=1):
-	ret = []
-	if self.port_id is None:
-		return ret
-	time_diff = (end_time - start_time).total_seconds() 
-	increment_value = int(time_diff / count)
-	
-	query = []
-	
-	resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
-	query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
-	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
-	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+        ret = []
+        if self.port_id is None:
+            return ret
+        time_diff = (end_time - start_time).total_seconds()
+        increment_value = int(time_diff / count)
 
-	try:
-		stats = self._Clients.ceilometer.statistics.list('network.outgoing.bytes', q = query, period=increment_value )
-	except:
-		# Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
-		#fixed in ceilometer 5.0, Remove this try except later
-		return ret
-	for s in stats:
-		period_end = datetime.datetime.strptime(s.period_end,"%Y-%m-%dT%H:%M:%S.%f")
-		ret.append({'time': period_end, 'bytes': s.max})
+        query = []
 
-	return ret
+        resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
+        query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
+        query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+        query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+
+        try:
+            stats = self._Clients.ceilometer.statistics.list('network.outgoing.bytes', q=query, period=increment_value)
+        except:
+            # Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
+            # fixed in ceilometer 5.0, Remove this try except later
+            return ret
+        for s in stats:
+            period_end = datetime.datetime.strptime(s.period_end, "%Y-%m-%dT%H:%M:%S.%f")
+            ret.append({'time': period_end, 'bytes': s.max})
+
+        return ret
 
     def net_rx_usage(self, start_time=None, end_time=None, count=1):
-	ret = []
-	if self.port_id is None:
-		return ret
-	time_diff = (end_time - start_time).total_seconds() 
-	increment_value = int(time_diff / count)
-	
-	query = []
-	
-	resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
-	query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
-	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
-	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+        ret = []
+        if self.port_id is None:
+            return ret
+        time_diff = (end_time - start_time).total_seconds()
+        increment_value = int(time_diff / count)
 
-	try:
-		stats = self._Clients.ceilometer.statistics.list('network.incoming.bytes', q = query, period=increment_value )
-	except:
-		# Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
-		#fixed in ceilometer 5.0, Remove this try except later
-		return ret
-	for s in stats:
-		period_end = datetime.datetime.strptime(s.period_end,"%Y-%m-%dT%H:%M:%S.%f")
-		ret.append({'time': period_end, 'bytes': s.max})
+        query = []
 
-	return ret
-	# return count number of avg time between start time and end time
+        resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
+        query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
+        query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+        query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+
+        try:
+            stats = self._Clients.ceilometer.statistics.list('network.incoming.bytes', q=query, period=increment_value)
+        except:
+            # Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
+            # fixed in ceilometer 5.0, Remove this try except later
+            return ret
+        for s in stats:
+            period_end = datetime.datetime.strptime(s.period_end, "%Y-%m-%dT%H:%M:%S.%f")
+            ret.append({'time': period_end, 'bytes': s.max})
+
+        return ret
+        # return count number of avg time between start time and end time
+
     def mem_usage(self, start_time=None, end_time=None, count=1):
-	ret = []
-	time_diff = (end_time - start_time).total_seconds() 
-	increment_value = int(time_diff / count)
-	
-	query = []
-	query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
-	query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
-	query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
+        ret = []
+        time_diff = (end_time - start_time).total_seconds()
+        increment_value = int(time_diff / count)
 
-	stats = self._Clients.ceilometer.statistics.list('memory.usage', q = query, period=increment_value )
-	for s in stats:
-		ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg, 'percentage': s.avg/self.total_memory })
+        query = []
+        query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
+        query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
+        query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
 
-	return ret
-	
+        stats = self._Clients.ceilometer.statistics.list('memory.usage', q=query, period=increment_value)
+        for s in stats:
+            ret.append({'start_time': s.period_start, 'end_time': s.period_end, 'avg': s.avg, 'percentage': s.avg / self.total_memory})
+
+        return ret
+
     # By defalt return the stats of the last one hour with 6 samples of 10 mins each.
     # By default, ceilometer agent sends stats every 10 mins
     def list_usage_metrics(self, start_time=datetime.datetime.now() - datetime.timedelta(hours=1), end_time=datetime.datetime.now(), count=6):
 
-	metrics = []
-	import time
-	from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-	metric_str = 'openstack.tenant.' + self.tenant_name + '.instance.' + self.id + '.' + self.name + '.'
-	
-	results = self.cpu_usage(start_time, end_time, count)
-	for result in results:
-	    full_metric_str = metric_str + 'cpu_usage'
+        metrics = []
+        import time
+        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
+        metric_str = 'openstack.tenant.' + self.tenant_name + '.instance.' + self.id + '.' + self.name + '.'
+
+        results = self.cpu_usage(start_time, end_time, count)
+        for result in results:
+            full_metric_str = metric_str + 'cpu_usage'
 
             new_metric = BaseMetricscls(full_metric_str, result['avg'], int(time.mktime(end_time.timetuple())))
             metrics.append(new_metric)
 
-	results = self.mem_usage(start_time, end_time, count)
-	for result in results:
-	    full_metric_str = metric_str + 'mem_usage'
+        results = self.mem_usage(start_time, end_time, count)
+        for result in results:
+            full_metric_str = metric_str + 'mem_usage'
 
             new_metric = BaseMetricscls(full_metric_str, result['avg'], int(time.mktime(end_time.timetuple())))
             metrics.append(new_metric)
 
-
-	results = self.net_rx_usage(start_time, end_time, count)
-	for result in results:
-	    full_metric_str = metric_str + 'net_rx'
-
-            new_metric = BaseMetricscls(full_metric_str, result['bytes'], int(time.mktime(result['time'].timetuple())))
-            metrics.append(new_metric)
-
-	results = self.net_tx_usage(start_time, end_time, count)
-	for result in results:
-	    full_metric_str = metric_str + 'net_tx'
+        results = self.net_rx_usage(start_time, end_time, count)
+        for result in results:
+            full_metric_str = metric_str + 'net_rx'
 
             new_metric = BaseMetricscls(full_metric_str, result['bytes'], int(time.mktime(result['time'].timetuple())))
             metrics.append(new_metric)
 
-	return metrics
-	
+        results = self.net_tx_usage(start_time, end_time, count)
+        for result in results:
+            full_metric_str = metric_str + 'net_tx'
+
+            new_metric = BaseMetricscls(full_metric_str, result['bytes'], int(time.mktime(result['time'].timetuple())))
+            metrics.append(new_metric)
+
+        return metrics
+
     @property
     def is_zombie(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls

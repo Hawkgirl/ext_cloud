@@ -24,20 +24,20 @@ class OpenStackTokenCls(OpenStackBaseCloudcls, BaseTokencls):
 
     @property
     def expiry_time(self):
-	return self.__keystone_client.auth_ref.expires
+        return self.__keystone_client.auth_ref.expires
 
     @property
     def issued_time(self):
-	return self.__keystone_client.auth_ref.issued
+        return self.__keystone_client.auth_ref.issued
 
     @property
     def roles(self):
-	return self.__keystone_client.auth_ref.role_names
+        return self.__keystone_client.auth_ref.role_names
 
     @property
     def is_scoped(self):
-	return self.__keystone_client.auth_ref.scoped
+        return self.__keystone_client.auth_ref.scoped
 
     @property
     def is_federated(self):
-	return self.__keystone_client.auth_ref.is_federated
+        return self.__keystone_client.auth_ref.is_federated

@@ -3,11 +3,11 @@ class BaseMetricscls:
     def __init__(self, name, value, time=None):
         self.__name = name
         self.__value = value
-	if time is None:
-           import time
-           self.__timestamp = int(time.time())
-	else:
-	   self.__timestamp = time
+        if time is None:
+            import time
+            self.__timestamp = int(time.time())
+        else:
+            self.__timestamp = time
 
     @property
     def name(self):

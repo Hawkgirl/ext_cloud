@@ -15,11 +15,11 @@ class OpenStackFloatingIpcls(OpenStackBaseCloudcls, BaseFloatingIpcls):
     @property
     def state(self):
         if self.__openstack_floating_ip['status'] == 'ACTIVE':
-		return 'up'
-	elif self.__openstack_floating_ip['status'] == 'DOWN':
-		return 'down'
-	else:
-		return 'na'
+            return 'up'
+        elif self.__openstack_floating_ip['status'] == 'DOWN':
+            return 'down'
+        else:
+            return 'na'
 
     @property
     def floating_ip_address(self):
@@ -39,7 +39,6 @@ class OpenStackFloatingIpcls(OpenStackBaseCloudcls, BaseFloatingIpcls):
         identity = OpenStackIdentitycls(**self._credentials)
         tenants = identity.list_tenants_cache()
         return tenants[self.tenant_id]['name'] if self.tenant_id in tenants else None
-
 
     @property
     def nic_id(self):

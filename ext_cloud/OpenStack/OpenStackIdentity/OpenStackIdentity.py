@@ -53,18 +53,18 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         return self.list_tenants()
 
     def list_users_cache(self):
-	from ext_cloud.utils.dogpile_utils import get_region
+        from ext_cloud.utils.dogpile_utils import get_region
         from dogpile.cache.api import NO_VALUE
 
-	region = get_region()
+        region = get_region()
 
         users = region.get('users')
         if users is not NO_VALUE:
-                return users
+            return users
         dic = {}
         users = self.list_users()
         for user in users:
-                dic[user.id] = user.obj_to_dict()
+            dic[user.id] = user.obj_to_dict()
 
         region.set('users', dic)
         return dic
@@ -92,17 +92,17 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def list_tenants_cache(self):
         from dogpile.cache.api import NO_VALUE
-	from ext_cloud.utils.dogpile_utils import get_region
+        from ext_cloud.utils.dogpile_utils import get_region
 
-	region = get_region()
+        region = get_region()
 
         tenants = region.get('tenants')
         if tenants is not NO_VALUE:
-                return tenants
+            return tenants
         dic = {}
         tenants = self.list_tenants()
         for tenant in tenants:
-                dic[tenant.id] = tenant.obj_to_dict()
+            dic[tenant.id] = tenant.obj_to_dict()
 
         region.set('tenants', dic)
         return dic
@@ -127,7 +127,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         return tenant
 
     def create_token(self):
-	from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
-	from ext_cloud.OpenStack.OpenStackIdentity.OpenStackToken import OpenStackTokenCls
-	keystone_client = OpenStackClientsCls().get_keystone_client(self._credentials)
-	return OpenStackTokenCls(keystone_client, credentials = self._credentials)
+        from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackToken import OpenStackTokenCls
+        keystone_client = OpenStackClientsCls().get_keystone_client(self._credentials)
+        return OpenStackTokenCls(keystone_client, credentials=self._credentials)

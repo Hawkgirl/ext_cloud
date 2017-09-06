@@ -49,65 +49,64 @@ class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
 
     @property
     def device_owner_type(self):
-	owner = self.__openstack_nic['device_owner']
-	if owner[0:7] == 'compute':
-		return 'instance'
-	elif owner == 'network:dhcp':
-		return 'dhcp'
-	elif owner == 'network:floatingip':
-		return 'floatingip'
-	elif owner == 'network:router_gateway':
-		return 'router_gateway'
-	elif owner == 'network:router_interface':
-		return 'router_interface'
-	else:
-		return owner
+        owner = self.__openstack_nic['device_owner']
+        if owner[0:7] == 'compute':
+            return 'instance'
+        elif owner == 'network:dhcp':
+            return 'dhcp'
+        elif owner == 'network:floatingip':
+            return 'floatingip'
+        elif owner == 'network:router_gateway':
+            return 'router_gateway'
+        elif owner == 'network:router_interface':
+            return 'router_interface'
+        else:
+            return owner
 
-
-    @property 
+    @property
     def device_owner_name(self):
-	device_id =  self.__openstack_nic['device_id']
-	if self.device_owner_type == 'instance':
-        	from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
-		from novaclient.exceptions import NotFound
-		try:
-        		instance = OpenStackComputecls(**self._credentials).get_instance_by_id_cache(device_id)
-		except  NotFound as e:
-			return 'NA'
-		return instance['name'] 
-	elif self.device_owner_type == 'floatingip':
-		return 'None'
-	elif self.device_owner_type == 'dhcp':
-		return 'None'
-	elif self.device_owner_type == 'router_interface' or self.device_owner_type == 'router_gateway':
-        	from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
-		routers = OpenStackNetworkscls(**self._credentials).list_routers_from_cache()	
-		if device_id in routers:
-			return routers[device_id]['name']
-		return 'NA'
-	
-	else:
-		return 'TODO'
+        device_id = self.__openstack_nic['device_id']
+        if self.device_owner_type == 'instance':
+            from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
+            from novaclient.exceptions import NotFound
+            try:
+                instance = OpenStackComputecls(**self._credentials).get_instance_by_id_cache(device_id)
+            except NotFound as e:
+                return 'NA'
+            return instance['name']
+        elif self.device_owner_type == 'floatingip':
+            return 'None'
+        elif self.device_owner_type == 'dhcp':
+            return 'None'
+        elif self.device_owner_type == 'router_interface' or self.device_owner_type == 'router_gateway':
+            from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
+            routers = OpenStackNetworkscls(**self._credentials).list_routers_from_cache()
+            if device_id in routers:
+                return routers[device_id]['name']
+            return 'NA'
+
+        else:
+            return 'TODO'
 
     @property
     def host_name(self):
-	return self.__openstack_nic['binding:host_id']
+        return self.__openstack_nic['binding:host_id']
 
     @property
     def is_external(self):
-	if self.device_owner_type == 'floatingip':
-		return True
-	elif self.device_owner_type == 'dhcp':
-		return False
-	elif self.device_owner_type == 'router_interface':
-		return False
-	elif self.device_owner_type == 'router_gateway':
-		return True
-	elif self.device_owner_type == 'instance':
-		return False
-		
-	return False
+        if self.device_owner_type == 'floatingip':
+            return True
+        elif self.device_owner_type == 'dhcp':
+            return False
+        elif self.device_owner_type == 'router_interface':
+            return False
+        elif self.device_owner_type == 'router_gateway':
+            return True
+        elif self.device_owner_type == 'instance':
+            return False
+
+        return False
 
     @property
     def is_internal(self):
-	return not  self.is_external
+        return not self.is_external

@@ -30,22 +30,23 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         return metrics
 
     def list_vm_usage_metrics(self):
-	metrics = []
+        metrics = []
         instances = self.list_instances()
-	for instance in instances:
-		metrics.extend(instance.list_usage_metrics())
+        for instance in instances:
+            metrics.extend(instance.list_usage_metrics())
 
-	return metrics
+        return metrics
+
     @property
     def Childrens(self):
         return self.list_hypervisors() + self.list_instances() + self.list_security_groups()
 
     def list_instances(self, all_tenants=True):
-	if all_tenants:
-	        openstack_instances = self._Clients.nova.servers.list(search_opts={'all_tenants': 1})
-	else:
-	        openstack_instances = self._Clients.nova.servers.list()
-	
+        if all_tenants:
+            openstack_instances = self._Clients.nova.servers.list(search_opts={'all_tenants': 1})
+        else:
+            openstack_instances = self._Clients.nova.servers.list()
+
         instances = []
 
         for openstack_instance in openstack_instances:
@@ -56,30 +57,29 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
     def get_instance_by_id(self, instance_id):
         instance = self._Clients.nova.servers.get(instance_id)
-	return OpenStackInstancecls(instance, credentials=self._credentials)
+        return OpenStackInstancecls(instance, credentials=self._credentials)
 
     def get_instance_by_id_cache(self, instance_id):
-	region = get_region()
-	# check if instance id is in cache
-	instances = region.get('instances')
+        region = get_region()
+        # check if instance id is in cache
+        instances = region.get('instances')
 
-	if instances is NO_VALUE:
-		# cache not created for instances, create a cache of all instances
-       		dic = {}
-        	instances = self.list_instances()
-        	for instance in instances:
-               		dic[instance.id] = instance.obj_to_dict()
+        if instances is NO_VALUE:
+            # cache not created for instances, create a cache of all instances
+            dic = {}
+            instances = self.list_instances()
+            for instance in instances:
+                dic[instance.id] = instance.obj_to_dict()
 
-        	region.set('instances', dic)
-		instances = dic
+            region.set('instances', dic)
+            instances = dic
 
-	if instance_id in instances:
-		return instances[instance_id]
+        if instance_id in instances:
+            return instances[instance_id]
 
-	# instance id not found. call get_instance_by_id which will throw error or return instance which is not in cache
-	instance = self.get_instance_by_id(instance_id)
-	return instance.obj_to_dic()
-
+        # instance id not found. call get_instance_by_id which will throw error or return instance which is not in cache
+        instance = self.get_instance_by_id(instance_id)
+        return instance.obj_to_dic()
 
     def get_instances_by_name(self, instance_name):
         pass
@@ -188,23 +188,24 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     '''
     # ------ Instance Type opertations ----------------------------------------
     '''
+
     def list_instancetypes_cache(self):
 
-	region = get_region()
+        region = get_region()
 
-	instance_types = region.get('instancetypes')
-	if instance_types is not NO_VALUE:
-		return instance_types
-	dic = {}
-	instance_types = self.list_instancetypes()
-	for instance_type in instance_types:
-		dic[instance_type.id] = instance_type.obj_to_dict()
+        instance_types = region.get('instancetypes')
+        if instance_types is not NO_VALUE:
+            return instance_types
+        dic = {}
+        instance_types = self.list_instancetypes()
+        for instance_type in instance_types:
+            dic[instance_type.id] = instance_type.obj_to_dict()
 
-	region.set('instancetypes', dic)
-	return dic
-	
+        region.set('instancetypes', dic)
+        return dic
+
     def list_instancetypes(self):
-	# is_public=None gives all flavors(for admins only)
+        # is_public=None gives all flavors(for admins only)
         openstack_instancetypes = self._Clients.nova.flavors.list(is_public=None)
         instancetypes = []
         for openstack_instancetype in openstack_instancetypes:

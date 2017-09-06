@@ -17,8 +17,8 @@ class OpenStackBaseCloudcls():
         if 'credentials' in kwargs:
             import collections
             self._credentials = collections.defaultdict(lambda: None, kwargs['credentials'])
-	    if 'cacert' not in self._credentials:
-		self._credentials['cacert'] = None
+            if 'cacert' not in self._credentials:
+                self._credentials['cacert'] = None
 
     @property
     def name(self):
@@ -41,8 +41,8 @@ class OpenStackBaseCloudcls():
         return ret
 
     def obj_to_dict(self):
-	dic = {}
-	for varible in dir(self):
+        dic = {}
+        for varible in dir(self):
             if not varible.startswith("_") and isinstance(getattr(self.__class__, varible), property):
                 value = getattr(self, varible)
                 if value is None:
@@ -50,8 +50,8 @@ class OpenStackBaseCloudcls():
                 if not isinstance(value, str):
                     value = str(value)
 
-		dic[varible] = value
-	return dic
+                dic[varible] = value
+        return dic
 
     def list_metrics(self):
         return []
@@ -63,5 +63,5 @@ class OpenStackBaseCloudcls():
     @_Clients.getter
     def _Clients(self):
         if self._clients is None:
-		self._clients = OpenStackClientFactory().get(**self._credentials)
+            self._clients = OpenStackClientFactory().get(**self._credentials)
         return self._clients

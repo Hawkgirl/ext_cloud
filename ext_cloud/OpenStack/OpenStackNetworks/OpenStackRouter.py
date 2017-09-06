@@ -22,11 +22,11 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
 
     @property
     def router_ip(self):
-	if 'external_gateway_info' not in self.__openstack_router or self.__openstack_router['external_gateway_info'] is None:
-		return None
-	if 'external_fixed_ips' not in self.__openstack_router['external_gateway_info']:
-		return None
-	return self.__openstack_router['external_gateway_info']['external_fixed_ips'][0]['ip_address']
+        if 'external_gateway_info' not in self.__openstack_router or self.__openstack_router['external_gateway_info'] is None:
+            return None
+        if 'external_fixed_ips' not in self.__openstack_router['external_gateway_info']:
+            return None
+        return self.__openstack_router['external_gateway_info']['external_fixed_ips'][0]['ip_address']
 
     @property
     def is_zombie(self):
@@ -49,14 +49,14 @@ class OpenStackRoutercls(OpenStackBaseCloudcls, BaseRoutercls):
         self._Clients.neutron.add_interface_router(self.id, {'subnet_id': subnet_id})
 
     def attach_gateway(self, external_net_id):
-	self._Clients.neutron.add_gateway_router(self.id, {'network_id': external_net_id})
+        self._Clients.neutron.add_gateway_router(self.id, {'network_id': external_net_id})
 
     @property
     def port_ips(self):
-	dic = {}
-	dic['device_id'] = self.id
-	lst = []
-	ports = self._Clients.neutron.list_ports(**dic)['ports']
-	for port in ports:
-		lst.append(port['fixed_ips'][0]['ip_address'])
-	return lst
+        dic = {}
+        dic['device_id'] = self.id
+        lst = []
+        ports = self._Clients.neutron.list_ports(**dic)['ports']
+        for port in ports:
+            lst.append(port['fixed_ips'][0]['ip_address'])
+        return lst

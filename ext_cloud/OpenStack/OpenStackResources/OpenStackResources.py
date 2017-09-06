@@ -60,11 +60,11 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
         return resources
 
     def list_all_resources(self):
-	resources = [] 
+        resources = []
         from ext_cloud.OpenStack.OpenStack import OpenStackcls
         openstack_obj = OpenStackcls(*self.__args, **self.__kwargs)
-	resources = openstack_obj.Childrens
-	for child in resources:
+        resources = openstack_obj.Childrens
+        for child in resources:
             if hasattr(child, 'Childrens'):
                 resources += child.Childrens
         return resources
