@@ -25,11 +25,10 @@ class Benchmark:
         params = {'network': {'name': 'TEST'}}
         self._network = self._neutron_client.create_network(params)
         params = {
-            'subnet': {
-                'network_id': self._network['network']['id'],
-                    'ip_version': 4,
-                    'name': 'TEST',
-                    'cidr': '10.0.0.0/24'}}
+            'subnet': {'network_id': self._network['network']['id'],
+                       'ip_version': 4,
+                       'name': 'TEST',
+                       'cidr': '10.0.0.0/24'}}
         self._subnet = self._neutron_client.create_subnet(params)
 
     def delete_network(self):
@@ -38,11 +37,10 @@ class Benchmark:
     def create_vms(self, count=1):
         self._vms = []
         for i in range(count):
-            params = {'port': {
-                'network_id': self._network['network']['id'],
-                 'fixed_ips': [{'subnet_id': self._subnet['subnet']['id']}]
-            }
-            }
+            params = {'port': {'network_id': self._network['network']['id'],
+                               'fixed_ips': [{'subnet_id': self._subnet['subnet']['id']}]
+                               }
+                      }
 
             nic_dict = self._neutron_client.create_port(params)
             self._nics.append(nic_dict)
