@@ -4,9 +4,8 @@ from BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
 
 class OpenStackTemplatescls(OpenStackBaseCloudcls, BaseTemplatescls):
 
-    __heat = None
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+	self.__heat = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']
@@ -21,7 +20,7 @@ class OpenStackTemplatescls(OpenStackBaseCloudcls, BaseTemplatescls):
             self.__heat = "init heat connection here"
         return self.__heat
 
-    def is_valid(self, *arg, **kwargs):
+    def is_valid(self, **kwargs):
         if 'file' in kwargs:
             open(kwargs['file']).read()
         elif 'data' in kwargs:

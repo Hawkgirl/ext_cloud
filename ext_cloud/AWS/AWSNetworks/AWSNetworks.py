@@ -7,9 +7,9 @@ from AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
-    __vpc = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+    	self.__vpc = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']

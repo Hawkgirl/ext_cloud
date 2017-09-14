@@ -12,7 +12,7 @@ from dogpile.cache.api import NO_VALUE
 
 class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self,  **kwargs):
         super(OpenStackComputecls, self).__init__(credentials=kwargs)
 
     def list_metrics(self):
@@ -110,7 +110,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
         return instances
 
-    def create_instance(self, image_id=None, key_name=None, security_groups=None, security_group_ids=None, instancetype_id=None, name=None, subnet_id=None):
+    def create_instance(self, image_id=None, key_name=None, security_groups=None, instancetype_id=None, name=None, subnet_id=None):
 
         nics = []
         if subnet_id is not None:
@@ -180,7 +180,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         security_group = OpenStackSecurityGroupcls(openstack_security_group, credentials=self._credentials)
         return security_group
 
-    def create_security_group(self, name=None, description=None, network_id=None):
+    def create_security_group(self, name=None, description=None):
         openstack_security_group = self._Clients.nova.security_groups.create(name, description)
         security_group = OpenStackSecurityGroupcls(openstack_security_group, credentials=self._credentials)
         return security_group

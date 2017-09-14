@@ -4,7 +4,7 @@ from AWS.AWSBaseCloud import AWSBaseCloudcls
 
 class AWSRegionscls(AWSBaseCloudcls, BaseRegionscls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self._credentials = kwargs['credentials']
 
     def list_regions(self):

@@ -5,9 +5,9 @@ from AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSImagescls(AWSBaseCloudcls, BaseImagescls):
-    _ec2 = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+    	self._ec2 = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']

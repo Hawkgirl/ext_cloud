@@ -2,14 +2,13 @@ from utils.OpenStackClients import OpenStackClientFactory
 
 
 class OpenStackBaseCloudcls():
-    _credentials = None
 
-    _name = None
-    _id = None
+    def __init__(self, **kwargs):
+	self._credentials = None
+	self._name = None
+	self._id = None
+	self._clients = None
 
-    _clients = None
-
-    def __init__(self, *arg, **kwargs):
         if 'name' in kwargs:
             self._name = kwargs['name']
         if 'id' in kwargs:

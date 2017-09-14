@@ -4,7 +4,7 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self._credentials = kwargs['credentials']
         self.__childrens = None
 

@@ -4,17 +4,18 @@ from datetime import datetime
 
 
 class Benchmark:
-    _nova_client = None
-    _keystone_client = None
-    _neutron_client = None
-    _network = None
-    _subnet = None
-    _vms = []
-    _nics = []
-    _stats = None
-    _run_id = 0
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
+    	self._nova_client = None
+	self._keystone_client = None
+   	self._neutron_client = None
+	self._network = None
+	self._subnet = None
+	self._vms = []
+	self._nics = []
+	self._stats = None
+	self._run_id = 0
+
         self.check_env_varibles()
         self.init_clients()
         self.init_network()

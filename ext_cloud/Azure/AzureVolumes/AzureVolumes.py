@@ -4,10 +4,10 @@ from Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class AzureVolumescls(AzureBaseCloudcls, BaseVolumescls):
-    __ec2 = None
-    __sms = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+	self.__ec2 = None
+	self.__sms = None
         self._credentials = kwargs['credentials']
 
     @property

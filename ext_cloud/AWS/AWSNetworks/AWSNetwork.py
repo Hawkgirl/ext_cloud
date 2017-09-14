@@ -8,10 +8,9 @@ from AWS.AWSNetworks.AWSGateway import AWSGatewaycls
 
 class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
 
-    __aws_network = None
-    __vpc = None
 
     def __init__(self, *arg, **kwargs):
+    	self.__vpc = None
         self.__aws_network = arg[0]
         self._aws_ref = arg[0]
         name = None
@@ -88,7 +87,7 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
 
         return subnets
 
-    def create_subnet(self, name=None, cidr_block=None, zone=None, enable_dhcp=False):
+    def create_subnet(self, name=None, cidr_block=None, zone=None):
         aws_subnet = self.__Vpc.create_subnet(
             self._id, cidr_block, availability_zone=zone)
         subnet = AWSSubnetcls(aws_subnet, credentials=self._credentials)

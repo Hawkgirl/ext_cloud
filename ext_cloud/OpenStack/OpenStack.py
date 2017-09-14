@@ -3,19 +3,20 @@ from OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
-    __identity = None
-    __compute = None
-    __networks = None
-    __images = None
-    __volumes = None
-    __objectstore = None
-    __templates = None
-    __resources = None
-    __childrens = None
-    __services = None
-    __regions = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+	self. __identity = None
+	self.__compute = None
+	self.__networks = None
+	self.__images = None
+	self.__volumes = None
+	self.__objectstore = None
+	self.__templates = None
+	self.__resources = None
+	self.__childrens = None
+	self.__services = None
+	self.__regions = None
+
         if 'username' in kwargs:
             self._credentials = kwargs
             return None

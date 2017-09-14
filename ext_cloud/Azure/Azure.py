@@ -5,16 +5,17 @@ from AzureBaseCloud import AzureBaseCloudcls
 
 
 class Azurecls(AzureBaseCloudcls, Cloudcls):
-    __identity = None
-    __compute = None
-    __networks = None
-    __images = None
-    __volumes = None
-    __objectstore = None
-    __templates = None
-    __regions = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+	self.__identity = None
+	self.__compute = None
+	self.__networks = None
+	self.__images = None
+	self.__volumes = None
+	self.__objectstore = None
+	self.__templates = None
+	self.__regions = None
+
         self._credentials['subscription_id'] = kwargs['subscription_id']
         self._credentials['certificate_path'] = kwargs['certificate_path']
         if 'region_name' not in kwargs:

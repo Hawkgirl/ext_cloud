@@ -9,16 +9,8 @@ from AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWScls(AWSBaseCloudcls, Cloudcls):
-    __identity = None
-    __compute = None
-    __networks = None
-    __images = None
-    __volumes = None
-    __objectstore = None
-    __templates = None
-    __regions = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']

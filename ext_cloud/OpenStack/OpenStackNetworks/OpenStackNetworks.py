@@ -13,7 +13,7 @@ from dogpile.cache.api import NO_VALUE
 
 class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         super(OpenStackNetworkscls, self).__init__(credentials=kwargs)
 
     @property

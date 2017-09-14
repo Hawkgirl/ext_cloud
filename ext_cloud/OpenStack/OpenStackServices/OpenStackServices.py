@@ -4,7 +4,7 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         super(OpenStackServicescls, self).__init__(credentials=kwargs)
 
     @property

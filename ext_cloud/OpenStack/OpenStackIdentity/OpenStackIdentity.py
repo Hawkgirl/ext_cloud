@@ -4,7 +4,7 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         super(OpenStackIdentitycls, self).__init__(credentials=kwargs)
 
     def list_metrics(self):

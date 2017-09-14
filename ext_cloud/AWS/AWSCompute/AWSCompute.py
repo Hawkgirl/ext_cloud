@@ -9,9 +9,9 @@ from AWSInstanceTypeDict import INSTANCE_TYPES
 
 
 class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
-    __ec2 = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+    	self.__ec2 = None
         self._credentials = kwargs
 
     @property

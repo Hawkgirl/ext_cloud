@@ -1,12 +1,7 @@
 
 class AWSSecurityGroupRulecls():
 
-    __ip_protocol = None
-    __from_port = None
-    __to_port = None
-    __cidr_block = None
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self.__ip_protocol = kwargs['ip_protocol']
         self.__from_port = kwargs['from_port']
         self.__to_port = kwargs['to_port']

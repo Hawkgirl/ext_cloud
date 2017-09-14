@@ -6,9 +6,8 @@ from boto.cloudformation.connection import CloudFormationConnection
 
 class AWSTemplatescls(AWSBaseCloudcls, BaseTemplatescls):
 
-    __cloudformation = None
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+    	self.__cloudformation = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']
@@ -23,7 +22,7 @@ class AWSTemplatescls(AWSBaseCloudcls, BaseTemplatescls):
             self.__cloudformation = CloudFormationConnection(aws_access_key_id=self._credentials['username'], aws_secret_access_key=self._credentials['password'])
         return self.__cloudformation
 
-    def is_valid(self, *arg, **kwargs):
+    def is_valid(self, **kwargs):
         if 'file' in kwargs:
             json_data = open(kwargs['file']).read()
         elif 'data' in kwargs:
@@ -34,7 +33,7 @@ class AWSTemplatescls(AWSBaseCloudcls, BaseTemplatescls):
         self.__CloudFormation.validate_template(template_body=json_data)
         return True
 
-    def create_template(self, *arg, **kwargs):
+    def create_template(self, **kwargs):
         if 'file' in kwargs:
             json_data = open(kwargs['file']).read()
         elif 'data' in kwargs:

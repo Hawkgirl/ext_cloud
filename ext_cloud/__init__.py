@@ -2,7 +2,7 @@ import collections
 SUPPORTED_CLOUD_TYPES = {"amazon", "openstack", "azure"}
 
 
-def get_ext_cloud(cloud_type, *args, **kwargs):
+def get_ext_cloud(cloud_type, **kwargs):
 
     kwargs = collections.defaultdict(lambda: None, kwargs)
     if cloud_type.lower() not in SUPPORTED_CLOUD_TYPES:

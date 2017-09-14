@@ -1,14 +1,15 @@
 class OpenStackClientsCls:
 
-    _token = None
-    _keystoneclient = None
-    _novaclient = None
-    _neutronclient = None
-    _cinderclient = None
-    _glanceclient = None
-    _ceilometerclient = None
 
-    def __init__(self, *arg, **kwargs):
+    def __init__(self, **kwargs):
+	self._token = None
+	self._keystoneclient = None
+	self._novaclient = None
+	self._neutronclient = None
+	self._cinderclient = None
+	self._glanceclient = None
+	self._ceilometerclient = None
+
         self._credentials = kwargs
         if 'region_name' not in self._credentials:
             self._credentials['region_name'] = None
@@ -103,7 +104,7 @@ class OpenStackClientFactory:
     __key = []
     __value = []
 
-    def get(self, *arg, **kwargs):
+    def get(self, **kwargs):
         for i, item in enumerate(self.__key):
             if cmp(item, kwargs) == 0:
                 return self.__value[i]

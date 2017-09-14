@@ -5,7 +5,7 @@ from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         super(OpenStackImagescls, self).__init__(credentials=kwargs)
 
     def list_metrics(self):

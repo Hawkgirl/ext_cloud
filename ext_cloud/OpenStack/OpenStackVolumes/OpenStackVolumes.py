@@ -7,7 +7,7 @@ from functools import reduce
 
 class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         super(OpenStackVolumescls, self).__init__(credentials=kwargs)
 
     @property

@@ -4,9 +4,9 @@ from Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class AzureRegionscls(AzureBaseCloudcls, BaseRegionscls):
-    __sms = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+	self.__sms = None
         self._credentials = kwargs['credentials']
 
     @property

@@ -11,9 +11,9 @@ from Azure.AzureCompute.AzureInstance import AzureInstancecls
 
 
 class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
-    __sms = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+	self.__sms = None
         self._credentials = kwargs['credentials']
 
     @property
@@ -44,7 +44,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
     def get_instances_by_tag(self, tag_name, tag_value):
         pass
 
-    def create_instance(self, image_id=None, key_name=None, security_groups=None, instancetype_id="ExtraSmall", name=None, zone=None, subnet_id=None, private_ips=None, user_data=None, storage_name=None, username=None, password=None):
+    def create_instance(self, image_id=None, instancetype_id="ExtraSmall", name=None, storage_name=None, username=None, password=None):
         '''
         service_account = None
         '''

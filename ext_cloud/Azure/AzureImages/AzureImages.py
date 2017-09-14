@@ -7,9 +7,9 @@ from azure.servicemanagement import ServiceManagementService
 
 class AzureImagescls(AzureBaseCloudcls, BaseImagescls):
 
-    __sms = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+    	self.__sms = None
         self._credentials = kwargs['credentials']
 
     @property
