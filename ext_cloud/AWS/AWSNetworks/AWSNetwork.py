@@ -8,9 +8,8 @@ from AWS.AWSNetworks.AWSGateway import AWSGatewaycls
 
 class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
 
-
     def __init__(self, *arg, **kwargs):
-    	self.__vpc = None
+        self.__vpc = None
         self.__aws_network = arg[0]
         self._aws_ref = arg[0]
         name = None

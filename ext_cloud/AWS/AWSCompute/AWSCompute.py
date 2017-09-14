@@ -5,13 +5,13 @@ from AWS.AWSCompute.AWSSecurityGroup import AWSSecurityGroupcls
 from AWS.AWSCompute.AWSKeypair import AWSKeypaircls
 from boto import ec2
 from AWS.AWSBaseCloud import AWSBaseCloudcls
-from AWSInstanceTypeDict import INSTANCE_TYPES
+from ext_cloud.AWS.AWSCompute.AWSInstanceTypeDict import INSTANCE_TYPES
 
 
 class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
 
     def __init__(self, **kwargs):
-    	self.__ec2 = None
+        self.__ec2 = None
         self._credentials = kwargs
 
     @property

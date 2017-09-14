@@ -4,8 +4,8 @@ from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 class OpenStackObjectStorecls(OpenStackBaseCloudcls, BaseObjectStorecls):
 
-    def __init__(self,  **kwargs):
-	self.__swiftclient = None
+    def __init__(self, **kwargs):
+        self.__swiftclient = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']

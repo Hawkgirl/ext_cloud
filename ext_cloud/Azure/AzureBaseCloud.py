@@ -1,10 +1,10 @@
 class AzureBaseCloudcls:
 
     def __init__(self, **kwargs):
-	self._credentials = {}
-	self._name = None
-	self._id = None
-	slef._azure_ref = None
+        self._credentials = {}
+        self._name = None
+        self._id = None
+        slef._azure_ref = None
 
         if 'name' in kwargs:
             self._name = kwargs['name']

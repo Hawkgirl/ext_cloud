@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name='ext_cloud',
-      version='2017.09.14',
+      version='2017.09.15',
       description='Multi cloud library',
       url='https://github.com/Hawkgirl/ext_cloud/',
       author='Hawkgirl',

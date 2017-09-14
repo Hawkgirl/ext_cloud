@@ -1,23 +1,22 @@
 class BaseResourceUsagecls:
 
-
     def __init__(self, **kwargs):
-	self.__available_vms = None
-	self.__free_vms = None
-	self.__used_vms = None
-	self.__deleted_vms = None
-	self.__available_memory = None
-	self.__free_memory = None
-	self.__used_memory = None
-	self.__hours_memory = None
-	self.__available_disk = None
-	self.__used_disk = None
-	self.__free_disk = None
-	self.__hours_disk = None
-	self.__availble_cpus = None
-	self.__used_cpus = None
-	self.__free_cpus = None
-	self.__hours_cpus = None
+        self.__available_vms = None
+        self.__free_vms = None
+        self.__used_vms = None
+        self.__deleted_vms = None
+        self.__available_memory = None
+        self.__free_memory = None
+        self.__used_memory = None
+        self.__hours_memory = None
+        self.__available_disk = None
+        self.__used_disk = None
+        self.__free_disk = None
+        self.__hours_disk = None
+        self.__availble_cpus = None
+        self.__used_cpus = None
+        self.__free_cpus = None
+        self.__hours_cpus = None
 
         for key in kwargs:
             attr = '_' + self.__class__.__name__ + '__' + key

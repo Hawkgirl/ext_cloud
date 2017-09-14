@@ -1,20 +1,20 @@
 from BaseCloud.BaseCloud import Cloudcls
-from AzureCompute.AzureCompute import AzureComputecls
-from AzureImages.AzureImages import AzureImagescls
-from AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.Azure.AzureCompute.AzureCompute import AzureComputecls
+from ext_cloud.Azure.AzureImages.AzureImages import AzureImagescls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class Azurecls(AzureBaseCloudcls, Cloudcls):
 
     def __init__(self, **kwargs):
-	self.__identity = None
-	self.__compute = None
-	self.__networks = None
-	self.__images = None
-	self.__volumes = None
-	self.__objectstore = None
-	self.__templates = None
-	self.__regions = None
+        self.__identity = None
+        self.__compute = None
+        self.__networks = None
+        self.__images = None
+        self.__volumes = None
+        self.__objectstore = None
+        self.__templates = None
+        self.__regions = None
 
         self._credentials['subscription_id'] = kwargs['subscription_id']
         self._credentials['certificate_path'] = kwargs['certificate_path']
@@ -47,7 +47,7 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
 
     @property
     def regions(self):
-        from AzureRegions.AzureRegions import AzureRegionscls
+        from ext_cloud.Azure.AzureRegions.AzureRegions import AzureRegionscls
         if self.__regions is None:
             self.__regions = AzureRegionscls(credentials=self._credentials)
 
@@ -56,7 +56,7 @@ class Azurecls(AzureBaseCloudcls, Cloudcls):
     @property
     def volumes(self):
         if self.__volumes is None:
-            from AzureVolumes.AzureVolumes import AzureVolumescls
+            from ext_cloud.Azure.AzureVolumes.AzureVolumes import AzureVolumescls
             self.__volumes = AzureVolumescls(credentials=self._credentials)
 
         return self.__volumes

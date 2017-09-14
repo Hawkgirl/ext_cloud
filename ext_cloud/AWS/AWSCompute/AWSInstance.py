@@ -42,7 +42,7 @@ class AWSInstancecls(AWSBaseCloudcls, BaseInstancecls):
     @_COMPUTE.getter
     def _COMPUTE(self):
         if self._compute is None:
-            from AWSCompute import AWSComputecls
+            from ext_cloud.AWS.AWSCompute.AWSCompute import AWSComputecls
             self._compute = AWSComputecls(**self._credentials)
         return self._compute
 

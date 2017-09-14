@@ -13,7 +13,7 @@ from Azure.AzureCompute.AzureInstance import AzureInstancecls
 class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
 
     def __init__(self, **kwargs):
-	self.__sms = None
+        self.__sms = None
         self._credentials = kwargs['credentials']
 
     @property
@@ -158,7 +158,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
     '''
 
     def list_instancetypes(self):
-        from AzureInstanceTypeDict import INSTANCE_TYPES
+        from ext_cloud.Azure.AzureCompute.AzureInstanceTypeDict import INSTANCE_TYPES
         from Azure.AzureCompute.AzureInstanceType import AzureInstanceTypecls
 
         azure_instancetypes_dict = INSTANCE_TYPES

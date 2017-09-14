@@ -5,7 +5,7 @@ from BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
 class OpenStackTemplatescls(OpenStackBaseCloudcls, BaseTemplatescls):
 
     def __init__(self, **kwargs):
-	self.__heat = None
+        self.__heat = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']

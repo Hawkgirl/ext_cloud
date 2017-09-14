@@ -10,5 +10,6 @@ class BaseComputeTest(unittest.TestCase):
     def test_list_instances(self):
         self.cloud_obj.compute.list_instances()
 
+
 if __name__ == "__main__":
     unittest.main()

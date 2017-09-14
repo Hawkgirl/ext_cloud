@@ -244,7 +244,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
         try:
             stats = self._Clients.ceilometer.statistics.list('network.outgoing.bytes', q=query, period=increment_value)
-        except:
+        except BaseException:
             # Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
             # fixed in ceilometer 5.0, Remove this try except later
             return ret
@@ -270,7 +270,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
         try:
             stats = self._Clients.ceilometer.statistics.list('network.incoming.bytes', q=query, period=increment_value)
-        except:
+        except BaseException:
             # Wrong type. Expected '<type 'float'>', got '<class 'bson.int64.Int64'>' (HTTP 400)
             # fixed in ceilometer 5.0, Remove this try except later
             return ret
@@ -304,7 +304,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         metrics = []
         import time
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metric_str = 'openstack.tenant.' + self.tenant_name.replace('@','_').replace('.','_') + '.instance.' + self.id + '.' + self.name + '.'
+        metric_str = 'openstack.tenant.' + self.tenant_name.replace('@', '_').replace('.', '_') + '.instance.' + self.id + '.' + self.name + '.'
 
         results = self.cpu_usage(start_time, end_time, count)
         for result in results:

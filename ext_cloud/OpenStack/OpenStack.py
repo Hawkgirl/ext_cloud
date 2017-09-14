@@ -1,21 +1,21 @@
 from ext_cloud.BaseCloud.BaseCloud import BaseCloudcls
-from OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 
     def __init__(self, **kwargs):
-	self. __identity = None
-	self.__compute = None
-	self.__networks = None
-	self.__images = None
-	self.__volumes = None
-	self.__objectstore = None
-	self.__templates = None
-	self.__resources = None
-	self.__childrens = None
-	self.__services = None
-	self.__regions = None
+        self. __identity = None
+        self.__compute = None
+        self.__networks = None
+        self.__images = None
+        self.__volumes = None
+        self.__objectstore = None
+        self.__templates = None
+        self.__resources = None
+        self.__childrens = None
+        self.__services = None
+        self.__regions = None
 
         if 'username' in kwargs:
             self._credentials = kwargs
@@ -34,7 +34,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
             return None
         # load credentials from config file
         if os.path.exists('/etc/ext_cloud/ext_cloud.conf'):
-            from utils.ConfFileParser import config_file_dic
+            from ext_cloud.OpenStack.utils.ConfFileParser import config_file_dic
             dic = config_file_dic()
             self._credentials = dic
 
@@ -45,7 +45,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def identity(self):
         if self.__identity is None:
-            from OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
+            from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
             self.__identity = OpenStackIdentitycls(**self._credentials)
 
         return self.__identity
@@ -53,7 +53,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def compute(self):
         if self.__compute is None:
-            from OpenStackCompute.OpenStackCompute import OpenStackComputecls
+            from ext_cloud.OpenStack.OpenStackCompute.OpenStackCompute import OpenStackComputecls
             self.__compute = OpenStackComputecls(**self._credentials)
 
         return self.__compute
@@ -61,7 +61,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def networks(self):
         if self.__networks is None:
-            from OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
+            from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
             self.__networks = OpenStackNetworkscls(**self._credentials)
 
         return self.__networks
@@ -69,7 +69,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def images(self):
         if self.__images is None:
-            from OpenStackImages.OpenStackImages import OpenStackImagescls
+            from ext_cloud.OpenStack.OpenStackImages.OpenStackImages import OpenStackImagescls
             self.__images = OpenStackImagescls(**self._credentials)
 
         return self.__images
@@ -77,7 +77,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def volumes(self):
         if self.__volumes is None:
-            from OpenStackVolumes.OpenStackVolumes import OpenStackVolumescls
+            from ext_cloud.OpenStack.OpenStackVolumes.OpenStackVolumes import OpenStackVolumescls
             self.__volumes = OpenStackVolumescls(**self._credentials)
 
         return self.__volumes
@@ -85,7 +85,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def templates(self):
         if self.__templates is None:
-            from OpenStackTemplates.OpenStackTemplates import OpenStackTemplatescls
+            from ext_cloud.OpenStack.OpenStackTemplates.OpenStackTemplates import OpenStackTemplatescls
             self.__templates = OpenStackTemplatescls(**self._credentials)
 
         return self.__templates
@@ -93,7 +93,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def objectstore(self):
         if self.__objectstore is None:
-            from OpenStackObjectStore.OpenStackObjectStore import OpenStackObjectStorecls
+            from ext_cloud.OpenStack.OpenStackObjectStore.OpenStackObjectStore import OpenStackObjectStorecls
             self.__objectstore = OpenStackObjectStorecls(**self._credentials)
 
         return self.__objectstore
@@ -101,7 +101,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def resources(self):
         if self.__resources is None:
-            from OpenStackResources.OpenStackResources import OpenStackResourcescls
+            from ext_cloud.OpenStack.OpenStackResources.OpenStackResources import OpenStackResourcescls
             self.__resources = OpenStackResourcescls(**self._credentials)
 
         return self.__resources
@@ -109,7 +109,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def regions(self):
         if self.__regions is None:
-            from OpenStackRegions.OpenStackRegions import OpenStackRegionscls
+            from ext_cloud.OpenStack.OpenStackRegions.OpenStackRegions import OpenStackRegionscls
             self.__regions = OpenStackRegionscls(credentials=self._credentials)
 
         return self.__regions
@@ -117,7 +117,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
     @property
     def services(self):
         if self.__services is None:
-            from OpenStackServices.OpenStackServices import OpenStackServicescls
+            from ext_cloud.OpenStack.OpenStackServices.OpenStackServices import OpenStackServicescls
             self.__services = OpenStackServicescls(**self._credentials)
 
         return self.__services

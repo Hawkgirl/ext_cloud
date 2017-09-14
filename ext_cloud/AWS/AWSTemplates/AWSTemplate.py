@@ -8,8 +8,8 @@ from boto import ec2
 class AWSTemplatecls(AWSBaseCloudcls, BaseTemplatecls):
 
     def __init__(self, *args, **kwargs):
-	self.__cloudformation = None
-	self.__ec2 = None
+        self.__cloudformation = None
+        self.__ec2 = None
         data = args[0]
 
         super(AWSTemplatecls, self).__init__(id=data['id'], name=data['name'], credentials=kwargs['credentials'])

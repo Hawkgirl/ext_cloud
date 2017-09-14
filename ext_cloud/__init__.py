@@ -11,19 +11,19 @@ def get_ext_cloud(cloud_type, **kwargs):
 
     if cloud_type.lower() == "openstack":
 
-        from OpenStack.OpenStack import OpenStackcls
+        from ext_cloud.OpenStack.OpenStack import OpenStackcls
         cloud_obj = OpenStackcls(**kwargs)
 
         return cloud_obj
 
     if cloud_type.lower() == "amazon":
 
-        from AWS.AWS import AWScls
+        from ext_cloud.AWS.AWS import AWScls
         cloud_obj = AWScls(**kwargs)
         return cloud_obj
 
     if cloud_type.lower() == "azure":
-        from Azure.Azure import Azurecls
+        from ext_cloud.Azure.Azure import Azurecls
         cloud_obj = Azurecls(**kwargs)
 
         return cloud_obj

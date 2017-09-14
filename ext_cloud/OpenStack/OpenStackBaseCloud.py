@@ -1,13 +1,13 @@
-from utils.OpenStackClients import OpenStackClientFactory
+from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientFactory
 
 
 class OpenStackBaseCloudcls():
 
     def __init__(self, **kwargs):
-	self._credentials = None
-	self._name = None
-	self._id = None
-	self._clients = None
+        self._credentials = None
+        self._name = None
+        self._id = None
+        self._clients = None
 
         if 'name' in kwargs:
             self._name = kwargs['name']

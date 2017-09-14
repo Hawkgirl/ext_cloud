@@ -26,7 +26,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             import ast
             cpu_dict = ast.literal_eval(self.__openstack_hypervisor.cpu_info)
             cpu_arch = cpu_dict['arch']
-        except:
+        except BaseException:
             pass
         return cpu_arch
 

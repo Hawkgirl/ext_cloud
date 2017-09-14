@@ -1,11 +1,11 @@
 from BaseCloud.BaseCloud import Cloudcls
-from AWSCompute.AWSCompute import AWSComputecls
-from AWSImages.AWSImages import AWSImagescls
-from AWSNetworks.AWSNetworks import AWSNetworkscls
-from AWSVolumes.AWSVolumes import AWSVolumescls
-from AWSObjectStore.AWSObjectStore import AWSObjectStorecls
-from AWSTemplates.AWSTemplates import AWSTemplatescls
-from AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSCompute.AWSCompute import AWSComputecls
+from ext_cloud.AWS.AWSImages.AWSImages import AWSImagescls
+from ext_cloud.AWS.AWSNetworks.AWSNetworks import AWSNetworkscls
+from ext_cloud.AWS.AWSVolumes.AWSVolumes import AWSVolumescls
+from ext_cloud.AWS.AWSObjectStore.AWSObjectStore import AWSObjectStorecls
+from ext_cloud.AWS.AWSTemplates.AWSTemplates import AWSTemplatescls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWScls(AWSBaseCloudcls, Cloudcls):
@@ -46,7 +46,7 @@ class AWScls(AWSBaseCloudcls, Cloudcls):
     @property
     def regions(self):
         if self.__regions is None:
-            from AWSRegions.AWSRegions import AWSRegionscls
+            from ext_cloud.AWS.AWSRegions.AWSRegions import AWSRegionscls
             self.__regions = AWSRegionscls(credentials=self._credentials)
 
         return self.__regions

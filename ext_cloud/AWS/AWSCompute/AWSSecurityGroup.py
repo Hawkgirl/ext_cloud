@@ -1,7 +1,7 @@
 from BaseCloud.BaseCompute.BaseSecurityGroup import BaseSecurityGroupcls
 from boto import ec2
 from AWS.AWSBaseCloud import AWSBaseCloudcls
-from AWSSecurityGroupRule import AWSSecurityGroupRulecls
+from ext_cloud.AWS.AWSCompute.AWSSecurityGroupRule import AWSSecurityGroupRulecls
 
 
 class AWSSecurityGroupcls(AWSBaseCloudcls, BaseSecurityGroupcls):

@@ -1,14 +1,13 @@
 class OpenStackClientsCls:
 
-
     def __init__(self, **kwargs):
-	self._token = None
-	self._keystoneclient = None
-	self._novaclient = None
-	self._neutronclient = None
-	self._cinderclient = None
-	self._glanceclient = None
-	self._ceilometerclient = None
+        self._token = None
+        self._keystoneclient = None
+        self._novaclient = None
+        self._neutronclient = None
+        self._cinderclient = None
+        self._glanceclient = None
+        self._ceilometerclient = None
 
         self._credentials = kwargs
         if 'region_name' not in self._credentials:

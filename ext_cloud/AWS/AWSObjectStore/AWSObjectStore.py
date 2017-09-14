@@ -8,7 +8,7 @@ from AWS.AWSBaseCloud import AWSBaseCloudcls
 class AWSObjectStorecls(AWSBaseCloudcls, BaseObjectStorecls):
 
     def __init__(self, **kwargs):
-    	self.__s3 = None
+        self.__s3 = None
         self._credentials['username'] = kwargs['username']
         self._credentials['password'] = kwargs['password']
         self._credentials['region_name'] = kwargs['region_name']
