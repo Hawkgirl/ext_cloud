@@ -1,6 +1,6 @@
-from BaseCloud.BaseImages.BaseImages import BaseImagescls
-from Azure.AzureImages.AzureImage import AzureImagecls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseImages.BaseImages import BaseImagescls
+from ext_cloud.Azure.AzureImages.AzureImage import AzureImagecls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 
 from azure.servicemanagement import ServiceManagementService
 

@@ -114,7 +114,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
         nics = []
         if subnet_id is not None:
-            from OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
+            from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
             subnet = OpenStackNetworkscls(**self._credentials).get_subnet_by_id(subnet_id)
             nic = subnet.attach_nic(name=name)
             nics = [{"port-id": nic.id}]

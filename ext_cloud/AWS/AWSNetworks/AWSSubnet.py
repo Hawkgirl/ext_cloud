@@ -1,6 +1,6 @@
-from BaseCloud.BaseNetworks.BaseSubnet import BaseSubnetcls
+from ext_cloud.BaseCloud.BaseNetworks.BaseSubnet import BaseSubnetcls
 import boto.vpc
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSSubnetcls(AWSBaseCloudcls, BaseSubnetcls):

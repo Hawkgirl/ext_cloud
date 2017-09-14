@@ -1,5 +1,5 @@
-from AWS.AWSBaseCloud import AWSBaseCloudcls
-from BaseCloud.BaseRegions.BaseRegion import BaseRegioncls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseRegions.BaseRegion import BaseRegioncls
 
 
 class AWSRegioncls(AWSBaseCloudcls, BaseRegioncls):
@@ -18,7 +18,7 @@ class AWSRegioncls(AWSBaseCloudcls, BaseRegioncls):
         aws_zones = conn.get_all_zones()
         zones = []
         for aws_zone in aws_zones:
-            from AWS.AWSRegions.AWSZone import AWSZonecls
+            from ext_cloud.AWS.AWSRegions.AWSZone import AWSZonecls
 
             zone = AWSZonecls(aws_zone, credentials=self._credentials)
             zones.append(zone)

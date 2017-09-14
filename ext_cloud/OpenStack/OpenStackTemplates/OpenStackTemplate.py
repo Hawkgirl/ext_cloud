@@ -1,5 +1,5 @@
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
 
 
 class OpenStackTemplatecls(OpenStackBaseCloudcls, BaseTemplatescls):

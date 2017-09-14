@@ -1,5 +1,5 @@
-from AWS.AWSBaseCloud import AWSBaseCloudcls
-from BaseCloud.BaseRegions.BaseZone import BaseZonecls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseRegions.BaseZone import BaseZonecls
 
 
 class AWSZonecls(AWSBaseCloudcls, BaseZonecls):

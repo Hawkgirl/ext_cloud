@@ -1,5 +1,5 @@
-from BaseCloud.BaseImages.BaseImage import BaseImagecls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseImages.BaseImage import BaseImagecls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class AzureImagecls(AzureBaseCloudcls, BaseImagecls):

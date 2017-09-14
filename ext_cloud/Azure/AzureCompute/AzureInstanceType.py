@@ -1,5 +1,5 @@
-from BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class AzureInstanceTypecls(AzureBaseCloudcls, BaseInstanceTypecls):

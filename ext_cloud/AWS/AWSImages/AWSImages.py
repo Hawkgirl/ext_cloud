@@ -1,7 +1,7 @@
-from BaseCloud.BaseImages.BaseImages import BaseImagescls
-from AWS.AWSImages.AWSImage import AWSImagecls
+from ext_cloud.BaseCloud.BaseImages.BaseImages import BaseImagescls
+from ext_cloud.AWS.AWSImages.AWSImage import AWSImagecls
 from boto import ec2
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSImagescls(AWSBaseCloudcls, BaseImagescls):
@@ -32,7 +32,7 @@ class AWSImagescls(AWSBaseCloudcls, BaseImagescls):
         return images
 
     def get_standard_images(self):
-        from AWS.AWSImages.AWSImageDict import AWS_IMAGES
+        from ext_cloud.AWS.AWSImages.AWSImageDict import AWS_IMAGES
 
         aws_images = self._EC2.get_all_images(image_ids=AWS_IMAGES)
         images = []

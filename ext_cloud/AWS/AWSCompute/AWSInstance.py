@@ -1,6 +1,6 @@
-from BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
+from ext_cloud.BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
 from boto import ec2
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSInstancecls(AWSBaseCloudcls, BaseInstancecls):

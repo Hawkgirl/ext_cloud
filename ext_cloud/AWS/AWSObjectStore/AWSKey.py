@@ -1,5 +1,5 @@
-from BaseCloud.BaseObjectStore.BaseKey import BaseKeycls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseObjectStore.BaseKey import BaseKeycls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSKeycls(AWSBaseCloudcls, BaseKeycls):

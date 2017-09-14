@@ -1,8 +1,8 @@
-from BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
-from AWS.AWSVolumes.AWSVolume import AWSVolumecls
-from AWS.AWSVolumes.AWSSnapshot import AWSSnapshotcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
+from ext_cloud.AWS.AWSVolumes.AWSVolume import AWSVolumecls
+from ext_cloud.AWS.AWSVolumes.AWSSnapshot import AWSSnapshotcls
 from boto import ec2
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSVolumescls(AWSBaseCloudcls, BaseVolumescls):

@@ -1,5 +1,5 @@
-from BaseCloud.BaseVolumes.BaseSnapshot import BaseSnapshotcls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseSnapshot import BaseSnapshotcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSSnapshotcls(AWSBaseCloudcls, BaseSnapshotcls):

@@ -1,5 +1,5 @@
-from BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseInstanceType import BaseInstanceTypecls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSInstanceTypecls(AWSBaseCloudcls, BaseInstanceTypecls):

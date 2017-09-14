@@ -1,5 +1,5 @@
-from BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseVolume import BaseVolumecls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSVolumecls(AWSBaseCloudcls, BaseVolumecls):

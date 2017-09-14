@@ -1,6 +1,6 @@
-from BaseCloud.BaseObjectStore.BaseBucket import BaseBucketcls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
-from AWS.AWSObjectStore.AWSKey import AWSKeycls
+from ext_cloud.BaseCloud.BaseObjectStore.BaseBucket import BaseBucketcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSObjectStore.AWSKey import AWSKeycls
 
 
 class AWSBucketcls(AWSBaseCloudcls, BaseBucketcls):

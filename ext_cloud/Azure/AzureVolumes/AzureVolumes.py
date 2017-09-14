@@ -1,6 +1,6 @@
-from BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
-from Azure.AzureVolumes.AzureVolume import AzureVolumecls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseVolumes.BaseVolumes import BaseVolumescls
+from ext_cloud.Azure.AzureVolumes.AzureVolume import AzureVolumecls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class AzureVolumescls(AzureBaseCloudcls, BaseVolumescls):

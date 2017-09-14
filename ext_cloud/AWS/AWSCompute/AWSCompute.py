@@ -1,10 +1,10 @@
-from BaseCloud.BaseCompute.BaseCompute import BaseComputecls
-from AWS.AWSCompute.AWSInstance import AWSInstancecls
-from AWS.AWSCompute.AWSInstanceType import AWSInstanceTypecls
-from AWS.AWSCompute.AWSSecurityGroup import AWSSecurityGroupcls
-from AWS.AWSCompute.AWSKeypair import AWSKeypaircls
+from ext_cloud.BaseCloud.BaseCompute.BaseCompute import BaseComputecls
+from ext_cloud.AWS.AWSCompute.AWSInstance import AWSInstancecls
+from ext_cloud.AWS.AWSCompute.AWSInstanceType import AWSInstanceTypecls
+from ext_cloud.AWS.AWSCompute.AWSSecurityGroup import AWSSecurityGroupcls
+from ext_cloud.AWS.AWSCompute.AWSKeypair import AWSKeypaircls
 from boto import ec2
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 from ext_cloud.AWS.AWSCompute.AWSInstanceTypeDict import INSTANCE_TYPES
 
 
@@ -80,7 +80,7 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
                 aws_zones = self.__EC2.get_all_zones()
                 zone = aws_zones[0].name
             else:
-                from AWS.AWSNetworks.AWSNetworks import AWSNetworkscls
+                from ext_cloud.AWS.AWSNetworks.AWSNetworks import AWSNetworkscls
                 subnet = subnet = AWSNetworkscls(**self._credentials).get_subnet_by_id(subnet_id)
                 zone = subnet.zone
 

@@ -1,6 +1,6 @@
-from AWS.AWSBaseCloud import AWSBaseCloudcls
-from AWS.AWSCompute.AWSInstance import AWSInstancecls
-from BaseCloud.BaseTemplates.BaseTemplate import BaseTemplatecls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSCompute.AWSInstance import AWSInstancecls
+from ext_cloud.BaseCloud.BaseTemplates.BaseTemplate import BaseTemplatecls
 from boto.cloudformation.connection import CloudFormationConnection
 from boto import ec2
 

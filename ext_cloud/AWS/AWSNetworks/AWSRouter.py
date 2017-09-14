@@ -1,6 +1,6 @@
-from BaseCloud.BaseNetworks.BaseRouter import BaseRoutercls
+from ext_cloud.BaseCloud.BaseNetworks.BaseRouter import BaseRoutercls
 import boto.vpc
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSRoutercls(AWSBaseCloudcls, BaseRoutercls):

@@ -1,9 +1,9 @@
-from BaseCloud.BaseNetworks.BaseNetwork import BaseNetworkcls
+from ext_cloud.BaseCloud.BaseNetworks.BaseNetwork import BaseNetworkcls
 import boto.vpc
-from AWS.AWSBaseCloud import AWSBaseCloudcls
-from AWS.AWSNetworks.AWSSubnet import AWSSubnetcls
-from AWS.AWSNetworks.AWSRouter import AWSRoutercls
-from AWS.AWSNetworks.AWSGateway import AWSGatewaycls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSNetworks.AWSSubnet import AWSSubnetcls
+from ext_cloud.AWS.AWSNetworks.AWSRouter import AWSRoutercls
+from ext_cloud.AWS.AWSNetworks.AWSGateway import AWSGatewaycls
 
 
 class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
@@ -103,7 +103,7 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
         self.__Vpc.APIVersion = orig_api_version
 
         # assign router to subnet for public access
-        from AWS.AWSNetworks.AWSNetworks import AWSNetworkscls
+        from ext_cloud.AWS.AWSNetworks.AWSNetworks import AWSNetworkscls
         network_connection = AWSNetworkscls(**self._credentials)
         network = network_connection.get_network_by_id(subnet.network_id)
         routers = network.get_all_routers()

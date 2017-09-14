@@ -4,7 +4,7 @@ import unittest
 class BaseComputeTest(unittest.TestCase):
 
     def setUp(self):
-        from TestCases.utils import get_cloud_obj
+        from ext_cloud.TestCases.utils import get_cloud_obj
         self.cloud_obj = get_cloud_obj()
 
     def test_list_instances(self):

@@ -185,7 +185,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         pass
 
     def attach_floatingip(self):
-        from OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
+        from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
         nics = OpenStackNetworkscls(**self._credentials).get_all_nics()
         nic_id = None
         for nic in nics:

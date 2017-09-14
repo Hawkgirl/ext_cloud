@@ -1,5 +1,5 @@
-from BaseCloud.BaseRegions.BaseRegions import BaseRegionscls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseRegions.BaseRegions import BaseRegionscls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSRegionscls(AWSBaseCloudcls, BaseRegionscls):
@@ -8,7 +8,7 @@ class AWSRegionscls(AWSBaseCloudcls, BaseRegionscls):
         self._credentials = kwargs['credentials']
 
     def list_regions(self):
-        from AWS.AWSRegions.AWSRegion import AWSRegioncls
+        from ext_cloud.AWS.AWSRegions.AWSRegion import AWSRegioncls
         from boto.ec2 import regions as Regions
 
         aws_regions = Regions(aws_access_key_id=self._credentials['username'], aws_secret_access_key=self._credentials['password'])

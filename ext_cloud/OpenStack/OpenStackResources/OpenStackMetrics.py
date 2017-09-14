@@ -1,4 +1,4 @@
-from BaseCloud.BaseResources.BaseResources import BaseResourcescls
+from ext_cloud.BaseCloud.BaseResources.BaseResources import BaseResourcescls
 
 
 class OpenStackMetricscls(BaseResourcescls):

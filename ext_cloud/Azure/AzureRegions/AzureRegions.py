@@ -1,6 +1,6 @@
 from azure.servicemanagement import ServiceManagementService
-from BaseCloud.BaseRegions.BaseRegions import BaseRegionscls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseRegions.BaseRegions import BaseRegionscls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 
 
 class AzureRegionscls(AzureBaseCloudcls, BaseRegionscls):
@@ -20,7 +20,7 @@ class AzureRegionscls(AzureBaseCloudcls, BaseRegionscls):
         return self.__sms
 
     def list_regions(self):
-        from Azure.AzureRegions.AzureRegion import AzureRegioncls
+        from ext_cloud.Azure.AzureRegions.AzureRegion import AzureRegioncls
         azure_locations = self.__SMS.list_locations()
         regions = []
         for azure_location in azure_locations:

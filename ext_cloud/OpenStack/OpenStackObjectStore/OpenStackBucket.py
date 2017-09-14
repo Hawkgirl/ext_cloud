@@ -1,13 +1,13 @@
-from BaseCloud.BaseObjectStore.BaseBucket import BaseBucketcls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
-from OpenStack.OpenStackObjectStore.OpenStackKey import OpenStackKeycls
+from ext_cloud.BaseCloud.BaseObjectStore.BaseBucket import BaseBucketcls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.OpenStack.OpenStackObjectStore.OpenStackKey import OpenStackKeycls
 
 
 class OpenStackBucketcls(OpenStackBaseCloudcls, BaseBucketcls):
 
-    __openstack_bucket = None
 
     def __init__(self, *arg, **kwargs):
+        self.__openstack_bucket = None
         self.__openstack_bucket = arg[0]
 
         super(OpenStackBucketcls, self).__init__(id=self.__openstack_bucket.name,

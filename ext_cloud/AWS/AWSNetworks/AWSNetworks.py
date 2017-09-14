@@ -1,10 +1,9 @@
-from BaseCloud.BaseNetworks.BaseNetworks import BaseNetworkscls
-from AWS.AWSNetworks.AWSNetwork import AWSNetworkcls
-from AWS.AWSNetworks.AWSSubnet import AWSSubnetcls
-from AWS.AWSNetworks.AWSGateway import AWSGatewaycls
+from ext_cloud.BaseCloud.BaseNetworks.BaseNetworks import BaseNetworkscls
+from ext_cloud.AWS.AWSNetworks.AWSNetwork import AWSNetworkcls
+from ext_cloud.AWS.AWSNetworks.AWSSubnet import AWSSubnetcls
+from ext_cloud.AWS.AWSNetworks.AWSGateway import AWSGatewaycls
 import boto.vpc
-from AWS.AWSBaseCloud import AWSBaseCloudcls
-
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
 

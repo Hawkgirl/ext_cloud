@@ -1,5 +1,5 @@
-from BaseCloud.BaseImages.BaseImage import BaseImagecls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseImages.BaseImage import BaseImagecls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSImagecls(AWSBaseCloudcls, BaseImagecls):

@@ -1,8 +1,8 @@
-from BaseCloud.BaseObjectStore.BaseObjectStore import BaseObjectStorecls
-from AWS.AWSObjectStore.AWSBucket import AWSBucketcls
+from ext_cloud.BaseCloud.BaseObjectStore.BaseObjectStore import BaseObjectStorecls
+from ext_cloud.AWS.AWSObjectStore.AWSBucket import AWSBucketcls
 from boto import s3
 from boto.s3.connection import OrdinaryCallingFormat
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSObjectStorecls(AWSBaseCloudcls, BaseObjectStorecls):

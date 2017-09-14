@@ -1,5 +1,5 @@
-from BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseInstance import BaseInstancecls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
 from azure.servicemanagement import ServiceManagementService
 
 
@@ -126,7 +126,7 @@ class AzureInstancecls(AzureBaseCloudcls, BaseInstancecls):
         media_link = properties.role_list.roles[0].os_virtual_hard_disk.media_link
         storage_name = media_link[media_link.find("//") + 2:media_link.find(".blob")]
 
-        from Azure.AzureVolumes.AzureVolumes import AzureVolumescls
+        from ext_cloud.Azure.AzureVolumes.AzureVolumes import AzureVolumescls
         volume_service = AzureVolumescls(credentials=self._credentials)
         volumes = volume_service.list_volumes()
         volume_to_be_deleted = None

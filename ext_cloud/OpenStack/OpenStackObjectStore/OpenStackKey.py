@@ -1,5 +1,5 @@
-from BaseCloud.BaseObjectStore.BaseKey import BaseKeycls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseObjectStore.BaseKey import BaseKeycls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackKeycls(OpenStackBaseCloudcls, BaseKeycls):

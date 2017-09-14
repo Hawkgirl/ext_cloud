@@ -1,6 +1,6 @@
-from BaseCloud.BaseNetworks.BaseGateway import BaseGatewaycls
+from ext_cloud.BaseCloud.BaseNetworks.BaseGateway import BaseGatewaycls
 from boto import vpc
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSGatewaycls(AWSBaseCloudcls, BaseGatewaycls):

@@ -1,5 +1,5 @@
-from Azure.AzureBaseCloud import AzureBaseCloudcls
-from BaseCloud.BaseRegions.BaseRegion import BaseRegioncls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.BaseCloud.BaseRegions.BaseRegion import BaseRegioncls
 
 
 class AzureRegioncls(AzureBaseCloudcls, BaseRegioncls):

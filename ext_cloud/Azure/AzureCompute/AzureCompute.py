@@ -5,9 +5,9 @@ from azure.servicemanagement import WindowsConfigurationSet
 from azure.servicemanagement import ConfigurationSet
 from azure.servicemanagement import ConfigurationSetInputEndpoint
 from azure.storage import BlobService
-from BaseCloud.BaseCompute.BaseCompute import BaseComputecls
-from Azure.AzureBaseCloud import AzureBaseCloudcls
-from Azure.AzureCompute.AzureInstance import AzureInstancecls
+from ext_cloud.BaseCloud.BaseCompute.BaseCompute import BaseComputecls
+from ext_cloud.Azure.AzureBaseCloud import AzureBaseCloudcls
+from ext_cloud.Azure.AzureCompute.AzureInstance import AzureInstancecls
 
 
 class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
@@ -159,7 +159,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
 
     def list_instancetypes(self):
         from ext_cloud.Azure.AzureCompute.AzureInstanceTypeDict import INSTANCE_TYPES
-        from Azure.AzureCompute.AzureInstanceType import AzureInstanceTypecls
+        from ext_cloud.Azure.AzureCompute.AzureInstanceType import AzureInstanceTypecls
 
         azure_instancetypes_dict = INSTANCE_TYPES
         instancetypes = []

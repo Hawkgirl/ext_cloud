@@ -1,5 +1,5 @@
-from BaseCloud.BaseObjectStore.BaseObjectStore import BaseObjectStorecls
-from OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
+from ext_cloud.BaseCloud.BaseObjectStore.BaseObjectStore import BaseObjectStorecls
+from ext_cloud.OpenStack.OpenStackBaseCloud import OpenStackBaseCloudcls
 
 
 class OpenStackObjectStorecls(OpenStackBaseCloudcls, BaseObjectStorecls):

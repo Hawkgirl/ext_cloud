@@ -1,6 +1,6 @@
-from BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
-from AWS.AWSTemplates.AWSTemplate import AWSTemplatecls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseTemplates.BaseTemplates import BaseTemplatescls
+from ext_cloud.AWS.AWSTemplates.AWSTemplate import AWSTemplatecls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 from boto.cloudformation.connection import CloudFormationConnection
 
 

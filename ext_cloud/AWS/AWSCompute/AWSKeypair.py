@@ -1,5 +1,5 @@
-from BaseCloud.BaseCompute.BaseKeypair import BaseKeypaircls
-from AWS.AWSBaseCloud import AWSBaseCloudcls
+from ext_cloud.BaseCloud.BaseCompute.BaseKeypair import BaseKeypaircls
+from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
 
 class AWSKeypaircls(AWSBaseCloudcls, BaseKeypaircls):
