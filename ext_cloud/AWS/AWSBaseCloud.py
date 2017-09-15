@@ -1,7 +1,7 @@
 class AWSBaseCloudcls:
 
     def __init__(self, **kwargs):
-        _credentials = {}
+        self._credentials = {}
         if 'name' in kwargs:
             self._name = kwargs['name']
         if 'id' in kwargs:

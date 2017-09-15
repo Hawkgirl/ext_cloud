@@ -71,7 +71,7 @@ class OpenStackNICcls(OpenStackBaseCloudcls, BaseNICcls):
             from novaclient.exceptions import NotFound
             try:
                 instance = OpenStackComputecls(**self._credentials).get_instance_by_id_cache(device_id)
-            except NotFound as e:
+            except NotFound as _:
                 return 'NA'
             return instance['name']
         elif self.device_owner_type == 'floatingip':

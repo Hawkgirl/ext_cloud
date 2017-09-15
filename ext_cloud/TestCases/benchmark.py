@@ -19,7 +19,7 @@ class Benchmark:
         self.check_env_varibles()
         self.init_clients()
         self.init_network()
-        self._stats = [[0 for x in range(int(environ.get('RUNS')))] for y in range(int(environ.get('MAX_VMS')))]
+        self._stats = [[0 for _ in range(int(environ.get('RUNS')))] for _ in range(int(environ.get('MAX_VMS')))]
         self._run_id = 0
 
     def init_network(self):
@@ -72,7 +72,7 @@ class Benchmark:
             self._neutron_client.delete_port(nic['port']['id'])
 
     def start(self):
-        for i in range(int(environ.get('RUNS'))):
+        for _ in range(int(environ.get('RUNS'))):
             self.create_vms(count=int(environ.get('MAX_VMS')))
             self.delete_vms()
             self._run_id += 1
