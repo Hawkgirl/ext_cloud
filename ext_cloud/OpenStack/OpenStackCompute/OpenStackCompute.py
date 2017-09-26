@@ -126,9 +126,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     def create_instances(self, count=1, image_id=None, key_name=None, security_groups=None, instancetype_id=None, names=None):
         pass
 
-    '''
     # ---------- Hypervisor operations -----------------
-    '''
 
     def list_hypervisors(self):
         openstack_hypervisors = self._Clients.nova.hypervisors.list()
@@ -139,9 +137,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
         return hypervisors
 
-    '''
     # ------ Key pair opertations ----------------------------------------
-    '''
 
     def list_keypairs(self):
         openstack_keypairs = self._Clients.nova.keypairs.list(search_opts={'all_tenants': 1})
@@ -162,9 +158,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     def get_key_pair_by_name(self, keyname):
         pass
 
-    '''
     --------------  Security group operations -------------------------------
-    '''
 
     def list_security_groups(self):
         openstack_security_groups = self._Clients.nova.security_groups.list(search_opts={'all_tenants': 1})

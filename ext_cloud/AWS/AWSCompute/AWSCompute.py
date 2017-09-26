@@ -24,9 +24,7 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
             self.__ec2 = ec2.connect_to_region(self._credentials['region_name'], aws_access_key_id=self._credentials['username'], aws_secret_access_key=self._credentials['password'])
         return self.__ec2
 
-    '''
     # ------ instance  opertations ----------------------------------------
-    '''
 
     def list_instances(self):
         aws_reservations = self.__EC2.get_all_instances()
@@ -84,10 +82,8 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
                 subnet = subnet = AWSNetworkscls(**self._credentials).get_subnet_by_id(subnet_id)
                 zone = subnet.zone
 
-        '''
         # if vm need to be booted in subnet, use security_group_id instead of
         # security_group name.
-        '''
         if subnet_id is None:
             aws_reservation = self.__EC2.run_instances(image_id, key_name=key_name, security_groups=security_groups, min_count=count, max_count=count, instance_type=instancetype_id, placement=zone, subnet_id=subnet_id, private_ip_address=private_ips, user_data=user_data)
         else:
@@ -112,9 +108,7 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
     def delete_instances(self, instance_ids=None):
         return self.__EC2.terminate_instances(instance_ids=instance_ids)
 
-    '''
     # ------ Key pair opertations ----------------------------------------
-    '''
 
     def list_keypairs(self):
         aws_keypairs = self.__EC2.get_all_key_pairs()
@@ -141,9 +135,7 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
         keypair = AWSKeypaircls(aws_keypair, credentials=self._credentials)
         return keypair
 
-    '''
     # ------ Instance Type opertations ----------------------------------------
-    '''
 
     def list_instancetypes(self):
         aws_instancetypes_dict = INSTANCE_TYPES
@@ -184,9 +176,7 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
                             best_match = instance_type
         return best_match
 
-    '''
     #--------------  Security group operations -------------------------------
-    '''
 
     def list_security_groups(self):
         aws_security_groups = self.__EC2.get_all_security_groups()

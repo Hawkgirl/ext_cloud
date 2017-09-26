@@ -45,9 +45,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
         pass
 
     def create_instance(self, image_id=None, instancetype_id="ExtraSmall", name=None, storage_name=None, username=None, password=None):
-        '''
-        service_account = None
-        '''
+        #service_account = None
         storage_account = None
         service_name = name
 
@@ -138,9 +136,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
 
     def create_instances(self, count=1, image_id=None, key_name=None, security_groups=None, instancetype_id='Small', name=None, zone=None, subnet_id=None, private_ips=None, user_data=None):
         pass
-    '''
     # --- Key pair operations -----------
-    '''
 
     def list_keypairs(self):
         pass
@@ -154,9 +150,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
     def get_key_pair_by_name(self, keyname):
         pass
 
-    '''
     # --- Instance type operations --------------
-    '''
 
     def list_instancetypes(self):
         from ext_cloud.Azure.AzureCompute.AzureInstanceTypeDict import INSTANCE_TYPES
@@ -172,9 +166,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
     def get_matching_instancetype(self, cpus=1, memory=0.5, disk=2):
         pass
 
-    '''
     # -- Security group operations -----------
-    '''
 
     def list_security_groups(self):
         pass
