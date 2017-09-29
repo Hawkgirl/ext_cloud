@@ -24,7 +24,7 @@ class OpenStackBaseCloudcls():
         return self._name
 
     @property
-    def id(self):
+    def oid(self):
         return self._id
 
     def __repr__(self):

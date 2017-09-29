@@ -9,7 +9,7 @@ class BaseUsercls:
         pass
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

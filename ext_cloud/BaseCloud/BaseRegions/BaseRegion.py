@@ -5,7 +5,7 @@ class BaseRegioncls:
     __metaclass__ = ABCMeta
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

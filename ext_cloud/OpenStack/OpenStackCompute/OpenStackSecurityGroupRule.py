@@ -25,5 +25,5 @@ class OpenStackSecurityGroupRulecls():
         return self.__cidr_block
 
     @property
-    def id(self):
+    def oid(self):
         return self.__id

@@ -13,7 +13,7 @@ class BaseSnapshotcls:
         pass
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

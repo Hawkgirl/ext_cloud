@@ -13,7 +13,7 @@ class BaseFloatingIpcls:
         pass
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

@@ -75,7 +75,7 @@ class AWSNetworkcls(AWSBaseCloudcls, BaseNetworkcls):
     def get_subnets_by_filter(self, filter_dict):
 
         aws_dict = {}
-        aws_dict['vpc-id'] = self.id
+        aws_dict['vpc-id'] = self.oid
         if 'cidr_block' in filter_dict:
             aws_dict['cidrBlock'] = filter_dict['cidr_block']
         subnets = []

@@ -22,7 +22,7 @@ class BaseVolumecls:
         pass
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

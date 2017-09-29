@@ -218,7 +218,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         increment_value = int(time_diff / count)
 
         query = []
-        query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
+        query.append({'field': 'resource_id', 'value': self.oid, 'op': 'eq'})
         query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
         query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
 
@@ -237,7 +237,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
         query = []
 
-        resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
+        resource_id = self.hypervisor_instance_name + '-' + self.oid + '-tap' + self.port_id[:11]
         query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
         query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
         query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
@@ -263,7 +263,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
         query = []
 
-        resource_id = self.hypervisor_instance_name + '-' + self.id + '-tap' + self.port_id[:11]
+        resource_id = self.hypervisor_instance_name + '-' + self.oid + '-tap' + self.port_id[:11]
         query.append({'field': 'resource_id', 'value': resource_id, 'op': 'eq'})
         query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
         query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
@@ -287,7 +287,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         increment_value = int(time_diff / count)
 
         query = []
-        query.append({'field': 'resource_id', 'value': self.id, 'op': 'eq'})
+        query.append({'field': 'resource_id', 'value': self.oid, 'op': 'eq'})
         query.append({'field': 'timestamp', 'value': start_time.isoformat(), 'op': 'gt'})
         query.append({'field': 'timestamp', 'type': '', 'value': end_time.isoformat(), 'op': 'lt'})
 
@@ -304,7 +304,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         metrics = []
         import time
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metric_str = 'openstack.tenant.' + self.tenant_name.replace('@', '_').replace('.', '_') + '.instance.' + self.id + '.' + self.name + '.'
+        metric_str = 'openstack.tenant.' + self.tenant_name.replace('@', '_').replace('.', '_') + '.instance.' + self.oid + '.' + self.name + '.'
 
         results = self.cpu_usage(start_time, end_time, count)
         for result in results:

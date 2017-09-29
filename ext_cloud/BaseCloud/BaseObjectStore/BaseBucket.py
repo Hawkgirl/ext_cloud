@@ -9,7 +9,7 @@ class BaseBucketcls:
         pass
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

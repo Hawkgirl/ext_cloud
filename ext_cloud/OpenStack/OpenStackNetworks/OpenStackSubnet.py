@@ -32,9 +32,9 @@ class OpenStackSubnetcls(OpenStackBaseCloudcls, BaseSubnetcls):
 
     def attach_nic(self, name=None, ip_address=None):
         if ip_address is None:
-            fixed_ips = [{'subnet_id': self.id}]
+            fixed_ips = [{'subnet_id': self.oid}]
         else:
-            fixed_ips = [{'ip_address': ip_address, 'subnet_id': self.id}]
+            fixed_ips = [{'ip_address': ip_address, 'subnet_id': self.oid}]
         params = {'port': {
             'name': name,
             'network_id': self.network_id,

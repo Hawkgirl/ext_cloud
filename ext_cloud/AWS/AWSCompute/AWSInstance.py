@@ -143,6 +143,6 @@ class AWSInstancecls(AWSBaseCloudcls, BaseInstancecls):
         pass
 
     def update(self):
-        aws_reservations = self._EC2.get_all_instances(instance_ids=[self.id])
+        aws_reservations = self._EC2.get_all_instances(instance_ids=[self.oid])
         self.__aws_instance = aws_reservations[0].instances[0]
         return self

@@ -23,7 +23,7 @@ class BaseInstancecls:
         return 'instance'
 
     @abstractproperty
-    def id(self):
+    def oid(self):
         pass
 
     @abstractproperty

@@ -61,4 +61,4 @@ class AzureVolumecls(AzureBaseCloudcls, BaseVolumecls):
         pass
 
     def delete(self):
-        self.__SMS.delete_disk(self.id, delete_vhd=True)
+        self.__SMS.delete_disk(self.oid, delete_vhd=True)

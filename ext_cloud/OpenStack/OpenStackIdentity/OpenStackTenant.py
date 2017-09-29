@@ -21,7 +21,7 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
         import datetime
         now = datetime.datetime.now()
         epoch = datetime.datetime(year=1970, month=1, day=1)
-        tenant_usage = self._Clients.nova.usage.get(self.id, epoch, now)
+        tenant_usage = self._Clients.nova.usage.get(self.oid, epoch, now)
 
         if not hasattr(tenant_usage, 'total_vcpus_usage'):
             return None
@@ -61,10 +61,10 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
         from ext_cloud.OpenStack.OpenStackNetworks.OpenStackNetworks import OpenStackNetworkscls
         network_obj = OpenStackNetworkscls(**self._credentials)
         metrics.append(BaseMetricscls(metric_str + 'networks.count',
-                                      len(network_obj.get_networks_by_tenant_id(self.id))))
+                                      len(network_obj.get_networks_by_tenant_id(self.oid))))
         metrics.append(BaseMetricscls(metric_str + 'subnets.count',
-                                      len(network_obj.get_subnets_by_tenant_id(self.id))))
+                                      len(network_obj.get_subnets_by_tenant_id(self.oid))))
         metrics.append(BaseMetricscls(metric_str + 'networks.used_floating_ips',
-                                      len(network_obj.list_floating_ips_by_tenant_id(self.id))))
+                                      len(network_obj.list_floating_ips_by_tenant_id(self.oid))))
 
         return metrics
