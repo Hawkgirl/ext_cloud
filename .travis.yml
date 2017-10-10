@@ -1,33 +1,34 @@
 language: python
 python:
-  - 2.7
+- 2.7
 before_install:
-  - sudo apt-get update
-  - sudo apt-get -y install python-pip
-  - sudo pip install --upgrade pip
-  - pip install --upgrade pip
-  - pip install pep8
-  - pip install autopep8
+- sudo apt-get update
+- sudo apt-get -y install python-pip
+- sudo pip install --upgrade pip
+- pip install --upgrade pip
+- pip install pep8
+- pip install autopep8
 script:
-  - num_errors_before=`find . -name \*.py -exec pep8 --ignore=E501 {} + | wc -l`
-  - echo $num_errors_before
-  - cd "$TRAVIS_BUILD_DIR"
-  - git config --global user.email "Hawkgirlgit@gmail.com"
-  - git config --global user.name "Hawkgirl"
-  - git checkout $TRAVIS_BRANCH
-
-  - find . -name \*.py -exec autopep8 --ignore=E501 --recursive --aggressive --aggressive --in-place {} +
-  - num_errors_after=`find . -name \*.py -exec pep8 --ignore=E501 {} + | wc -l`
-  - echo $num_errors_after
-
-  - |
-        if (( $num_errors_after < $num_errors_before )); then
-            git remote add origin https://Hawkgirl:${GITHUB_API_KEY}@github.com/Hawkgirl/ext_cloud.git
-            git commit -a -m "PEP-8 Fix"
-            git push origin master --quiet
-        fi
-
-  - cd "$TRAVIS_BUILD_DIR"
-  - find . -name \*.py -exec pep8 --ignore=E501 {} +
-
-  - python setup.py install
+- num_errors_before=`find . -name \*.py -exec pep8 --ignore=E501 {} + | wc -l`
+- echo $num_errors_before
+- cd "$TRAVIS_BUILD_DIR"
+- git config --global user.email "Hawkgirlgit@gmail.com"
+- git config --global user.name "Hawkgirl"
+- git checkout $TRAVIS_BRANCH
+- find . -name \*.py -exec autopep8 --ignore=E501 --recursive --aggressive --aggressive
+  --in-place {} +
+- num_errors_after=`find . -name \*.py -exec pep8 --ignore=E501 {} + | wc -l`
+- echo $num_errors_after
+- |
+  if (( $num_errors_after < $num_errors_before )); then
+      git remote rm origin
+      git remote add origin https://Hawkgirl:${GIT_TOKEN}@github.com/Hawkgirl/ext_cloud.git
+      git commit -a -m "PEP-8 Fix"
+      git push origin master --quiet
+  fi
+- cd "$TRAVIS_BUILD_DIR"
+- find . -name \*.py -exec pep8 --ignore=E501 {} +
+- python setup.py install
+env:
+  global:
+  - secure: RuMCygsiPZ5j46QxnlT2wLhU8/w+nVPt0NlSj56gBLcXPjOMXumNuqc6Kux1WOdYwbAGUyGV6f046XEJ43lFfbXbiLjglVXNqtzmvx6YKdZdyztGh9xuwpaRlZ1ytne4dsOUFd9ygJ6yjFakjVxwt6Hj/ZMIoFTavKVmgfeO5xo8iVdHTcAphqk3vqWHdAWQUANCAZ54w7aR7DtaB04f2oRy/vy6rYFCwrDTJeBKjH+Oln5Ar8Cob6pku56sQDjG4ETYdK5vBDEfekFElvnt3vSHT7bOVkzS6LMXqEzhCc6RgjsOaQU2yNGjSPa9T3NiW1gJSDvzSOUP5fvJ/ebWcdtYJ5D+ZojIjW0kvCWW4QRfQhBmuvgTlEYtPUEPfX9q+XubsszCig6xYGY4Z9iHdEGbsjItLhSLpTGHBnKh+ueJ5uNBaKvabicZCf7eP5puLw7xYby4XGzXCGdeLe8J225sOgUMIRVwex8iohmcGEo9b6uJI+5ODlfEbTHMNsNUi+znvzLhi45X/87BDxaSsqL+d+K0JhZknWhny9IlUQsv7eZNCliI3kTVsMMxRcGHQG4kVJw4jNN8xvHvD2LOKFyw32wkzSc/YMzQwrCW4WAGfNOh44hhHP2sF1JNLPSsvWCc5eqc5E17DK/WQB5rDFbR6vGe+/53uWIXNY+SBJA=
