@@ -5,6 +5,7 @@ from ext_cloud.AWS.AWSNetworks.AWSGateway import AWSGatewaycls
 import boto.vpc
 from ext_cloud.AWS.AWSBaseCloud import AWSBaseCloudcls
 
+
 class AWSNetworkscls(AWSBaseCloudcls, BaseNetworkscls):
 
     def __init__(self, **kwargs):

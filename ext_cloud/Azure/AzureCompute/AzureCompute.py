@@ -73,7 +73,7 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
 
             response = self.__SMS.create_storage_account(storage_name, service_name, service_name, location=self._credentials['region_name'])
             import time
-	    # use index loop name as _ instead of i or j to keep pylinit happy
+            # use index loop name as _ instead of i or j to keep pylinit happy
             for _ in range(60):
                 status = self.__SMS.get_operation_status(response.request_id)
                 time.sleep(2)

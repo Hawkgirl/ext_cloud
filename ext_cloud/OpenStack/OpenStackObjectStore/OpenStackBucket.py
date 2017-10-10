@@ -5,7 +5,6 @@ from ext_cloud.OpenStack.OpenStackObjectStore.OpenStackKey import OpenStackKeycl
 
 class OpenStackBucketcls(OpenStackBaseCloudcls, BaseBucketcls):
 
-
     def __init__(self, *arg, **kwargs):
         self.__openstack_bucket = None
         self.__openstack_bucket = arg[0]
