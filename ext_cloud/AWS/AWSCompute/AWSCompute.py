@@ -176,7 +176,7 @@ class AWSComputecls(AWSBaseCloudcls, BaseComputecls):
                             best_match = instance_type
         return best_match
 
-    #--------------  Security group operations -------------------------------
+    # --------------  Security group operations -------------------------------
 
     def list_security_groups(self):
         aws_security_groups = self.__EC2.get_all_security_groups()

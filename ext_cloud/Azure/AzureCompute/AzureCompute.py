@@ -45,7 +45,6 @@ class AzureComputecls(AzureBaseCloudcls, BaseComputecls):
         pass
 
     def create_instance(self, image_id=None, instancetype_id="ExtraSmall", name=None, storage_name=None, username=None, password=None):
-        #service_account = None
         storage_account = None
         service_name = name
 
