@@ -158,7 +158,9 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     def get_key_pair_by_name(self, keyname):
         pass
 
-    -------------- Security group operations - ------------------------------
+    '''
+    # -------------- Security group operations - ------------------------------
+    '''
 
     def list_security_groups(self):
         openstack_security_groups = self._Clients.nova.security_groups.list(search_opts={'all_tenants': 1})
