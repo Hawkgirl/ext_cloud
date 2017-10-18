@@ -7,6 +7,7 @@ class OpenStackRegionscls(OpenStackBaseCloudcls, BaseRegionscls):
     def __init__(self, **kwargs):
         self._credentials = kwargs['credentials']
         self.__childrens = None
+	super(OpenStackRegionscls, self).__init__(credentials=kwargs['credentials'])
 
     @property
     def Childrens(self):
