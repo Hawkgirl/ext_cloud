@@ -102,7 +102,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         dic = {}
         tenants = self.list_tenants()
         for tenant in tenants:
-            dic[tenant.id] = tenant.obj_to_dict()
+            dic[tenant.oid] = tenant.obj_to_dict()
 
         region.set('tenants', dic)
         return dic

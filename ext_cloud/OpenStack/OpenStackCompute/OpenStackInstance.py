@@ -282,6 +282,9 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         # return count number of avg time between start time and end time
 
     def mem_usage(self, start_time=None, end_time=None, count=1):
+
+	if self.total_memory == None:
+                return []
         ret = []
         time_diff = (end_time - start_time).total_seconds()
         increment_value = int(time_diff / count)

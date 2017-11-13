@@ -69,7 +69,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
             dic = {}
             instances = self.list_instances()
             for instance in instances:
-                dic[instance.id] = instance.obj_to_dict()
+                dic[instance.oid] = instance.obj_to_dict()
 
             region.set('instances', dic)
             instances = dic
