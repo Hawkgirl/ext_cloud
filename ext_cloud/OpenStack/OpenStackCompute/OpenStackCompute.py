@@ -31,7 +31,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
 
     def list_vm_usage_metrics(self):
         metrics = []
-        instances = self.list_instances()
+        instances = self.list_instances(all_tenants=True)
         for instance in instances:
             metrics.extend(instance.list_usage_metrics())
 
