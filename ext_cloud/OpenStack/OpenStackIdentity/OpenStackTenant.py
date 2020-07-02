@@ -17,6 +17,12 @@ class OpenStackTenantcls(OpenStackBaseCloudcls, BaseTenantcls):
 
     @property
     def usage(self):
+
+
+        from ext_cloud.OpenStack.utils.ConfFileParser import is_novausage_enabled
+        if( is_novausage_enabled() == False ):
+            return None
+
         from ext_cloud.BaseCloud.BaseResources.BaseResourceUsage import BaseResourceUsagecls
         import datetime
         now = datetime.datetime.now()

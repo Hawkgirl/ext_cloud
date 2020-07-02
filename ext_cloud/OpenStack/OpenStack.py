@@ -36,6 +36,9 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
         if os.path.exists('/etc/ext_cloud/ext_cloud.conf'):
             from ext_cloud.OpenStack.utils.ConfFileParser import config_file_dic
             dic = config_file_dic()
+            if dic is None:
+                   raise Exception("Credentails not exported in environment varibles and openstack section not defined in /etc/ext_cloud/ext_cloud.conf file")
+
             self._credentials = dic
 
             return None
