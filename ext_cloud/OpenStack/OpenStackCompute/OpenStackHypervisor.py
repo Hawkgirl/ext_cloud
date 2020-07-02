@@ -44,6 +44,9 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         dic = config_file_dic()
         # load cpu multiplication factor from ext_cloud.config file
         # default is 16
+        if dic is None:
+           return self.__openstack_hypervisor.vcpus * 16
+
         if 'cpu_allocation_ratio' in dic:
             return self.__openstack_hypervisor.vcpus * int(dic['cpu_allocation_ratio'])
         else:
@@ -79,6 +82,8 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         dic = config_file_dic()
         # load memory multiplication factor from ext_cloud.config file
         # default is 1.5
+        if dic is None:
+            return self.__openstack_hypervisor.memory_mb * 1.5
         if 'ram_allocation_ratio' in dic:
             return self.__openstack_hypervisor.memory_mb * int(dic['ram_allocation_ratio'])
         else:
