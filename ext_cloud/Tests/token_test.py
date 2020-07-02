@@ -5,7 +5,4 @@ from ext_cloud import get_ext_cloud
 
 cloud_obj = get_ext_cloud("openstack")
 token  = cloud_obj.identity.create_token()
-#token = cloud_obj.identity.OpenStackTokenCls()
-import pdb
-pdb.set_trace()
 print token
