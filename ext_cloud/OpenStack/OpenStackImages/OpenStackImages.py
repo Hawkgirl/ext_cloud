@@ -38,7 +38,7 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
         dic = {}
         images = self.list_images()
         for image in images:
-            dic[image.id] = image.obj_to_dict()
+            dic[image.oid] = image.obj_to_dict()
 
         region.set('images', dic)
         return dic
