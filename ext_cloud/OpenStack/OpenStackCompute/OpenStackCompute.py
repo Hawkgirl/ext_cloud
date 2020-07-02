@@ -195,7 +195,7 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         dic = {}
         instance_types = self.list_instancetypes()
         for instance_type in instance_types:
-            dic[instance_type.id] = instance_type.obj_to_dict()
+            dic[instance_type.oid] = instance_type.obj_to_dict()
 
         region.set('instancetypes', dic)
         return dic
