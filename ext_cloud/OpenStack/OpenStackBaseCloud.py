@@ -31,8 +31,9 @@ class OpenStackBaseCloudcls():
         ret = ""
         for varible in dir(self):
             if not varible.startswith("_") and isinstance(getattr(self.__class__, varible), property):
-                value = getattr(self, varible)
-                if value is None:
+                if hasattr(self, varible):
+                    value = getattr(self, varible)
+                else:
                     value = "None"
                 if not isinstance(value, str):
                     value = str(value)

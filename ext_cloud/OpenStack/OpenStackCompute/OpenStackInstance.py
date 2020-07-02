@@ -107,11 +107,17 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
     @property
     def hypervisor_name(self):
-        return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:hypervisor_hostname')
+        if hasattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:hypervisor_hostname'):
+              return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:hypervisor_hostname')
+        else:
+              return 'NA'
 
     @property
     def hypervisor_instance_name(self):
-        return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:instance_name')
+        if hasattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:instance_name'):
+              return getattr(self.__openstack_instance, 'OS-EXT-SRV-ATTR:instance_name')
+        else:
+              return 'NA'
 
     @property
     def launch_time(self):
