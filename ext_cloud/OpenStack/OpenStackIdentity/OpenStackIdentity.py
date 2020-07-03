@@ -13,6 +13,9 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         metrics.append(BaseMetricscls('openstack.tenants.count', len(self.list_tenants())))
         metrics.append(BaseMetricscls('openstack.users.count', len(self.list_users())))
 
+        from ext_cloud.OpenStack.utils.ConfFileParser import is_novausage_enabled
+        if( is_novausage_enabled() == False ):
+             return metrics
         # alltenants metrics
         import datetime
 
@@ -110,7 +113,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def list_tenants(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
-        openstack_tenants = self._Clients.keystone.tenants.list()
+        openstack_tenants = self._Clients.keystone.projects.list()
         tenants = []
         for openstack_tenant in openstack_tenants:
             tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
