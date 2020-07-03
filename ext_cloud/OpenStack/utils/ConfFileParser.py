@@ -1,6 +1,6 @@
 def config_file_dic():
-    import ConfigParser
-    parser = ConfigParser.ConfigParser()
+    import configparser
+    parser = configparser.configparser()
     parser.read("/etc/ext_cloud/ext_cloud.conf")
     if not parser.has_section('openstack'):
         return None
@@ -11,8 +11,8 @@ def config_file_dic():
     return dic
 
 def is_novausage_enabled():
-    import ConfigParser
-    parser = ConfigParser.ConfigParser()
+    import configparser
+    parser = configparser.configparser()
     parser.read("/etc/ext_cloud/ext_cloud.conf")
     if not parser.has_section('metrics'):
         return False
