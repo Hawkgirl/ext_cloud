@@ -29,6 +29,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
             dic['tenant_name'] = os.environ.get('OS_TENANT_NAME')
             dic['auth_url'] = os.environ.get('OS_AUTH_URL')
             dic['cacert'] = os.environ.get('OS_CACERT')
+            dic['project_domain_name'] = os.environ.get('OS_PROJECT_DOMAIN_NAME')
             self._credentials = dic
 
             return None
@@ -43,7 +44,7 @@ class OpenStackcls(OpenStackBaseCloudcls, BaseCloudcls):
 
             return None
         else:
-            raise Exception("Credentails not exported in environment varibles and /etc/ext_cloud/ext_cloud.conf file")
+            raise Exception('Credentails not exported in environment varibles and /etc/ext_cloud/ext_cloud.conf file')
 
     @property
     def identity(self):

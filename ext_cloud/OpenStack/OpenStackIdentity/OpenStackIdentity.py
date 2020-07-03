@@ -80,13 +80,14 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def get_user_by_id(self, user_id):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackUser import OpenStackUsercls
-        from keystoneclient.openstack.common.apiclient.exceptions import NotFound
-        try:
-            openstack_user = self._Clients.keystone.users.get(user_id)
-        except NotFound:
+        #from keystoneclient.openstack.common.apiclient.exceptions import NotFound
+        #try:
+        #    openstack_user = self._Clients.keystone.users.get(user_id)
+        #except NotFound:
             # user got deleted
-            return None
+        #    return None
 
+        openstack_user = self._Clients.keystone.users.get(user_id)
         user = OpenStackUsercls(openstack_user, credentials=self._credentials)
         return user
 
@@ -118,11 +119,12 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def get_tenant_by_id(self, tenant_id):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
-        from keystoneclient.openstack.common.apiclient.exceptions import NotFound
-        try:
-            openstack_tenant = self._Clients.keystone.tenants.get(tenant_id)
-        except NotFound:
-            return None
+        #from keystoneclient.openstack.common.apiclient.exceptions import NotFound
+        #try:
+        #    openstack_tenant = self._Clients.keystone.tenants.get(tenant_id)
+        #except NotFound:
+        #    return None
+        openstack_tenant = self._Clients.keystone.tenants.get(tenant_id)
         tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
         return tenant
 

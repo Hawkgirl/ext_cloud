@@ -55,7 +55,8 @@ class OpenStackClientsCls:
         if self._novaclient is None:
             from novaclient.client import Client as NovaClient
 
-            self._novaclient = NovaClient('2', self._credentials['username'], self.token, self._credentials['tenant_name'], self._credentials['auth_url'], 'compute', auth_token=self.token, region_name=self._credentials['region_name'])
+            self._novaclient = NovaClient('2',  username=self._credentials['username'], auth_token=self.token, project_name=self._credentials['tenant_name'], auth_url=self._credentials['auth_url'],  region_name=self._credentials['region_name'], cacert=self._credentials['cacert'], project_domain_name=self._credentials['project_domain_name'])
+            #self._novaclient = NovaClient('2', self._credentials['username'], self.token, self._credentials['tenant_name'], self._credentials['auth_url'], 'compute', auth_token=self.token, region_name=self._credentials['region_name'])
 
         return self._novaclient
 
@@ -103,9 +104,10 @@ class OpenStackClientFactory:
     __key = []
     __value = []
 
+
     def get(self, **kwargs):
         for i, item in enumerate(self.__key):
-            if cmp(item, kwargs) == 0:
+            if item == kwargs:
                 return self.__value[i]
 
         p = OpenStackClientsCls(**kwargs)

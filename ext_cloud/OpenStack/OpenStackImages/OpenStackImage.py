@@ -36,6 +36,8 @@ class OpenStackImagecls(OpenStackBaseCloudcls, BaseImagecls):
         return self.__openstack_image['disk_format']
 
     def __human_format(self, num):
+        if num is None:
+            return "0"
         for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
             if num < 1024.0:
                 return "%3.1f %s" % (num, x)
