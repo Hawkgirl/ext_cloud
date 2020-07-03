@@ -8,7 +8,7 @@ class OpenStackUsercls(OpenStackBaseCloudcls, BaseUsercls):
 
     def __init__(self, *arg, **kwargs):
         self.__openstack_user = arg[0]
-        super(OpenStackUsercls, self).__init__(id=self.__openstack_user.id, name=self.__openstack_user.username, credentials=kwargs['credentials'])
+        super(OpenStackUsercls, self).__init__(id=self.__openstack_user.id, name=self.__openstack_user.name, credentials=kwargs['credentials'])
 
     @property
     def status(self):
