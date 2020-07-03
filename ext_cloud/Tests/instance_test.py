@@ -6,4 +6,4 @@ from ext_cloud import get_ext_cloud
 cloud_obj = get_ext_cloud("openstack")
 instances = cloud_obj.compute.list_instances()
 for instance in instances:
-    print instance
+    print(instance)

@@ -11,4 +11,4 @@ cloud_obj = get_ext_cloud("openstack")
 metrics = cloud_obj.resources.list_metrics()
 # metrics = cloud_obj.stats.list_metrics()
 for metric in metrics:
-    print metric.name, '\t', metric.value, '\t', metric.timestamp
+    print(metric.name, '\t', metric.value, '\t', metric.timestamp)

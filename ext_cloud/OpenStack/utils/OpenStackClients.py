@@ -28,7 +28,7 @@ class OpenStackClientsCls:
     @keystone.getter
     def keystone(self):
         if self._keystoneclient is None:
-            from keystoneclient.v2_0 import client as KeystoneClient
+            from keystoneclient.v3 import client as KeystoneClient
             self._keystoneclient = KeystoneClient.Client(**self._credentials)
         return self._keystoneclient
 

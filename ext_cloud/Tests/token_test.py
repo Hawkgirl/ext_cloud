@@ -5,4 +5,4 @@ from ext_cloud import get_ext_cloud
 
 cloud_obj = get_ext_cloud("openstack")
 token  = cloud_obj.identity.create_token()
-print token
+print(token)
