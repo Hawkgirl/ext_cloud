@@ -15,3 +15,14 @@ class OpenStackRegioncls(OpenStackBaseCloudcls, BaseRegioncls):
             zone = OpenStackZonecls(zone, credentials=self._credentials)
             openstack_zones.append(zone)
         return openstack_zones
+  
+    def list_metrics_all(self, dic):
+         zones = self.list_zones()
+         # don't count internal zone
+         dic['openstack.zones.count'] = len(zones) - 1
+
+         for zone in zones:
+            if zone.name == 'internal':
+                 continue
+            zone.list_metrics_all(dic)
+

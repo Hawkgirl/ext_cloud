@@ -7,53 +7,22 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
     def __init__(self, **kwargs):
         super(OpenStackIdentitycls, self).__init__(credentials=kwargs)
 
-    def list_metrics(self):
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics = []
-        metrics.append(BaseMetricscls('openstack.tenants.count', len(self.list_tenants())))
-        metrics.append(BaseMetricscls('openstack.users.count', len(self.list_users())))
+    def list_metrics_all(self, dic):
+        projects = self.list_projects()
+        dic['openstack.projects.count'] = len(projects)
+   
+        for project in projects:
+            project.list_metrics_all(dic)
 
-        from ext_cloud.OpenStack.utils.ConfFileParser import is_novausage_enabled
-        if( is_novausage_enabled() == False ):
-             return metrics
-        # alltenants metrics
-        import datetime
+        users = self.list_users()
+        dic['openstack.users.count'] = len(users)
+        for user in users:
+            user.list_metrics_all(dic) 
 
-        now = datetime.datetime.utcnow()
-        usages = self._Clients.nova.usage.list(now - datetime.timedelta(days=1), now, detailed=True)
-        vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
-
-        for usage in usages:
-            total_vcpus_usage += usage.total_vcpus_usage
-            total_memory_mb_usage += usage.total_memory_mb_usage
-            total_local_gb_usage += usage.total_local_gb_usage
-            vms += len(usage.server_usages)
-
-        metrics.append(BaseMetricscls('openstack.alltentant1day.hours_cpu', total_vcpus_usage))
-        metrics.append(BaseMetricscls('openstack.alltentant1day.hours_memory', total_memory_mb_usage))
-        metrics.append(BaseMetricscls('openstack.alltentant1day.hours_disk', total_local_gb_usage))
-        metrics.append(BaseMetricscls('openstack.alltentant1day.used_vm', vms))
-
-        from dateutil.relativedelta import relativedelta
-        one_month_back = now - relativedelta(months=1)
-        usages = self._Clients.nova.usage.list(one_month_back, now, detailed=True)
-        vms = total_memory_mb_usage = total_local_gb_usage = total_vcpus_usage = 0
-
-        for usage in usages:
-            total_vcpus_usage += usage.total_vcpus_usage
-            total_memory_mb_usage += usage.total_memory_mb_usage
-            total_local_gb_usage += usage.total_local_gb_usage
-            vms += len(usage.server_usages)
-
-        metrics.append(BaseMetricscls('openstack.alltentant1month.hours_cpu', total_vcpus_usage))
-        metrics.append(BaseMetricscls('openstack.alltentant1month.hours_memory', total_memory_mb_usage))
-        metrics.append(BaseMetricscls('openstack.alltentant1month.hours_disk', total_local_gb_usage))
-        metrics.append(BaseMetricscls('openstack.alltentant1month.used_vm', vms))
-        return metrics
 
     @property
     def Childrens(self):
-        return self.list_tenants()
+        return self.list_projects()
 
     def list_users_cache(self):
         from ext_cloud.utils.dogpile_utils import get_region
@@ -67,7 +36,7 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         dic = {}
         users = self.list_users()
         for user in users:
-            dic[user.id] = user.obj_to_dict()
+            dic[user.oid] = user.obj_to_dict()
 
         region.set('users', dic)
         return dic
@@ -94,42 +63,42 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
         user = OpenStackUsercls(openstack_user, credentials=self._credentials)
         return user
 
-    def list_tenants_cache(self):
+    def list_projects_cache(self):
         from dogpile.cache.api import NO_VALUE
         from ext_cloud.utils.dogpile_utils import get_region
 
         region = get_region()
 
-        tenants = region.get('tenants')
-        if tenants is not NO_VALUE:
-            return tenants
+        projects = region.get('projects')
+        if projects is not NO_VALUE:
+            return projects
         dic = {}
-        tenants = self.list_tenants()
-        for tenant in tenants:
-            dic[tenant.oid] = tenant.obj_to_dict()
+        projects = self.list_projects()
+        for project in projects:
+            dic[project.oid] = project.obj_to_dict()
 
-        region.set('tenants', dic)
+        region.set('projects', dic)
         return dic
 
-    def list_tenants(self):
-        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
-        openstack_tenants = self._Clients.keystone.projects.list()
-        tenants = []
-        for openstack_tenant in openstack_tenants:
-            tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
-            tenants.append(tenant)
-        return tenants
+    def list_projects(self):
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackProject import OpenStackProjectcls
+        openstack_projects = self._Clients.keystone.projects.list()
+        projects = []
+        for openstack_project in openstack_projects:
+            project = OpenStackProjectcls(openstack_project, credentials=self._credentials)
+            projects.append(project)
+        return projects
 
-    def get_tenant_by_id(self, tenant_id):
-        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackTenant import OpenStackTenantcls
+    def get_project_by_id(self, project_id):
+        from ext_cloud.OpenStack.OpenStackIdentity.OpenStackProject import OpenStackProjectcls
         #from keystoneclient.openstack.common.apiclient.exceptions import NotFound
         #try:
-        #    openstack_tenant = self._Clients.keystone.tenants.get(tenant_id)
+        #    openstack_project = self._Clients.keystone.projects.get(project_id)
         #except NotFound:
         #    return None
-        openstack_tenant = self._Clients.keystone.tenants.get(tenant_id)
-        tenant = OpenStackTenantcls(openstack_tenant, credentials=self._credentials)
-        return tenant
+        openstack_project = self._Clients.keystone.projects.get(project_id)
+        project = OpenStackProjectcls(openstack_project, credentials=self._credentials)
+        return project
 
     def create_token(self):
         from ext_cloud.OpenStack.utils.OpenStackClients import OpenStackClientsCls

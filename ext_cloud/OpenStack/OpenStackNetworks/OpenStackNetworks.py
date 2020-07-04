@@ -20,25 +20,12 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
     def Childrens(self):
         return self.list_networks() + self.list_routers() + self.list_nics() + self.list_floating_ips() + self.list_subnets()
 
-    def list_metrics(self):
-        metrics = []
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics.append(BaseMetricscls('openstack.networks.count', len(self.list_networks())))
-        metrics.append(BaseMetricscls('openstack.networks.subnets.count', len(self.list_subnets())))
-        total = self.total_floating_ips
-        all_fips = self.list_floating_ips()
-        used = unused = 0
-        for fip in all_fips:
-            if fip.state == 'down':
-                unused += 1
-            else:
-                used += 1
-        free = total - len(all_fips)
-        metrics.append(BaseMetricscls('openstack.networks.free_floating_ips', free))
-        metrics.append(BaseMetricscls('openstack.networks.used_floating_ips', used))
-        metrics.append(BaseMetricscls('openstack.networks.unallocated_floating_ips', unused))
-        metrics.append(BaseMetricscls('openstack.networks.total_floating_ips', total))
-        return metrics
+    def list_metrics_all(self, dic):
+        networks = self.list_networks()
+        dic['openstack.networks.count'] = len(networks)
+  
+        for network in networks:
+            network.list_metrics_all(dic)
 
     def get_network_by_id(self, network_id):
         return [OpenStackNetworkcls(openstack_network, credentials=self._credentials) for openstack_network in self._Clients.neutron.list_networks(id=network_id)['networks']]

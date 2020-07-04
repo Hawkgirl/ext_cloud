@@ -9,17 +9,12 @@ class OpenStackResourcescls(OpenStackBaseCloudcls, BaseResourcescls):
         self.__kwargs = kwargs
         super(OpenStackResourcescls, self).__init__(credentials=kwargs)
 
-    def list_metrics(self):
-        metrics = []
+    def list_metrics_all(self, dic):
         from ext_cloud.OpenStack.OpenStack import OpenStackcls
         openstack_obj = OpenStackcls(*self.__args, **self.__kwargs)
         lst_childrens = openstack_obj.Childrens
         for child in lst_childrens:
-            child_metrics = child.list_metrics()
-            metrics += child_metrics
-            if hasattr(child, 'Childrens'):
-                lst_childrens += child.Childrens
-        return metrics
+            child.list_metrics_all(dic)
 
     def list_zombie_resources(self):
         resources = []

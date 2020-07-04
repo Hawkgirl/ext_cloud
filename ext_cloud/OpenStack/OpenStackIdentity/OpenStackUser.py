@@ -17,3 +17,6 @@ class OpenStackUsercls(OpenStackBaseCloudcls, BaseUsercls):
     @property
     def email_id(self):
         return self.__openstack_user.email if hasattr(self.__openstack_user, 'email') else None
+ 
+    def list_metrics_all(self, dic):
+        pass

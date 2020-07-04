@@ -15,19 +15,27 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
     def __init__(self, **kwargs):
         super(OpenStackComputecls, self).__init__(credentials=kwargs)
 
-    def list_metrics(self):
-        metrics = []
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
+    def list_metrics_all(self, dic):
 
         from toolz import countby
+
+        hypervisors = self.list_hypervisors()
+        dic['openstack.computes.count'] = len(hypervisors)
+        for hypervisor in hypervisors:
+            hypervisor.list_metrics_all(dic)
+  
+
         instances = self.list_instances()
         group_by_state = countby(lambda x: x.state, instances)
-        metrics.append(BaseMetricscls('openstack.instances.total', len(instances)))
-        metrics.append(BaseMetricscls('openstack.instances.running', group_by_state['RUNNING'] if 'RUNNING' in group_by_state else 0))
-        metrics.append(BaseMetricscls('openstack.instances.stopped', group_by_state['STOPPED'] if 'STOPPED' in group_by_state else 0))
-        metrics.append(BaseMetricscls('openstack.instances.paused', group_by_state['PAUSED'] if 'PAUSED' in group_by_state else 0))
-        metrics.append(BaseMetricscls('openstack.instances.error', group_by_state['ERROR'] if 'ERROR' in group_by_state else 0))
-        return metrics
+        dic['openstack.instances.total'] =  len(instances)
+        dic['openstack.instances.running'] =  group_by_state['RUNNING'] if 'RUNNING' in group_by_state else 0
+        dic['openstack.instances.stopped'] =  group_by_state['STOPPED'] if 'STOPPED' in group_by_state else 0
+        dic['openstack.instances.paused'] =  group_by_state['PAUSED'] if 'PAUSED' in group_by_state else 0
+        dic['openstack.instances.error'] =  group_by_state['ERROR'] if 'ERROR' in group_by_state else 0
+
+
+        for instance in instances:
+            instance.list_metrics_all(dic)
 
     def list_vm_usage_metrics(self):
         metrics = []

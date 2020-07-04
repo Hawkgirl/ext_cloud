@@ -65,3 +65,8 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
         subnet = OpenStackSubnetcls(
             openstack_subnet, credentials=self._credentials)
         return subnet
+ 
+
+    def list_metrics_all(self, dic):
+        subnets = self.list_subnets()
+        dic['openstack.network.'+self.name.replace(' ','-')+'.subnets'] = len(subnets)

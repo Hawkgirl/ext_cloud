@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractproperty
 
 
-class BaseTenantcls:
+class BaseProjectcls:
     __metaclass__ = ABCMeta
 
     @abstractproperty

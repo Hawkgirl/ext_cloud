@@ -8,9 +8,7 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
     def __init__(self, **kwargs):
         super(OpenStackImagescls, self).__init__(credentials=kwargs)
 
-    def list_metrics(self):
-        metrics = []
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
+    def list_metrics_all(self, dic):
         images = self.list_images()
         arch_dict = {}
         for image in images:
@@ -20,11 +18,10 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
                 else:
                     arch_dict[image.arch] = 1
 
-        metrics.append(BaseMetricscls('openstack.images.count', len(self.list_images())))
+        dic['openstack.images.count'] =  len(images)
         for key in arch_dict:
-            metrics.append(BaseMetricscls('openstack.images.' + key, arch_dict[key]))
+            dic['openstack.images.' + key] =  arch_dict[key]
 
-        return metrics
 
     def list_images_cache(self):
         from dogpile.cache.api import NO_VALUE

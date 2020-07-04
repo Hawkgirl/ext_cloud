@@ -90,6 +90,22 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             return self.__openstack_hypervisor.memory_mb * 1.5
 
     @property
+    def memory_mb_api(self):
+        return self.__openstack_hypervisor.memory_mb
+
+    @property
+    def proc_units(self):
+       return self.__openstack_hypervisor.proc_units
+
+    @property
+    def proc_units_reserved(self):
+       return self.__openstack_hypervisor.proc_units_reserved
+
+    @property
+    def proc_units_used(self):
+       return self.__openstack_hypervisor.proc_units_used
+
+    @property
     def memory_used_mb(self):
         return self.__openstack_hypervisor.memory_mb_used
 
@@ -109,47 +125,37 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
     def host_ip(self):
         return self.__openstack_hypervisor.host_ip
 
-    def list_metrics(self):
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics = []
+    def list_metrics_all(self, dic):
         if self.hypervisor_type == 'ironic':
             # Baremetal node.need to return other metrics
-            return metrics
+            return 
 
-        metric_property = ('cpus', 'vcpus_used', 'disk_gb', 'disk_used_gb', 'free_disk_gb',
-                           'memory_mb', 'memory_used_mb', 'memory_free_mb', 'running_vms')
+        metric_property = ('proc_units', 'proc_units_used', 'disk_gb', 'disk_used_gb', 'free_disk_gb',
+                           'memory_mb', 'memory_used_mb', 'memory_free_mb' )
 
-        metric_str = 'openstack.hypervisors.' + self.short_host_name + '.'
+        metric_str = 'openstack.compute.' + self.short_host_name + '.'
         for metric in metric_property:
             full_metric_str = metric_str + metric
-            new_metric = BaseMetricscls(full_metric_str, getattr(self, metric))
-            metrics.append(new_metric)
+            dic[full_metric_str] =  getattr(self, metric)
+  
         # percentage metric
-        if self.cpus != 0:
-            metrics.append(BaseMetricscls(metric_str + 'vcpus_used_percentage', self.vcpus_used / float(self.cpus) * 100))
-        if self.memory_mb != 0:
-            metrics.append(BaseMetricscls(metric_str + 'memory_used_percentage', self.memory_used_mb / float(self.memory_mb) * 100))
-        if self.disk_gb != 0:
-            metrics.append(BaseMetricscls(metric_str + 'disk_used_percentage', self.disk_used_gb / float(self.disk_gb) * 100))
+        dic[metric_str + 'cpus_used_percentage'] = round(((float(self.proc_units_used)+float(self.proc_units_reserved))/float(self.proc_units)*100), 1)
+        dic[metric_str + 'memory_used_percentage'] = round(((float(self.memory_used_mb))/float(self.memory_mb_api)*100), 1)
+        dic[metric_str + 'disk_used_percentage'] =  round(((float(self.disk_used_gb))/float(self.disk_gb)*100), 1)
         # state metric
         full_metric_str = metric_str + 'statedown'
         value = 1 if self.state == 'down' else 0
-        new_metric = BaseMetricscls(full_metric_str, value)
-        metrics.append(new_metric)
+        dic[full_metric_str] = value
         # status
         full_metric_str = metric_str + 'statusdisabled'
         value = 1 if self.status == 'disabled' else 0
-        new_metric = BaseMetricscls(full_metric_str, value)
-        metrics.append(new_metric)
+        dic[full_metric_str] = value
         # arch metric
         if self.arch is not None:
             full_metric_str = metric_str + 'arch.' + self.arch
-            new_metric = BaseMetricscls(full_metric_str, 1)
-            metrics.append(new_metric)
+            dic[full_metric_str] =  1
 
         if self.hypervisor_type is not None:
             full_metric_str = metric_str + 'type.' + self.hypervisor_type
-            new_metric = BaseMetricscls(full_metric_str, 1)
-            metrics.append(new_metric)
+            dic[full_metric_str] =  1
 
-        return metrics

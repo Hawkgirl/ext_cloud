@@ -77,14 +77,14 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         return None
 
     @property
-    def tenant_name(self):
+    def project_name(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
         identity = OpenStackIdentitycls(**self._credentials)
-        tenants = identity.list_tenants_cache()
-        return tenants[self.tenant_id]['name'] if self.tenant_id in tenants else None
+        projects = identity.list_projects_cache()
+        return projects[self.project_id]['name'] if self.project_id in projects else None
 
     @property
-    def tenant_id(self):
+    def project_id(self):
         return self.__openstack_instance.tenant_id
 
     @property
@@ -313,7 +313,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         metrics = []
         import time
         from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metric_str = 'openstack.tenant.' + self.tenant_name.replace('@', '_').replace('.', '_') + '.instance.' + self.oid + '.' + self.name + '.'
+        metric_str = 'openstack.project.' + self.project_name.replace('@', '_').replace('.', '_') + '.instance.' + self.oid + '.' + self.name + '.'
 
         results = self.cpu_usage(start_time, end_time, count)
         for result in results:
@@ -348,8 +348,8 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
     @property
     def is_zombie(self):
         from ext_cloud.OpenStack.OpenStackIdentity.OpenStackIdentity import OpenStackIdentitycls
-        tenant = OpenStackIdentitycls(**self._credentials).get_tenant_by_id(self.tenant_id)
-        if tenant is None:
+        project = OpenStackIdentitycls(**self._credentials).get_project_by_id(self.project_id)
+        if project is None:
             return True
 
         user = OpenStackIdentitycls(**self._credentials).get_user_by_id(self.user_id)
@@ -357,3 +357,26 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
             return True
 
         return False
+
+    def list_metrics_all(self, dic):
+       userkey = 'openstack.user.'+self.user_name+'.vms'
+       if userkey in dic:
+            dic[userkey] += 1
+       else:
+            dic[userkey] = 1
+
+       projectkey = 'openstack.project.'+self.project_name+'.vms'
+       if projectkey in dic:
+            dic[projectkey] += 1
+       else:
+            dic[projectkey] = 1
+
+
+       # vm in error state don't have hypervisor name set
+       if self.hypervisor_name is not None:
+           computekey = 'openstack.compute.'+self.hypervisor_name+'.vms'
+           if computekey in dic:
+                dic[computekey] += 1
+           else:
+                 dic[computekey] = 1
+

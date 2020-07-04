@@ -14,15 +14,19 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
     def Childrens(self):
         return self.list_volumes() + self.list_snapshots()
 
-    def list_metrics(self):
-        metrics = []
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics.append(BaseMetricscls('openstack.volumes.count', self.count_total_volumes))
-        metrics.append(BaseMetricscls('openstack.volumes.count_error_volumes', self.count_error_volumes))
-        metrics.append(BaseMetricscls('openstack.volumes.count_used_volumes', self.count_used_volumes))
-        metrics.append(BaseMetricscls('openstack.volumes.count_free_volumes', self.count_free_volumes))
+    def list_metrics_all(self, dic):
+        from toolz import countby
 
-        return metrics
+        volumes = self.list_volumes()
+        dic['openstack.volumes.count'] = len(volumes)
+
+        group_by_state = countby(lambda x: x.status, volumes)
+        dic['openstack.volumes.count_used_volumes'] =  group_by_state['in-use'] if 'in-use' in group_by_state else 0
+        dic['openstack.volumes.count_free_volumes'] =  group_by_state['available'] if 'available' in group_by_state else 0
+        dic['openstack.volumes.count_error_volumes'] =  group_by_state['error'] if 'error' in group_by_state else 0
+        dic['openstack.volumes.count_creating'] =  group_by_state['creating'] if 'creating' in group_by_state else 0
+        dic['openstack.volumes.count_error_deleting'] =  group_by_state['error_deleting'] if 'error_deleting' in group_by_state else 0
+
 
     def list_zombie_resources(self):
         zombies = []
@@ -31,22 +35,6 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
                 zombies.append(child)
 
         return zombies
-
-    @property
-    def count_total_volumes(self):
-        return len(self.list_volumes())
-
-    @property
-    def count_used_volumes(self):
-        return reduce(lambda x, y: x + 1 if y.is_attached else x, self.list_volumes(), 0)
-
-    @property
-    def count_free_volumes(self):
-        return reduce(lambda x, y: x + 1 if (not y.is_attached) and (y.status == 'available') else x, self.list_volumes(), 0)
-
-    @property
-    def count_error_volumes(self):
-        return len(self.get_volumes_by_error_state())
 
     def list_volumes(self):
         search_opts = {'all_tenants': 1}

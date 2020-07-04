@@ -11,18 +11,14 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
     def Childrens(self):
         return []
 
-    def list_metrics(self):
-        metrics = []
-        metrics += self.__list_metrics(self.list_compute_services())
-        metrics += self.__list_metrics(self.list_network_services())
-        metrics += self.__list_metrics(self.list_volume_services())
-        return metrics
+    def list_metrics_all(self, dic):
+        self.__list_metrics(self.list_compute_services(), dic)
+        self.__list_metrics(self.list_network_services(), dic)
+        self.__list_metrics(self.list_volume_services(), dic)
 
-    def __list_metrics(self, services):
+    def __list_metrics(self, services, dic):
         if len(services) is 0:
             return []
-        from ext_cloud.BaseCloud.BaseResources.BaseMetrics import BaseMetricscls
-        metrics = []
         metric_str = 'openstack.' + services[0].group + '.services.'
         enabled = disabled = up = down = 0
         for service in services:
@@ -40,12 +36,11 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
                 disabled += 1
             else:
                 pass
-        metrics.append(BaseMetricscls(metric_str + 'up', up))
-        metrics.append(BaseMetricscls(metric_str + 'down', down))
-        metrics.append(BaseMetricscls(metric_str + 'enabled', enabled))
-        metrics.append(BaseMetricscls(metric_str + 'disabled', disabled))
+        dic[metric_str + 'up'] = up
+        dic[metric_str + 'down'] = down
+        dic[metric_str + 'enabled'] = enabled
+        dic[metric_str + 'disabled'] = disabled
 
-        return metrics
 
     def list_services(self):
         services = []

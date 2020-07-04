@@ -16,5 +16,13 @@ class OpenStackZonecls(OpenStackBaseCloudcls, BaseZonecls):
         return len(self.__openstack_zone.hosts)
 
     @property
+    def hosts(self):
+    # return host dic
+        return self.__openstack_zone.hosts
+
+    @property
     def state(self):
         return 'up' if self.__openstack_zone.zoneState['available'] is True else 'down'
+
+    def list_metrics_all(self, dic):
+        pass
