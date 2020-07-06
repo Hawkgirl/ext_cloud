@@ -22,7 +22,7 @@ class OpenStackNetworkscls(OpenStackBaseCloudcls, BaseNetworkscls):
 
     def list_metrics_all(self, dic):
         networks = self.list_networks()
-        dic['openstack.networks.count'] = len(networks)
+        dic['openstack.toplevel.networks.networkcount'] = len(networks)
   
         for network in networks:
             network.list_metrics_all(dic)

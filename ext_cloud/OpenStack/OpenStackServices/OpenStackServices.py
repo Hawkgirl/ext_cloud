@@ -19,7 +19,10 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
     def __list_metrics(self, services, dic):
         if len(services) is 0:
             return []
-        metric_str = 'openstack.' + services[0].group + '.services.'
+        service_str = services[0].group
+        key = 'openstack.toplevel.' + service_str + '.sum_'+ service_str+'services'
+        dic[key] = len(services)
+        metric_str = 'openstack.' + service_str + '.'+service_str+'services.'
         enabled = disabled = up = down = 0
         for service in services:
 
@@ -36,10 +39,10 @@ class OpenStackServicescls(OpenStackBaseCloudcls, BaseServicescls):
                 disabled += 1
             else:
                 pass
-        dic[metric_str + 'up'] = up
-        dic[metric_str + 'down'] = down
-        dic[metric_str + 'enabled'] = enabled
-        dic[metric_str + 'disabled'] = disabled
+        dic[metric_str + service_str + 'up'] = up
+        dic[metric_str + service_str + 'down'] = down
+        dic[metric_str + service_str + 'enabled'] = enabled
+        dic[metric_str + service_str + 'disabled'] = disabled
 
 
     def list_services(self):

@@ -19,7 +19,7 @@ class OpenStackRegioncls(OpenStackBaseCloudcls, BaseRegioncls):
     def list_metrics_all(self, dic):
          zones = self.list_zones()
          # don't count internal zone
-         dic['openstack.zones.count'] = len(zones) - 1
+         dic['openstack.toplevel.zones.zonescount'] = len(zones) - 1
 
          for zone in zones:
             if zone.name == 'internal':

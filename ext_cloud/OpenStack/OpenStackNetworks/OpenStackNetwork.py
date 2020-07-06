@@ -70,3 +70,8 @@ class OpenStackNetworkcls(OpenStackBaseCloudcls, BaseNetworkcls):
     def list_metrics_all(self, dic):
         subnets = self.list_subnets()
         dic['openstack.network.'+self.name.replace(' ','-')+'.subnets'] = len(subnets)
+        key = 'openstack.toplevel.subnets.subnetscount'
+        if key in dic:
+               dic[key] += 1
+        else:
+               dic[key] = 1

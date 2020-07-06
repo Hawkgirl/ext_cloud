@@ -95,23 +95,23 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
 
     @property
     def proc_units(self):
-       return self.__openstack_hypervisor.proc_units
+       return float(self.__openstack_hypervisor.proc_units)
 
     @property
     def proc_units_reserved(self):
-       return self.__openstack_hypervisor.proc_units_reserved
+       return float(self.__openstack_hypervisor.proc_units_reserved)
 
     @property
     def proc_units_used(self):
-       return self.__openstack_hypervisor.proc_units_used
+       return float(self.__openstack_hypervisor.proc_units_used)
 
     @property
     def memory_used_mb(self):
-        return self.__openstack_hypervisor.memory_mb_used
+        return int(self.__openstack_hypervisor.memory_mb_used)
 
     @property
     def memory_free_mb(self):
-        return self.__openstack_hypervisor.free_ram_mb
+        return int(self.__openstack_hypervisor.free_ram_mb)
 
     @property
     def memory_used_percentage(self):
@@ -130,20 +130,48 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             # Baremetal node.need to return other metrics
             return 
 
-        metric_property = ('proc_units', 'proc_units_used', 'memory_mb', 'memory_used_mb' )
-
+        toplevel_str = 'openstack.toplevel.computes.'
         metric_str = 'openstack.compute.' + self.short_host_name + '.'
-        for metric in metric_property:
-            full_metric_str = metric_str + metric
-            dic[full_metric_str] =  getattr(self, metric)
+
+        dic[metric_str+'proc_units'] = self.proc_units
+        if toplevel_str+'sum_proc_units' in dic:
+            dic[toplevel_str+'sum_proc_units'] += self.proc_units
+        else:
+            dic[toplevel_str+'sum_proc_units']  = self.proc_units
+
+
+        dic[metric_str+'proc_units_used'] = self.proc_units_used
+        if toplevel_str+'sum_proc_units_used' in dic:
+            dic[toplevel_str+'sum_proc_units_used'] += round(self.proc_units_used,1)
+        else:
+            dic[toplevel_str+'sum_proc_units_used']  = round(self.proc_units_used, 1)
+
+        dic[metric_str+'memory_mb'] = self.memory_mb
+        if toplevel_str+'sum_memory_mb' in dic:
+            dic[toplevel_str+'sum_memory_mb'] += self.memory_mb
+        else:
+            dic[toplevel_str+'sum_memory_mb']  = self.memory_mb
   
+        dic[metric_str+'memory_used_mb'] = self.memory_used_mb
+        if toplevel_str+'sum_memory_used_mb' in dic:
+            dic[toplevel_str+'sum_memory_used_mb'] += self.memory_used_mb
+        else:
+            dic[toplevel_str+'sum_memory_used_mb']  = self.memory_used_mb
+
         # percentage metric
-        dic[metric_str + 'cpus_used_percentage'] = round(((float(self.proc_units_used)+float(self.proc_units_reserved))/float(self.proc_units)*100), 1)
-        dic[metric_str + 'memory_used_percentage'] = round(((float(self.memory_used_mb))/float(self.memory_mb_api)*100), 1)
+        dic[metric_str + 'cpus_used_percentage'] = round(((self.proc_units_used+self.proc_units_reserved)/self.proc_units)*100, 1)
+        dic[metric_str + 'memory_used_percentage'] = round(((self.memory_used_mb/self.memory_mb_api)*100), 1)
+        dic[toplevel_str + 'sum_cpus_used_percentage'] = round(((dic[toplevel_str+'sum_proc_units_used']*100)/dic[toplevel_str+'sum_proc_units']), 1)
+        dic[toplevel_str + 'sum_memory_used_percentage'] = round(((dic[toplevel_str+'sum_memory_used_mb']*100)/dic[toplevel_str+'sum_memory_mb']), 1)
         # state metric
         full_metric_str = metric_str + 'statedown'
         value = 1 if self.state == 'down' else 0
         dic[full_metric_str] = value
+        if self.state == 'down':
+            if toplevel_str+'sum_compute_statedown' in dic:
+                dic[toplevel_str+'sum_compute_statedown'] += 1
+            else:
+                dic[toplevel_str+'sum_compute_statedown']  =  1
         # status
         full_metric_str = metric_str + 'statusdisabled'
         value = 1 if self.status == 'disabled' else 0

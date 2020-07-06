@@ -20,18 +20,18 @@ class OpenStackComputecls(OpenStackBaseCloudcls, BaseComputecls):
         from toolz import countby
 
         hypervisors = self.list_hypervisors()
-        dic['openstack.computes.count'] = len(hypervisors)
+        dic['openstack.toplevel.computes.computescount'] = len(hypervisors)
         for hypervisor in hypervisors:
             hypervisor.list_metrics_all(dic)
   
 
         instances = self.list_instances()
         group_by_state = countby(lambda x: x.state, instances)
-        dic['openstack.instances.total'] =  len(instances)
-        dic['openstack.instances.running'] =  group_by_state['RUNNING'] if 'RUNNING' in group_by_state else 0
-        dic['openstack.instances.stopped'] =  group_by_state['STOPPED'] if 'STOPPED' in group_by_state else 0
-        dic['openstack.instances.paused'] =  group_by_state['PAUSED'] if 'PAUSED' in group_by_state else 0
-        dic['openstack.instances.error'] =  group_by_state['ERROR'] if 'ERROR' in group_by_state else 0
+        dic['openstack.toplevel.instances.instancestotal'] =  len(instances)
+        dic['openstack.toplevel.instances.instancesrunning'] =  group_by_state['RUNNING'] if 'RUNNING' in group_by_state else 0
+        dic['openstack.toplevel.instances.instancesstopped'] =  group_by_state['STOPPED'] if 'STOPPED' in group_by_state else 0
+        dic['openstack.toplevel.instances.instancespaused'] =  group_by_state['PAUSED'] if 'PAUSED' in group_by_state else 0
+        dic['openstack.toplevel.instances.instanceserror'] =  group_by_state['ERROR'] if 'ERROR' in group_by_state else 0
 
 
         for instance in instances:

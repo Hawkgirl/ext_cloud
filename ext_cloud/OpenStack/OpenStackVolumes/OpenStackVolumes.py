@@ -18,14 +18,14 @@ class OpenStackVolumescls(OpenStackBaseCloudcls, BaseVolumescls):
         from toolz import countby
 
         volumes = self.list_volumes()
-        dic['openstack.volumes.count'] = len(volumes)
+        dic['openstack.toplevel.volumes.volumes_count'] = len(volumes)
 
         group_by_state = countby(lambda x: x.status, volumes)
-        dic['openstack.volumes.count_used_volumes'] =  group_by_state['in-use'] if 'in-use' in group_by_state else 0
-        dic['openstack.volumes.count_free_volumes'] =  group_by_state['available'] if 'available' in group_by_state else 0
-        dic['openstack.volumes.count_error_volumes'] =  group_by_state['error'] if 'error' in group_by_state else 0
-        dic['openstack.volumes.count_creating'] =  group_by_state['creating'] if 'creating' in group_by_state else 0
-        dic['openstack.volumes.count_error_deleting'] =  group_by_state['error_deleting'] if 'error_deleting' in group_by_state else 0
+        dic['openstack.toplevel.volumes.volumes_used'] =  group_by_state['in-use'] if 'in-use' in group_by_state else 0
+        dic['openstack.toplevel.volumes.volumes_free'] =  group_by_state['available'] if 'available' in group_by_state else 0
+        dic['openstack.toplevel.volumes.volumes_error'] =  group_by_state['error'] if 'error' in group_by_state else 0
+        dic['openstack.toplevel.volumes.volumes_creating'] =  group_by_state['creating'] if 'creating' in group_by_state else 0
+        dic['openstack.toplevel.volumes.volumes_deleting'] =  group_by_state['error_deleting'] if 'error_deleting' in group_by_state else 0
 
 
     def list_zombie_resources(self):

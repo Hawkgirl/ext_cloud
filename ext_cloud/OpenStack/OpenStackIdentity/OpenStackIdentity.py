@@ -9,13 +9,13 @@ class OpenStackIdentitycls(OpenStackBaseCloudcls, BaseIdentitycls):
 
     def list_metrics_all(self, dic):
         projects = self.list_projects()
-        dic['openstack.projects.count'] = len(projects)
+        dic['openstack.toplevel.projects.projectscount'] = len(projects)
    
         for project in projects:
             project.list_metrics_all(dic)
 
         users = self.list_users()
-        dic['openstack.users.count'] = len(users)
+        dic['openstack.toplevel.users.userscount'] = len(users)
         for user in users:
             user.list_metrics_all(dic) 
 

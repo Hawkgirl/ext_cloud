@@ -18,7 +18,7 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
                 else:
                     arch_dict[image.arch] = 1
 
-        dic['openstack.images.count'] =  len(images)
+        dic['openstack.toplevel.images.imagescount'] =  len(images)
         for key in arch_dict:
             dic['openstack.images.' + key] =  arch_dict[key]
 
