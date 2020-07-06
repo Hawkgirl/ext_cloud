@@ -130,8 +130,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
             # Baremetal node.need to return other metrics
             return 
 
-        metric_property = ('proc_units', 'proc_units_used', 'disk_gb', 'disk_used_gb', 'free_disk_gb',
-                           'memory_mb', 'memory_used_mb', 'memory_free_mb' )
+        metric_property = ('proc_units', 'proc_units_used', 'memory_mb', 'memory_used_mb' )
 
         metric_str = 'openstack.compute.' + self.short_host_name + '.'
         for metric in metric_property:
@@ -141,7 +140,6 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         # percentage metric
         dic[metric_str + 'cpus_used_percentage'] = round(((float(self.proc_units_used)+float(self.proc_units_reserved))/float(self.proc_units)*100), 1)
         dic[metric_str + 'memory_used_percentage'] = round(((float(self.memory_used_mb))/float(self.memory_mb_api)*100), 1)
-        dic[metric_str + 'disk_used_percentage'] =  round(((float(self.disk_used_gb))/float(self.disk_gb)*100), 1)
         # state metric
         full_metric_str = metric_str + 'statedown'
         value = 1 if self.state == 'down' else 0
