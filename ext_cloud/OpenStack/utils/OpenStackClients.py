@@ -2,6 +2,7 @@ class OpenStackClientsCls:
 
     def __init__(self, **kwargs):
         self._token = None
+        self._session = None
         self._keystoneclient = None
         self._novaclient = None
         self._neutronclient = None
@@ -19,7 +20,32 @@ class OpenStackClientsCls:
 
     @token.getter
     def token(self):
-        return self.keystone.auth_token
+        if self._token is None:
+            self._token= self.session.get_token()
+
+        return self._token
+
+
+    @property
+    def session(self):
+        return self._session
+
+    @session.getter
+    def session(self):
+        if self._session is not None:
+             return self._session
+
+        from keystoneauth1.identity import v3
+        from keystoneauth1 import session
+                    
+        auth = v3.Password(auth_url=self._credentials['auth_url'], 
+                           username=self._credentials['username'],
+                           password=self._credentials['password'],
+                           project_domain_name=self._credentials['project_domain_name'],
+                           user_domain_name=self._credentials['user_domain_name'],
+                           project_name=self._credentials['project_name'])
+        self._session = session.Session(auth=auth, verify=self._credentials['cacert'])
+        return self._session
 
     @property
     def keystone(self):
@@ -28,8 +54,10 @@ class OpenStackClientsCls:
     @keystone.getter
     def keystone(self):
         if self._keystoneclient is None:
-            from keystoneclient.v3 import client as KeystoneClient
-            self._keystoneclient = KeystoneClient.Client(**self._credentials)
+                 from keystoneclient.v3 import client
+                    
+                 self._keystoneclient = client.Client(session=self.session)
+
         return self._keystoneclient
 
     @property
@@ -41,8 +69,7 @@ class OpenStackClientsCls:
         if self._neutronclient is None:
             from neutronclient.v2_0 import client as NeutronClient
 
-            endpoint = self.keystone.service_catalog.url_for(service_type='network', endpoint_type='publicURL')
-            self._neutronclient = NeutronClient.Client(token=self.token, endpoint_url=endpoint, ca_cert=self._credentials['cacert'])
+            self._neutronclient = NeutronClient.Client(session=self._session)
 
         return self._neutronclient
 
@@ -55,7 +82,7 @@ class OpenStackClientsCls:
         if self._novaclient is None:
             from novaclient.client import Client as NovaClient
 
-            self._novaclient = NovaClient('2',  username=self._credentials['username'], auth_token=self.token, project_name=self._credentials['tenant_name'], auth_url=self._credentials['auth_url'],  region_name=self._credentials['region_name'], cacert=self._credentials['cacert'], project_domain_name=self._credentials['project_domain_name'])
+            self._novaclient = NovaClient('2', session=self.session)
             #self._novaclient = NovaClient('2', self._credentials['username'], self.token, self._credentials['tenant_name'], self._credentials['auth_url'], 'compute', auth_token=self.token, region_name=self._credentials['region_name'])
 
         return self._novaclient
@@ -68,7 +95,7 @@ class OpenStackClientsCls:
     def cinder(self):
         if self._cinderclient is None:
             from cinderclient import client as CinderClient
-            self._cinderclient = CinderClient.Client("2", self._credentials['username'], self._credentials['password'], self._credentials['tenant_name'], self._credentials['auth_url'], cacert=self._credentials['cacert'])
+            self._cinderclient = CinderClient.Client("2", session=self._session)
 
         return self._cinderclient
 
@@ -80,8 +107,10 @@ class OpenStackClientsCls:
     def glance(self):
         if self._glanceclient is None:
             from glanceclient import client as GlanceClient
-            endpoint = self.keystone.service_catalog.url_for(service_type='image', endpoint_type='publicURL')
-            self._glanceclient = GlanceClient.Client('2', endpoint=endpoint, token=self.token, cacert=self._credentials['cacert'])
+            auth_ref = self.session.auth.get_auth_ref(self.session)
+            catalog = auth_ref.service_catalog.get_endpoints( interface="public" )
+            endpoint_url = catalog['image'][0]['url']
+            self._glanceclient = GlanceClient.Client('2', endpoint=endpoint_url, token=self.token, cacert=self._credentials['cacert'])
 
         return self._glanceclient
 

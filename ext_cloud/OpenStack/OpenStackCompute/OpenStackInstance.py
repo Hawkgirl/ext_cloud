@@ -359,13 +359,14 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
         return False
 
     def list_metrics_all(self, dic):
-       userkey = 'openstack.user.'+self.user_name+'.vms'
+
+       userkey = 'openstack.user.'+self.user_name+'.uservms'
        if userkey in dic:
             dic[userkey] += 1
        else:
             dic[userkey] = 1
 
-       projectkey = 'openstack.project.'+self.project_name+'.vms'
+       projectkey = 'openstack.project.'+self.project_name+'.projectvms'
        if projectkey in dic:
             dic[projectkey] += 1
        else:
@@ -374,7 +375,7 @@ class OpenStackInstancecls(OpenStackBaseCloudcls, BaseInstancecls):
 
        # vm in error state don't have hypervisor name set
        if self.hypervisor_name is not None:
-           computekey = 'openstack.compute.'+self.hypervisor_name+'.vms'
+           computekey = 'openstack.compute.'+self.hypervisor_name+'.computevms'
            if computekey in dic:
                 dic[computekey] += 1
            else:
