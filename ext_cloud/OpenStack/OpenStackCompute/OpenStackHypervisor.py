@@ -177,6 +177,7 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         value = 1 if self.status == 'disabled' else 0
         dic[full_metric_str] = value
         # arch metric
+        '''
         if self.arch is not None:
             full_metric_str = metric_str + 'arch.' + self.arch
             dic[full_metric_str] =  1
@@ -184,4 +185,4 @@ class OpenStackHypervisorcls(OpenStackBaseCloudcls, BaseHypervisorcls):
         if self.hypervisor_type is not None:
             full_metric_str = metric_str + 'type.' + self.hypervisor_type
             dic[full_metric_str] =  1
-
+       '''

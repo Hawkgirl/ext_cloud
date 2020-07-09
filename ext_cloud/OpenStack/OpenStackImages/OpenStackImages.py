@@ -19,8 +19,10 @@ class OpenStackImagescls(OpenStackBaseCloudcls, BaseImagescls):
                     arch_dict[image.arch] = 1
 
         dic['openstack.toplevel.images.imagescount'] =  len(images)
+        '''
         for key in arch_dict:
             dic['openstack.images.' + key] =  arch_dict[key]
+        '''
 
 
     def list_images_cache(self):
